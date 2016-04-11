@@ -16,7 +16,7 @@ import android.util.AtomicFile;
 import android.util.Log;
 
 public class ALog {
-	public  static String TAG_M = "M_T_AT";
+	public  static String TAG_M = "M_T_AT2";
 	/*---------------------------------------------*/
 	static String namespace=null;
 	static XmlSerializer serializer = null;

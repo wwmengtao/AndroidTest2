@@ -2,17 +2,13 @@ package com.mt.androidtest2;
 
 import com.example.androidtest2.R;
 
-import android.Manifest;
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.SystemProperties;
 
-public class MainActivity extends ActionBarActivity {
-
+public class MainActivity extends Activity {
+	boolean isLogRun=true;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -20,43 +16,42 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
 	public void onResume(){
 		super.onResume();
-    	String permissionDes = Manifest.permission.READ_PHONE_STATE;
-    	checkPermissionGranted(permissionDes);
+		if(isLogRun)ALog.Log("====onResume:"+getLocale());
+		writeToXml(this);//或者调用ALog.howToWriteToXml(this);
 	}
 	
-	/**
-	 * checkPermissionGranted：判断是否支持对应权限
-	 * @param permissionDes
-	 * @return
-	 */
-	public boolean checkPermissionGranted(String permissionDes){
-		boolean isGranted = false;
-		Context context = getApplicationContext();  
-		if (context.getPackageManager().checkPermission(permissionDes,
-		        context.getPackageName()) == PackageManager.PERMISSION_GRANTED){  
-			isGranted = true;
-		    ALog.Log("Granted!");
+    /**
+     * writeToXml：Android环境下调用ALog中的方法写xml
+     */
+    public void writeToXml(Context mContext){
+		String fileToSave = "1.xml";
+		String docTag = "Document";
+		ALog.startSaving(mContext,fileToSave,docTag);
+		for(int i=0;i<5;i++){
+			ALog.stag("name"+i);
+			ALog.attr("attr1", "123");
+			ALog.etag("name"+i);
 		}
-		else{  
-			isGranted = false;
-		    ALog.Log("Not granted");  
-		}  
-		return isGranted;
-	}
+		ALog.endSaving();
+    }
+    /*
+	[persist.sys.first_time_boot]: [false]
+	[persist.sys.sd.defaultpath]: [/storage/emulated/0]
+	[persist.sys.timezone]: [Europe/Moscow]
+	[persist.sys.usb.config]: [mtp,adb]
 	
-	public static class ALog {
-		public  static String TAG_M = "M_T_AT";
-		public static void Log(String info){
-			Log.e(TAG_M,info);
-		}
-	}
+	[ro.lenovo.wificert]: [pass]
+	[ro.lenovo.platform]: [mtk]
+	[ro.lenovo.region]: [row]
+	[ro.lenovo.series]: [Lenovo S1]
+	[ro.lenovo.device]: [phone]
+	[ro.lenovo.easyimage.code]: [ru]
+    */
+    public String getLocale(){
+			String locale = SystemProperties.get("persist.sys.locale");
+			return locale;
+    }
+
 }
