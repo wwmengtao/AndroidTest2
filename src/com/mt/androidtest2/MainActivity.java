@@ -20,6 +20,7 @@ public class MainActivity extends Activity {
 		super.onResume();
 		if(isLogRun)ALog.Log("====onResume:"+getLocale());
 		writeToXml(this);//或者调用ALog.howToWriteToXml(this);
+		readFromXml(this);//或者调用ALog.howToReadFromXml(this);
 	}
 	
     /**
@@ -30,11 +31,22 @@ public class MainActivity extends Activity {
 		String docTag = "Document";
 		ALog.startSaving(mContext,fileToSave,docTag);
 		for(int i=0;i<5;i++){
-			ALog.stag("name"+i);
-			ALog.attr("attr1", "123");
-			ALog.etag("name"+i);
+			ALog.stag("name");
+			ALog.attr("attr", "123");
+			ALog.etag("name");
 		}
 		ALog.endSaving();
+    }
+    
+    /**
+     * readFromXml：此函数使用时，注意把filesToReadWrite/taido.xml从eclipse工程目录下adb push到
+     * /data/user/0/com.example.androidtest2/files目录下面
+     * @param mContext
+     */
+    public void readFromXml(Context mContext){
+		String fileToSave = "taido.xml";
+		String docTag = "manifest";
+		ALog.readFromXml(mContext, fileToSave, docTag);
     }
     /*
 	[persist.sys.first_time_boot]: [false]
