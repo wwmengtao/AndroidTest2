@@ -19,35 +19,11 @@ public class MainActivity extends Activity {
 	public void onResume(){
 		super.onResume();
 		if(isLogRun)ALog.Log("====onResume:"+getLocale());
-		writeToXml(this);//或者调用ALog.howToWriteToXml(this);
-		readFromXml(this);//或者调用ALog.howToReadFromXml(this);
+		//1、读写xml文件
+		ALog.howToWriteToXml(this);
+		ALog.howToReadFromXml(this);
 	}
 	
-    /**
-     * writeToXml：Android环境下调用ALog中的方法写xml
-     */
-    public void writeToXml(Context mContext){
-		String fileToSave = "1.xml";
-		String docTag = "Document";
-		ALog.startSaving(mContext,fileToSave,docTag);
-		for(int i=0;i<5;i++){
-			ALog.stag("name");
-			ALog.attr("attr", "123");
-			ALog.etag("name");
-		}
-		ALog.endSaving();
-    }
-    
-    /**
-     * readFromXml：此函数使用时，注意把filesToReadWrite/taido.xml从eclipse工程目录下adb push到
-     * /data/user/0/com.example.androidtest2/files目录下面
-     * @param mContext
-     */
-    public void readFromXml(Context mContext){
-		String fileToSave = "taido.xml";
-		String docTag = "manifest";
-		ALog.readFromXml(mContext, fileToSave, docTag);
-    }
     /*
 	[persist.sys.first_time_boot]: [false]
 	[persist.sys.sd.defaultpath]: [/storage/emulated/0]

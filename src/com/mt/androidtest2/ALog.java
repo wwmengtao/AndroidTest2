@@ -200,7 +200,7 @@ public class ALog {
      * /data/user/0/com.example.androidtest2/files目录下面
      * @param mContext
      */
-    public void howToReadFromXml(Context mContext){
+    public static void howToReadFromXml(Context mContext){
 		String fileToSave = "taido.xml";
 		String docTag = "manifest";
 		ALog.readFromXml(mContext, fileToSave, docTag);
@@ -255,24 +255,17 @@ public class ALog {
 		String docTag = "Document";
 		ALog.startSaving(mContext_read,fileToSave,docTag);
         /*--------------------------读xml的时候顺便写入特定内容------------------------*/
-		boolean isTagNameWritten = false;
         while (nextElementWithin(parser, outerDepth)) {
             if (parser.getName().equals(tag_name)) {
                 attrValue = parser.getAttributeValue(null, attr1);
                 if(null!=attrValue&&isAttrValueOK(attrValue)){
-                	if(!isTagNameWritten){
-                		ALog.stag(tag_name);
-                		isTagNameWritten = true;
-                	}
+                	ALog.stag(tag_name);
                 	ALog.attr(attr1, attrValue);
                     attrValue = parser.getAttributeValue(null, attr2);
                     if(null!=attrValue){
                     	ALog.attr(attr2, attrValue);
                     }
-                    if(isTagNameWritten){
-                        ALog.etag(tag_name);
-                        isTagNameWritten = false;
-                    }
+                    ALog.etag(tag_name);
                 }
             }
         }
