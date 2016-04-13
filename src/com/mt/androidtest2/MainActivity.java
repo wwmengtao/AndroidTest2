@@ -28,14 +28,14 @@ public class MainActivity extends Activity {
 		ALog.howToWriteToXml(this);
 		ALog.howToReadFromXml(this);
 		//2、通知栏显示通知
-		showNotification(this,1,null);
+		//showNotification(this,1,null);
 	}
 	
 	@Override
 	public void onPause(){
 		super.onPause();
 		//2、取消通知栏内容的显示
-		cancelNotification(this, 1);
+		//cancelNotification(this, 1);
 	}
     /*
 	[persist.sys.first_time_boot]: [false]
