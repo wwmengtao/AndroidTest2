@@ -28,12 +28,12 @@ public class MainActivity extends Activity {
 	public void onResume(){
 		super.onResume();
 		if(isLogRun)ALog.Log("====onResume:"+getLocale());
-		//1¡¢¶ÁĞ´xmlÎÄ¼ş
+		//1ã€è¯»å†™xmlæ–‡ä»¶
 		//ALog.howToWriteToXml(this);
 		//ALog.howToReadFromXml(this);
-		//2¡¢Í¨ÖªÀ¸ÏÔÊ¾Í¨Öª
+		//2ã€é€šçŸ¥æ æ˜¾ç¤ºé€šçŸ¥
 		//showNotification(this,1,null);
-		//3¡¢»ñÈ¡µ±Ç°ÊÖ»úµÄËùÓĞÓïÑÔÁĞ±í
+		//3ã€è·å–å½“å‰æ‰‹æœºçš„æ‰€æœ‰è¯­è¨€åˆ—è¡¨
 		//showAllLocales();
 		saveAllLocales(this);
 	}
@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
 	@Override
 	public void onPause(){
 		super.onPause();
-		//2¡¢È¡ÏûÍ¨ÖªÀ¸ÄÚÈİµÄÏÔÊ¾
+		//2ã€å–æ¶ˆé€šçŸ¥æ å†…å®¹çš„æ˜¾ç¤º
 		//cancelNotification(this, 1);
 	}
     /*
@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
     }
 	
 	/**
-	 * setProvNotificationVisibleIntent£º×´Ì¬À¸ÏÔÊ¾Í¼±ê£¬Í¨ÖªÀ¸ÏÔÊ¾Í¼±ê¼°title¡¢details
+	 * setProvNotificationVisibleIntentï¼šçŠ¶æ€æ æ˜¾ç¤ºå›¾æ ‡ï¼Œé€šçŸ¥æ æ˜¾ç¤ºå›¾æ ‡åŠtitleã€details
 	 * @param mContext
 	 * @param id
 	 * @param intent
@@ -98,7 +98,7 @@ public class MainActivity extends Activity {
 	    }
     
 	/**
-	 * cancelNotification£ºÈ¡Ïû×´Ì¬À¸ÄÚÈİµÄÏÔÊ¾
+	 * cancelNotificationï¼šå–æ¶ˆçŠ¶æ€æ å†…å®¹çš„æ˜¾ç¤º
 	 * @param mContext
 	 * @param id
 	 */
@@ -114,7 +114,7 @@ public class MainActivity extends Activity {
 	}
 	
 	/**
-	 * ÏÔÊ¾µ±Ç°Éè±¸ËùÓĞÓïÑÔĞÅÏ¢
+	 * æ˜¾ç¤ºå½“å‰è®¾å¤‡æ‰€æœ‰è¯­è¨€ä¿¡æ¯
 	 */
 	public void showAllLocales(){
 		List<LocaleInfo> mLocaleInfoList = ALog.getAllAssetLocales(this);
@@ -131,7 +131,7 @@ public class MainActivity extends Activity {
 	}
 	
 	/**
-	 * ´¢´æµ±Ç°Éè±¸ËùÓĞÓïÑÔĞÅÏ¢µ½fileToSaveÎÄ¼şÖĞ
+	 * å‚¨å­˜å½“å‰è®¾å¤‡æ‰€æœ‰è¯­è¨€ä¿¡æ¯åˆ°fileToSaveæ–‡ä»¶ä¸­
 	 */
     public void saveAllLocales(Context mContext){
 		String fileToSave = "Languages.xml";
@@ -144,6 +144,18 @@ public class MainActivity extends Activity {
         String tagName="LocaleInfo";
         String tagNameGet="get:";
         String tagNameGetDisplay="getDisplay:";
+        /*
+         æ‰‹æœºè¯­éŸ³ä¸ºè‹±æ–‡æ—¶é¦™æ¸¯ç¹ä½“æè¿°å¦‚ä¸‹ï¼š
+		<LocaleInfo locale="zh_HK" label="ä¸­æ–‡ (é¦™æ¸¯)" getDisplayName="Chinese (Hong Kong)">
+	        <get: getLanguage="zh" getCountry="HK" />
+	        <getDisplay: getDisplayLanguage="Chinese" getDisplayCountry="Hong Kong" />
+	    </LocaleInfo>
+         æ‰‹æœºè¯­è¨€ä¸ºä¸­æ–‡ç®€ä½“æ—¶é¦™æ¸¯ç¹ä½“æè¿°å¦‚ä¸‹ï¼š
+	    <LocaleInfo locale="zh_HK" label="ä¸­æ–‡ (é¦™æ¸¯)" getDisplayName="ä¸­æ–‡ (é¦™æ¸¯)">
+	        <get: getLanguage="zh" getCountry="HK" />
+	        <getDisplay: getDisplayLanguage="ä¸­æ–‡" getDisplayCountry="é¦™æ¸¯" />
+	    </LocaleInfo>
+        */
 		for(LocaleInfo mLocaleInfo : mLocaleInfoList){
 			label = mLocaleInfo.getLabel();
 			locale = mLocaleInfo.getLocale();
@@ -151,7 +163,7 @@ public class MainActivity extends Activity {
 			ALog.attr("locale",locale.toString());
 			ALog.attr("label",label);
 			ALog.attr("getDisplayName",locale.getDisplayName());
-			//ÒÔÏÂÏ¸·ÖÃ¿¸öº¯ÊıÄÚÈİ
+			//ä»¥ä¸‹ç»†åˆ†æ¯ä¸ªå‡½æ•°å†…å®¹
 			ALog.stag(tagNameGet);
 			ALog.attr("getLanguage",locale.getLanguage());
 			ALog.attr("getCountry",locale.getCountry());			
