@@ -1,5 +1,9 @@
 package com.mt.androidtest2;
 
+import java.util.List;
+import java.util.Locale;
+
+import com.android.internal.app.LocalePicker.LocaleInfo;
 import com.example.androidtest2.R;
 
 import android.app.Activity;
@@ -25,10 +29,13 @@ public class MainActivity extends Activity {
 		super.onResume();
 		if(isLogRun)ALog.Log("====onResume:"+getLocale());
 		//1、读写xml文件
-		ALog.howToWriteToXml(this);
-		ALog.howToReadFromXml(this);
+		//ALog.howToWriteToXml(this);
+		//ALog.howToReadFromXml(this);
 		//2、通知栏显示通知
 		//showNotification(this,1,null);
+		//3、获取当前手机的所有语言列表
+		//showAllLocales();
+		saveAllLocales(this);
 	}
 	
 	@Override
@@ -105,5 +112,58 @@ public class MainActivity extends Activity {
 	        npe.printStackTrace();
 	    }
 	}
-
+	
+	/**
+	 * 显示当前设备所有语言信息
+	 */
+	public void showAllLocales(){
+		List<LocaleInfo> mLocaleInfoList = ALog.getAllAssetLocales(this);
+		if(null==mLocaleInfoList)return;
+        String label = null;
+        Locale locale = null;
+		for(LocaleInfo mLocaleInfo : mLocaleInfoList){
+			label = mLocaleInfo.getLabel();
+			locale = mLocaleInfo.getLocale();
+			ALog.Log("label:"+label);
+			ALog.Log("locale:"+locale.toString());
+			
+		}
+	}
+	
+	/**
+	 * 储存当前设备所有语言信息到fileToSave文件中
+	 */
+    public void saveAllLocales(Context mContext){
+		String fileToSave = "Languages.xml";
+		String docTag = "Languages";
+		ALog.startSaving(mContext,fileToSave,docTag);
+		List<LocaleInfo> mLocaleInfoList = ALog.getAllAssetLocales(this);
+		if(null==mLocaleInfoList)return;
+        String label = null;
+        Locale locale = null;
+        String tagName="LocaleInfo";
+        String tagNameGet="get:";
+        String tagNameGetDisplay="getDisplay:";
+		for(LocaleInfo mLocaleInfo : mLocaleInfoList){
+			label = mLocaleInfo.getLabel();
+			locale = mLocaleInfo.getLocale();
+			ALog.stag(tagName);
+			ALog.attr("locale",locale.toString());
+			ALog.attr("label",label);
+			ALog.attr("getDisplayName",locale.getDisplayName());
+			//以下细分每个函数内容
+			ALog.stag(tagNameGet);
+			ALog.attr("getLanguage",locale.getLanguage());
+			ALog.attr("getCountry",locale.getCountry());			
+			ALog.etag(tagNameGet);
+			//
+			ALog.stag(tagNameGetDisplay);
+			ALog.attr("getDisplayLanguage",locale.getDisplayLanguage());
+			ALog.attr("getDisplayCountry",locale.getDisplayCountry());
+			ALog.etag(tagNameGetDisplay);
+			//
+			ALog.etag(tagName);
+		}
+		ALog.endSaving();
+    }
 }
