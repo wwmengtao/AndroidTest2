@@ -28,14 +28,7 @@ public class MainActivity extends Activity {
 	public void onResume(){
 		super.onResume();
 		if(isLogRun)ALog.Log("====onResume:"+getLocale());
-		//1、读写xml文件
-		//ALog.howToWriteToXml(this);
-		//ALog.howToReadFromXml(this);
-		//2、通知栏显示通知
-		//showNotification(this,1,null);
-		//3、获取当前手机的所有语言列表
-		//showAllLocales();
-		saveAllLocales(this);
+		testFunctions();
 	}
 	
 	@Override
@@ -43,6 +36,21 @@ public class MainActivity extends Activity {
 		super.onPause();
 		//2、取消通知栏内容的显示
 		//cancelNotification(this, 1);
+	}
+	
+	public void testFunctions(){
+		//1、读写xml文件
+		//ALog.howToWriteToXml(this);
+		//ALog.howToReadFromXml(this);
+		//2、通知栏显示通知
+		//showNotification(this,1,null);
+		//3、获取当前手机的所有语言列表
+		//showAllLocales();
+		//saveAllLocales(this);
+		//4、判断当前手机VIBEUI的版本
+		String lvpVersion = getLVPVersion();
+		boolean isVibeUI3_5 = (null!=lvpVersion&&lvpVersion.contains("V3.5"));
+		ALog.Log("isVibeUI3_5:"+isVibeUI3_5);
 	}
     /*
 	[persist.sys.first_time_boot]: [false]
@@ -62,6 +70,10 @@ public class MainActivity extends Activity {
 			return locale;
     }
 	
+    public String getLVPVersion(){
+    	String lvpVersion = SystemProperties.get("ro.lenovo.lvp.version");
+    	return lvpVersion;
+    }
 	/**
 	 * setProvNotificationVisibleIntent：状态栏显示图标，通知栏显示图标及title、details
 	 * @param mContext
