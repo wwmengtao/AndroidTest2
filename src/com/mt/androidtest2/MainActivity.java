@@ -11,17 +11,22 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemProperties;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends Activity {
 	boolean isLogRun=true;
 	private static final String NOTIFICATION_ID = "CaptivePortal.Notification";
+	Button btn=null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		btn=(Button)findViewById(R.id.btn);
+		btn.setOnClickListener(viewListener);
 	}
 
 	@Override
@@ -48,10 +53,24 @@ public class MainActivity extends Activity {
 		//showAllLocales();
 		//saveAllLocales(this);
 		//4、判断当前手机VIBEUI的版本
-		String lvpVersion = getLVPVersion();
-		boolean isVibeUI3_5 = (null!=lvpVersion&&lvpVersion.contains("V3.5"));
-		ALog.Log("isVibeUI3_5:"+isVibeUI3_5);
+		//String lvpVersion = getLVPVersion();
+		//boolean isVibeUI3_5 = (null!=lvpVersion&&lvpVersion.contains("V3.5"));
+		//ALog.Log("isVibeUI3_5:"+isVibeUI3_5);
 	}
+	
+	View.OnClickListener viewListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			// TODO Auto-generated method stub
+			switch(view.getId()){
+				case R.id.btn:
+					Intent intent = new Intent();  
+					intent.setClass(MainActivity.this, VpnActivity.class);
+					startActivity(intent);//跳转到VpnActivity
+				break;
+			}
+		}
+	};
     /*
 	[persist.sys.first_time_boot]: [false]
 	[persist.sys.sd.defaultpath]: [/storage/emulated/0]

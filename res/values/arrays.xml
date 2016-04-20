@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string-array name="vpn_states">
+        <!-- Status message when VPN is disconnected. -->
+        <item>Disconnected</item>
+        <!-- Status message when VPN is initializing. -->
+        <item>Initializing\u2026</item>
+        <!-- Status message when VPN is connecting. -->
+        <item>Connecting\u2026</item>
+        <!-- Status message when VPN is connected. -->
+        <item>Connected</item>
+        <!-- Status message when VPN is timeout. -->
+        <item>Timeout</item>
+        <!-- Status message when VPN is failed. -->
+        <item>Unsuccessful</item>
+    </string-array>
+</resources>
