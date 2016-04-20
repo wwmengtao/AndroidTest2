@@ -76,11 +76,13 @@ public class VpnActivity extends Activity  implements Handler.Callback{
             if (info != null) {
                 String[] states = this.getResources().getStringArray(R.array.vpn_states);
             	mTV.setText(states[info.state]);//Indicate the VPN state
+            }else{
+            	mTV.setText("LegacyVpnInfo为null");
             }
         }catch (RemoteException e) {
-            // ignore
+        	mTV.setText("RemoteException");
         }
-        mUpdater.sendEmptyMessageDelayed(RESCAN_MESSAGE, RESCAN_INTERVAL_MS);
+        mUpdater.sendEmptyMessageDelayed(RESCAN_MESSAGE, RESCAN_INTERVAL_MS);//每隔一秒钟发送消息
         return true;
 	}
     private NetworkCallback mNetworkCallback = new NetworkCallback() {
