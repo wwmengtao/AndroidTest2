@@ -219,7 +219,7 @@ public class ALog {
             parser.setInput(new BufferedInputStream(is), StandardCharsets.UTF_8.name());
             beginDocument(parser, tagOfDoc);
             loadElementsFromXml(parser);
-            ALog.endSaving();
+            endSaving();
         } catch (IOException ex) {
            Log("IOException:Failed to load xml File!");
         } catch (XmlPullParserException ex) {
@@ -245,19 +245,19 @@ public class ALog {
         /*--------------------------读xml的时候顺便写入特定内容------------------------*/
 		String fileToSave = "taido_m.xml";
 		String docTag = "Document";
-		ALog.startSaving(mContext,fileToSave,docTag);
+		startSaving(mContext,fileToSave,docTag);
         /*--------------------------读xml的时候顺便写入特定内容------------------------*/
         while (nextElementWithin(parser, outerDepth)) {
             if (parser.getName().equals(tag_name)) {
                 attrValue = parser.getAttributeValue(null, attr1);
                 if(null!=attrValue&&isAttrValueOK(attrValue)){
-                	ALog.stag(tag_name);
-                	ALog.attr(attr1, attrValue);
+                	stag(tag_name);
+                	attr(attr1, attrValue);
                     attrValue = parser.getAttributeValue(null, attr2);
                     if(null!=attrValue){
-                    	ALog.attr(attr2, attrValue);
+                    	attr(attr2, attrValue);
                     }
-                    ALog.etag(tag_name);
+                    etag(tag_name);
                 }
             }
         }
