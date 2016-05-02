@@ -10,7 +10,10 @@ import java.io.InputStreamReader;
 
 import org.apache.http.util.EncodingUtils;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Environment;
 
 import com.example.androidtest2.R;
@@ -139,4 +142,28 @@ public class fileOperate {
 		}
 	}
 	
+	public void getResourcesDescription(){
+		Resources mResources=mContext.getResources();
+		Uri uri =  Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
+			    + mResources.getResourcePackageName(R.drawable.ic_launcher) + "/"
+			    + mResources.getResourceTypeName(R.drawable.ic_launcher) + "/"
+			    + mResources.getResourceEntryName(R.drawable.ic_launcher));
+		ALog.Log("uri:"+uri.toString());
+	}
+	
+	/**
+	 * getFromAssets：从assets中文件读取数据
+	 * @param fileName
+	 */
+    public void getFromAssets(String fileName){ 
+        try { 
+             InputStreamReader inputReader = new InputStreamReader(mContext.getResources().getAssets().open(fileName) ); 
+            BufferedReader bufReader = new BufferedReader(inputReader);
+            String line=null;
+            while((line = bufReader.readLine()) != null)
+                ALog.Log("line:"+line);
+        } catch (Exception e) { 
+            e.printStackTrace(); 
+        }
+} 
 }
