@@ -235,7 +235,7 @@ public class ALog {
      * @throws IOException
      * @throws XmlPullParserException
      */
-    public static void loadElementsFromXml(XmlPullParser parser)
+    private static void loadElementsFromXml(XmlPullParser parser)
             throws IOException, XmlPullParserException {
         final int outerDepth = parser.getDepth();
         String tag_name = "project";
