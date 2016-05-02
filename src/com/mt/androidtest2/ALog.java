@@ -16,6 +16,8 @@ import org.xmlpull.v1.XmlSerializer;
 
 import com.android.internal.util.FastXmlSerializer;
 import com.android.internal.app.LocalePicker.LocaleInfo;
+import com.example.androidtest2.R;
+
 import android.app.ActivityManager;
 import android.content.Context;
 import android.os.UserHandle;
@@ -26,15 +28,13 @@ import android.util.Xml;
 public class ALog {
 	public  static String TAG_M = "M_T_AT2";
 	/*---------------------------------------------*/
-	static Context mContext_write=null;
+	static Context mContext=null;
 	static String namespace=null;
 	static XmlSerializer serializer = null;
-	static AtomicFile mAtomicFile = null;
 	static FileOutputStream os = null;
 	static String tag_Doc = null;
 	static boolean ifStartSaving = false;
 	/*---------------------------------------------*/
-	static Context mContext_read=null;
     static XmlPullParser parser = null;
 	/*---------------------------------------------*/  
     
@@ -67,7 +67,8 @@ public class ALog {
      * howToWriteToXml：Android环境下调用ALog中的方法写xml
      */
     public static void howToWriteToXml(Context mContext){
-		String fileToSave = "1.xml";
+    	ALog.mContext=mContext;
+		String fileToSave = "file_out.xml";
 		String docTag = "Document";
 		ALog.startSaving(mContext,fileToSave,docTag);
 		for(int i=0;i<5;i++){
@@ -79,13 +80,10 @@ public class ALog {
     }
 	
 	public static void startSaving(Context mContext ,String fileName,String tagOfDoc){
-			mContext_write = mContext;
 			ifStartSaving = true;
 			tag_Doc = tagOfDoc;
-			mAtomicFile = new AtomicFile(new File(mContext.getFilesDir(),fileName));
-			Log("File to be saved:"+mAtomicFile.getBaseFile().getAbsolutePath());
 	        try {
-	            os = mAtomicFile.startWrite();
+	            os = mContext.openFileOutput(fileName, Context.MODE_PRIVATE);//openFileOutput方法创建的文件位于：/data/data/com.example.androidtest2/files
                 serializer = new FastXmlSerializer();
                 serializer.setOutput(new BufferedOutputStream(os), "utf-8");
                 serializer.startDocument(null, true);
@@ -150,13 +148,14 @@ public class ALog {
 	            success = true;
 	        } finally {
 	            if (success) {
-	                mAtomicFile.finishWrite(os);
+	            	os.close();
+	            	ALog.Log("os close:"+os.toString());
 	            } else {
-	                mAtomicFile.failWrite(os);
+	                ALog.Log("failed to save:"+os.toString());
 	            }
 	        } 
         } catch (IOException ex) {
-            Log.e(TAG_M, "Failed to save mAtomicFile:"+mAtomicFile.toString(), ex);
+            ex.printStackTrace();
         }
 	}
 	
@@ -197,31 +196,30 @@ public class ALog {
 	}
 	
     /**
-     * howToReadFromXml：此函数使用时，注意把filesToReadWrite/taido.xml从eclipse工程目录下adb push到
-     * /data/user/0/com.example.androidtest2/files目录下面
+     * howToReadFromXml：此函数使用时，taido.xml文件位于raw文件夹中
      * @param mContext
      */
     public static void howToReadFromXml(Context mContext){
-		String fileToSave = "taido.xml";
+    	ALog.mContext=mContext;
+		int fileToSavedID = R.raw.taido;
 		String docTag = "manifest";
-		ALog.readFromXml(mContext, fileToSave, docTag);
+		ALog.readFromXml(mContext, fileToSavedID, docTag);
     }
     
-	public static void readFromXml(Context mContext, String fileName,String tagOfDoc) {
-		mContext_read = mContext;
+	public static void readFromXml(Context mContext, int fileToSavedID,String tagOfDoc) {
 		final InputStream is;
         try {
-			mAtomicFile = new AtomicFile(new File(mContext.getFilesDir(),fileName));
-			Log("File to load:"+mAtomicFile.getBaseFile().getAbsolutePath());
-            is = mAtomicFile.openRead();
-        } catch (FileNotFoundException ex) {
-        	Log("File:"+mAtomicFile.getBaseFile().getAbsolutePath()+" not found!");
+            is = mContext.getResources().openRawResource(fileToSavedID);
+        } catch (Exception e) {
+        	e.printStackTrace();
             return;
         }
         try {
             parser = Xml.newPullParser();
             parser.setInput(new BufferedInputStream(is), StandardCharsets.UTF_8.name());
-            startToLoad(parser,tagOfDoc);
+            beginDocument(parser, tagOfDoc);
+            loadElementsFromXml(parser);
+            ALog.endSaving();
         } catch (IOException ex) {
            Log("IOException:Failed to load xml File!");
         } catch (XmlPullParserException ex) {
@@ -229,13 +227,6 @@ public class ALog {
         } finally {
         	closeQuietly(is);
         }
-    }
-	
-    public static void startToLoad(XmlPullParser parser,String tagOfDoc)
-            throws IOException, XmlPullParserException {
-        beginDocument(parser, tagOfDoc);
-        //Log("startToLoad_outerDepth:"+outerDepth);
-        loadElementsFromXml(parser);
     }
 	
     /**
@@ -254,7 +245,7 @@ public class ALog {
         /*--------------------------读xml的时候顺便写入特定内容------------------------*/
 		String fileToSave = "taido_m.xml";
 		String docTag = "Document";
-		ALog.startSaving(mContext_read,fileToSave,docTag);
+		ALog.startSaving(mContext,fileToSave,docTag);
         /*--------------------------读xml的时候顺便写入特定内容------------------------*/
         while (nextElementWithin(parser, outerDepth)) {
             if (parser.getName().equals(tag_name)) {
@@ -270,9 +261,6 @@ public class ALog {
                 }
             }
         }
-        /*--------------------------读xml的时候顺便写入特定内容------------------------*/
-        ALog.endSaving();
-        /*--------------------------读xml的时候顺便写入特定内容------------------------*/
     }
     public static String[] excludeNames={
     "translation",
