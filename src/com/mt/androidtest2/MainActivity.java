@@ -47,8 +47,8 @@ public class MainActivity extends Activity {
 		//0、文件操作
 		fileOperate mfileOperate = new fileOperate(this);
 		//mfileOperate.listDirs();
-		mfileOperate.writeToFile("test.txt","hello\nxixi\nhaha",10);
-		mfileOperate.readFromFile("test.txt",10);
+		//mfileOperate.writeToFile("test.txt","hello\nxixi\nhaha",10);	mfileOperate.readFromFile("test.txt",10);
+		mfileOperate.readRawResources();
 		//1、读写xml文件
 		//ALog.howToWriteToXml(this);
 		//ALog.howToReadFromXml(this);

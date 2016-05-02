@@ -5,10 +5,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import org.apache.http.util.EncodingUtils;
 
 import android.content.Context;
 import android.os.Environment;
+
+import com.example.androidtest2.R;
 
 public class fileOperate {
 	Context mContext = null;
@@ -112,5 +117,26 @@ public class fileOperate {
 	        }
 	    }
 	}	
+	
+	//原生资源的读取res/raw文件夹下内容，读取asset内容需要用到AssetManager
+	public void readRawResources(){
+		String res = null; 
+		try{
+		    //得到资源中的Raw数据流
+		    InputStream in = mContext.getResources().openRawResource(R.raw.taido); 
+		    //得到数据的大小
+		    int length = in.available();       
+		    byte [] buffer = new byte[length];        
+		    //读取数据
+		    in.read(buffer);         
+		    //按照文件编码类型选择合适的编码，如果不调整会乱码 
+		    res = EncodingUtils.getString(buffer, "UTF-8"); 
+		    ALog.Log(res);
+		    //关闭
+		    in.close();            
+		}catch(Exception e){ 
+		    e.printStackTrace();         
+		}
+	}
 	
 }
