@@ -1,5 +1,6 @@
 package com.mt.androidtest2;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,6 +14,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.SystemProperties;
 import android.view.View;
 import android.widget.Button;
@@ -45,12 +47,7 @@ public class MainActivity extends Activity {
 	
 	public void testFunctions(){
 		//0、文件操作
-		fileOperate mfileOperate = new fileOperate(this);
-		//mfileOperate.listDirs();
-		//mfileOperate.writeToFile("test.txt","hello\nxixi\nhaha",10);	mfileOperate.readFromFile("test.txt",10);
-		//mfileOperate.readRawResources();
-		//mfileOperate.getResourcesDescription();
-		mfileOperate.getFromAssets("test.txt");
+		fileOperation();
 		//1、读写xml文件
 		//ALog.howToWriteToXml(this);
 		//ALog.howToReadFromXml(this);
@@ -63,6 +60,31 @@ public class MainActivity extends Activity {
 		//String lvpVersion = getLVPVersion();
 		//boolean isVibeUI3_5 = (null!=lvpVersion&&lvpVersion.contains("V3.5"));
 		//ALog.Log("isVibeUI3_5:"+isVibeUI3_5);
+	}
+	
+	public void fileOperation(){
+		fileOperate mfileOperate = new fileOperate(this);
+		//mfileOperate.listDirs();
+		//mfileOperate.writeToFile("test.txt","hello\nxixi\nhaha",0);
+		//mfileOperate.writeToFile("test.txt","hello\nxixi\nhaha",10);
+		//mfileOperate.readFromFile("test.txt",10);
+		//mfileOperate.readRawResources();
+		//mfileOperate.getResourcesDescription();
+		//mfileOperate.getFromAssets("test.txt");
+		//列举assets目录文件
+		//mfileOperate.listAssets("");//列举assets根目录下的文件
+		//mfileOperate.listAssets("test");//列举assets/test目录下的文件
+		//拷贝assets目录下的内容到指定位置
+		/**
+		 * getFilesDir：/data/data/com.example.androidtest2/files下创建子文件夹
+		 * 向上述文件夹写入数据需要WRITE_EXTERNAL_STORAGE权限
+		 */
+		mfileOperate.copyFilesFassets(this,"",getFilesDir()+File.separator+"myAssets");
+		/**
+		 * getExternalFilesDir：storage/emulated/0/Android/data/com.example.androidtest2/files
+		 * 向上述文件夹写入数据需要WRITE_EXTERNAL_STORAGE权限
+		 */
+		mfileOperate.copyFilesFassets(this,"",getExternalFilesDir(null)+File.separator+"myAssets");
 	}
 	
 	View.OnClickListener viewListener = new View.OnClickListener() {
