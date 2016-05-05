@@ -45,7 +45,7 @@ public class ALog {
 		Log.e(TAG_M,info+" Uid:"+getUid()+" Pid:"+getPid()+" ActivityManager.getCurrentUser:"+amGetCurrentUser()+
 				" UserHandle.myUserId:"+uhMyUserId());
 	}
-	public static void printStackTrace(String info){
+	public static void fillInStackTrace(String info){
 		RuntimeException RTE = new RuntimeException(info);
 		RTE.fillInStackTrace();
 		Log.e(TAG_M, "Pid:"+getPid()+" "+"Called:", RTE);
