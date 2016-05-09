@@ -53,8 +53,7 @@ public class MainActivity extends Activity {
 		//2、通知栏显示通知
 		//showNotification(this,1,null);
 		//3、获取当前手机的所有语言列表
-		//showAllLocales();
-		//showAllLocalesFromStrings();
+		//showAllLocales(1);
 		saveAllLocales(1);
 		//4、判断当前手机VIBEUI的版本
 		//String lvpVersion = getLVPVersion();
@@ -176,53 +175,25 @@ public class MainActivity extends Activity {
 	/**
 	 * 显示当前设备所有语言信息
 	 */
-	public void showAllLocales(){
-		List<LocaleInfo> mLocaleInfoList = Languages.getAllAssetLocales(this);
-		if(null==mLocaleInfoList)return;
-        String label = null;
-        Locale locale = null;
-		for(LocaleInfo mLocaleInfo : mLocaleInfoList){
-			label = mLocaleInfo.getLabel();
-			locale = mLocaleInfo.getLocale();
-			ALog.Log("label:"+label);
-			ALog.Log("locale:"+locale.toString());
-		}
-	}
     final String[] locales = {"en_US","en_AU","en_IN","fr_FR","it_IT","es_ES","et_EE","de_DE","nl_NL","cs_CZ","pl_PL","ja_JP","zh_TW","zh_CN","zh_HK","ru_RU","ko_KR","nb_NO","es_US","da_DK","el_GR","tr_TR","pt_PT","pt_BR","rm_CH","sv_SE","bg_BG","ca_ES","en_GB","fi_FI","hi_IN","hr_HR","hu_HU","in_ID","iw_IL","lt_LT","lv_LV","ro_RO","sk_SK","sl_SI","sr_RS","uk_UA","vi_VN","tl_PH","ar_EG","fa_IR","th_TH","sw_TZ","ms_MY","af_ZA","zu_ZA","am_ET","hi_IN","en_XA","ar_XB","fr_CA","km_KH","lo_LA","ne_NP","si_LK","mn_MN","hy_AM","az_AZ","ka_GE","my_MM","mr_IN","ml_IN","is_IS","mk_MK","ky_KG","eu_ES","gl_ES","bn_BD","ta_IN","kn_IN","te_IN","uz_UZ","ur_PK","kk_KZ","sq_AL","gu_IN","pa_IN"};
-
-	public void showAllLocalesFromStrings(){
-		List<Languages.LocaleInfo> mLocaleInfoList = Languages.getAllAssetLocalesFromStrings(this, locales, true);
-		if(null==mLocaleInfoList)return;
-	    String label = null;
-	    Locale locale = null;
-		for(Languages.LocaleInfo mLocaleInfo : mLocaleInfoList){
-			label = mLocaleInfo.getLabel();
-			locale = mLocaleInfo.getLocale();
-			ALog.Log("label:"+label);
-			ALog.Log("locale:"+locale.toString());
+	public void showAllLocales(int type){
+		List<MergedLocaleInfo>mMergedLocaleInfoList=getMergedLocaleInfoList(type);
+		String label=null;
+		Locale locale=null;
+		for(MergedLocaleInfo mMergedLocaleInfo : mMergedLocaleInfoList){
+            label = mMergedLocaleInfo.getLabel();
+            locale = mMergedLocaleInfo.getLocale();
+            ALog.Log("label:"+label);
+            ALog.Log("locale:"+locale.toString());
 		}
 	}
-
+	
 	/**
-	 *  储存当前设备所有语言信息到fileToSave文件中
+	 *  saveAllLocales：储存当前设备所有语言信息到fileToSave文件中
 	 * @param type：标识存储的是默认列表还是指定列表
 	 */
 	public void saveAllLocales(int type){
-		List<LocaleInfo> mLocaleInfoList = null;
-		List<Languages.LocaleInfo> mLanguagesLocaleInfoList = null;
-		List<MergedLocaleInfo>mMergedLocaleInfoList=new ArrayList<MergedLocaleInfo>();
-		if(0==type){
-			mLocaleInfoList = Languages.getAllAssetLocales(this);
-			for(LocaleInfo mLocaleInfo:mLocaleInfoList){
-				mMergedLocaleInfoList.add(new MergedLocaleInfo(mLocaleInfo));
-			}
-		}else{
-			mLanguagesLocaleInfoList =Languages.getAllAssetLocalesFromStrings(this, locales, true);
-			for(Languages.LocaleInfo mLocaleInfo:mLanguagesLocaleInfoList){
-				mMergedLocaleInfoList.add(new MergedLocaleInfo(mLocaleInfo));
-			}
-		}
-		saveAllLocalesInfo(this,mMergedLocaleInfoList);
+		saveAllLocalesInfo(this,getMergedLocaleInfoList(type));
 	}
 	
     public void saveAllLocalesInfo(Context mContext,List<MergedLocaleInfo> mLocaleInfoList){
@@ -269,7 +240,25 @@ public class MainActivity extends Activity {
 		}
 		ALog.endSaving();
     }
-    
+	
+	public List<MergedLocaleInfo> getMergedLocaleInfoList(int type){
+		List<LocaleInfo> mLocaleInfoList = null;
+		List<Languages.LocaleInfo> mLanguagesLocaleInfoList = null;
+		List<MergedLocaleInfo>mMergedLocaleInfoList=new ArrayList<MergedLocaleInfo>();
+		if(0==type){
+			mLocaleInfoList = Languages.getAllAssetLocales(this);
+			for(LocaleInfo mLocaleInfo:mLocaleInfoList){
+				mMergedLocaleInfoList.add(new MergedLocaleInfo(mLocaleInfo));
+			}
+		}else{
+			mLanguagesLocaleInfoList =Languages.getAllAssetLocalesFromStrings(this, locales, true);
+			for(Languages.LocaleInfo mLocaleInfo:mLanguagesLocaleInfoList){
+				mMergedLocaleInfoList.add(new MergedLocaleInfo(mLocaleInfo));
+			}
+		}
+		return mMergedLocaleInfoList;
+	}
+	
     public class MergedLocaleInfo{
     	LocaleInfo mLocaleInfo=null;
     	Languages.LocaleInfo mLanguagesLocaleInfo=null;
