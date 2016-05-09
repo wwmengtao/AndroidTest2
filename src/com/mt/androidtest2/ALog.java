@@ -3,28 +3,21 @@ package com.mt.androidtest2;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
-
 import com.android.internal.util.FastXmlSerializer;
-import com.android.internal.app.LocalePicker.LocaleInfo;
-import com.example.androidtest2.R;
-
 import android.app.ActivityManager;
 import android.content.Context;
 import android.os.UserHandle;
 import android.util.AtomicFile;
 import android.util.Log;
 import android.util.Xml;
-
+import com.example.androidtest2.R;
 public class ALog {
 	public  static String TAG_M = "M_T_AT2";
 	/*---------------------------------------------*/
@@ -84,6 +77,7 @@ public class ALog {
 			tag_Doc = tagOfDoc;
 	        try {
 	            os = mContext.openFileOutput(fileName, Context.MODE_PRIVATE);//openFileOutput方法创建的文件位于：/data/data/com.example.androidtest2/files
+	            Log("文件存储路径："+mContext.getFilesDir()+File.separator+fileName);
                 serializer = new FastXmlSerializer();
                 serializer.setOutput(new BufferedOutputStream(os), "utf-8");
                 serializer.startDocument(null, true);
@@ -359,7 +353,5 @@ public class ALog {
         }
     }
 
-    public static List<LocaleInfo> getAllAssetLocales(Context mContext){
-    	return com.android.internal.app.LocalePicker.getAllAssetLocales(mContext,true);
-    }
+
 }

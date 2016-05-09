@@ -1,12 +1,11 @@
 package com.mt.androidtest2;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
 import com.android.internal.app.LocalePicker.LocaleInfo;
-import com.example.androidtest2.R;
-
+import com.mt.androidtest2.language.Languages;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -14,10 +13,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.SystemProperties;
 import android.view.View;
 import android.widget.Button;
+import com.example.androidtest2.R;
 
 public class MainActivity extends Activity {
 	boolean isLogRun=true;
@@ -47,7 +46,7 @@ public class MainActivity extends Activity {
 	
 	public void testFunctions(){
 		//0、文件操作
-		fileOperation();
+		//fileOperation();
 		//1、读写xml文件
 		//ALog.howToWriteToXml(this);
 		//ALog.howToReadFromXml(this);
@@ -55,7 +54,8 @@ public class MainActivity extends Activity {
 		//showNotification(this,1,null);
 		//3、获取当前手机的所有语言列表
 		//showAllLocales();
-		//saveAllLocales(this);
+		//showAllLocalesFromStrings();
+		saveAllLocales(1);
 		//4、判断当前手机VIBEUI的版本
 		//String lvpVersion = getLVPVersion();
 		//boolean isVibeUI3_5 = (null!=lvpVersion&&lvpVersion.contains("V3.5"));
@@ -177,7 +177,7 @@ public class MainActivity extends Activity {
 	 * 显示当前设备所有语言信息
 	 */
 	public void showAllLocales(){
-		List<LocaleInfo> mLocaleInfoList = ALog.getAllAssetLocales(this);
+		List<LocaleInfo> mLocaleInfoList = Languages.getAllAssetLocales(this);
 		if(null==mLocaleInfoList)return;
         String label = null;
         Locale locale = null;
@@ -186,19 +186,50 @@ public class MainActivity extends Activity {
 			locale = mLocaleInfo.getLocale();
 			ALog.Log("label:"+label);
 			ALog.Log("locale:"+locale.toString());
-			
 		}
 	}
-	
+    final String[] locales = {"en_US","en_AU","en_IN","fr_FR","it_IT","es_ES","et_EE","de_DE","nl_NL","cs_CZ","pl_PL","ja_JP","zh_TW","zh_CN","zh_HK","ru_RU","ko_KR","nb_NO","es_US","da_DK","el_GR","tr_TR","pt_PT","pt_BR","rm_CH","sv_SE","bg_BG","ca_ES","en_GB","fi_FI","hi_IN","hr_HR","hu_HU","in_ID","iw_IL","lt_LT","lv_LV","ro_RO","sk_SK","sl_SI","sr_RS","uk_UA","vi_VN","tl_PH","ar_EG","fa_IR","th_TH","sw_TZ","ms_MY","af_ZA","zu_ZA","am_ET","hi_IN","en_XA","ar_XB","fr_CA","km_KH","lo_LA","ne_NP","si_LK","mn_MN","hy_AM","az_AZ","ka_GE","my_MM","mr_IN","ml_IN","is_IS","mk_MK","ky_KG","eu_ES","gl_ES","bn_BD","ta_IN","kn_IN","te_IN","uz_UZ","ur_PK","kk_KZ","sq_AL","gu_IN","pa_IN"};
+
+	public void showAllLocalesFromStrings(){
+		List<Languages.LocaleInfo> mLocaleInfoList = Languages.getAllAssetLocalesFromStrings(this, locales, true);
+		if(null==mLocaleInfoList)return;
+	    String label = null;
+	    Locale locale = null;
+		for(Languages.LocaleInfo mLocaleInfo : mLocaleInfoList){
+			label = mLocaleInfo.getLabel();
+			locale = mLocaleInfo.getLocale();
+			ALog.Log("label:"+label);
+			ALog.Log("locale:"+locale.toString());
+		}
+	}
+
 	/**
-	 * 储存当前设备所有语言信息到fileToSave文件中
+	 *  储存当前设备所有语言信息到fileToSave文件中
+	 * @param type：标识存储的是默认列表还是指定列表
 	 */
-    public void saveAllLocales(Context mContext){
+	public void saveAllLocales(int type){
+		List<LocaleInfo> mLocaleInfoList = null;
+		List<Languages.LocaleInfo> mLanguagesLocaleInfoList = null;
+		List<MergedLocaleInfo>mMergedLocaleInfoList=new ArrayList<MergedLocaleInfo>();
+		if(0==type){
+			mLocaleInfoList = Languages.getAllAssetLocales(this);
+			for(LocaleInfo mLocaleInfo:mLocaleInfoList){
+				mMergedLocaleInfoList.add(new MergedLocaleInfo(mLocaleInfo));
+			}
+		}else{
+			mLanguagesLocaleInfoList =Languages.getAllAssetLocalesFromStrings(this, locales, true);
+			for(Languages.LocaleInfo mLocaleInfo:mLanguagesLocaleInfoList){
+				mMergedLocaleInfoList.add(new MergedLocaleInfo(mLocaleInfo));
+			}
+		}
+		saveAllLocalesInfo(this,mMergedLocaleInfoList);
+	}
+	
+    public void saveAllLocalesInfo(Context mContext,List<MergedLocaleInfo> mLocaleInfoList){
+    	if(null==mLocaleInfoList)return;
 		String fileToSave = "Languages.xml";
 		String docTag = "Languages";
 		ALog.startSaving(mContext,fileToSave,docTag);
-		List<LocaleInfo> mLocaleInfoList = ALog.getAllAssetLocales(this);
-		if(null==mLocaleInfoList)return;
         String label = null;
         Locale locale = null;
         String tagName="LocaleInfo";
@@ -216,7 +247,7 @@ public class MainActivity extends Activity {
 	        <getDisplay: getDisplayLanguage="中文" getDisplayCountry="香港" />
 	    </LocaleInfo>
         */
-		for(LocaleInfo mLocaleInfo : mLocaleInfoList){
+		for(MergedLocaleInfo mLocaleInfo : mLocaleInfoList){
 			label = mLocaleInfo.getLabel();
 			locale = mLocaleInfo.getLocale();
 			ALog.stag(tagName);
@@ -237,5 +268,30 @@ public class MainActivity extends Activity {
 			ALog.etag(tagName);
 		}
 		ALog.endSaving();
+    }
+    
+    public class MergedLocaleInfo{
+    	LocaleInfo mLocaleInfo=null;
+    	Languages.LocaleInfo mLanguagesLocaleInfo=null;
+    	String label=null;
+    	Locale locale=null;
+    	public MergedLocaleInfo(Languages.LocaleInfo mLanguagesLocaleInfo0){
+    		this.mLanguagesLocaleInfo = mLanguagesLocaleInfo0;
+            this.label = mLanguagesLocaleInfo0.getLabel();
+            this.locale = mLanguagesLocaleInfo0.getLocale();
+    	}
+    	public MergedLocaleInfo(LocaleInfo mLocaleInfo0){
+    		this.mLocaleInfo = mLocaleInfo0;
+            this.label = mLocaleInfo0.getLabel();
+            this.locale = mLocaleInfo0.getLocale();    		
+    	}
+    	
+        public String getLabel() {
+            return (null!=mLocaleInfo)?mLocaleInfo.getLabel():mLanguagesLocaleInfo.getLabel();
+        }
+
+        public Locale getLocale() {
+            return (null!=mLocaleInfo)?mLocaleInfo.getLocale():mLanguagesLocaleInfo.getLocale();
+        }    	
     }
 }

@@ -17,6 +17,8 @@ public final class R {
         public static final int abc_slide_out_top=0x7f040005;
     }
     public static final class array {
+        public static final int special_locale_codes=0x7f0d0001;
+        public static final int special_locale_names=0x7f0d0002;
         public static final int vpn_states=0x7f0d0000;
     }
     public static final class attr {
