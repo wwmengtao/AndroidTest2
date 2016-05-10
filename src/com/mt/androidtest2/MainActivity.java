@@ -7,9 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import com.android.internal.app.LocalePicker.LocaleInfo;
 import com.mt.androidtest2.language.Languages;
-
+import com.mt.androidtest2.language.Languages.LocaleInfo;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -58,8 +57,9 @@ public class MainActivity extends Activity {
 		//2、通知栏显示通知
 		//showNotification(this,1,null);
 		//3、获取当前手机的所有语言列表
-		//showAllLocales(1);
-		saveAllLocales(1,false);//保存语言信息，不需要细节内容
+		Languages mLanguages = new Languages(this);
+		mLanguages.showAllLocales(1);
+		mLanguages.saveAllLocales(1,false);//保存语言信息，不需要细节内容
 		//4、判断当前手机VIBEUI的版本
 		//String lvpVersion = getLVPVersion();
 		//boolean isVibeUI3_5 = (null!=lvpVersion&&lvpVersion.contains("V3.5"));
@@ -176,173 +176,4 @@ public class MainActivity extends Activity {
 	        npe.printStackTrace();
 	    }
 	}
-	
-	/**
-	 * 显示当前设备所有语言信息
-	 */
-	public void showAllLocales(int type){
-		List<MergedLocaleInfo>mMergedLocaleInfoList=getMergedLocaleInfoList(type);
-		String label=null;
-		Locale locale=null;
-		for(MergedLocaleInfo mMergedLocaleInfo : mMergedLocaleInfoList){
-            label = mMergedLocaleInfo.getLabel();
-            locale = mMergedLocaleInfo.getLocale();
-            ALog.Log("label:"+label);
-            ALog.Log("locale:"+locale.toString());
-		}
-	}
-	
-	/**
-	 *  saveAllLocales：储存当前设备所有语言信息到fileToSave文件中
-	 * @param type：标识存储的是默认列表还是指定列表
-	 */
-	public void saveAllLocales(int type,boolean needDetailed){
-		saveAllLocalesInfo(this,getMergedLocaleInfoList(type),needDetailed);
-	}
-	
-    public void saveAllLocalesInfo(Context mContext,List<MergedLocaleInfo> mLocaleInfoList,boolean needDetailed){
-    	if(null==mLocaleInfoList){
-    		return;
-    	}else if(0==mLocaleInfoList.size()){
-    		return;
-    	}
-		String fileToSave = "Languages.xml";
-		String docTag = "Languages";
-		ALog.startSaving(mContext,fileToSave,docTag);
-        String label = null;
-        Locale locale = null;
-        String tagName="LocaleInfo";
-        String tagNameGet="get:";
-        String tagNameGetDisplay="getDisplay:";
-        /*
-         手机语音为英文时香港繁体描述如下：
-		<LocaleInfo locale="zh_HK" label="中文 (香港)" getDisplayName="Chinese (Hong Kong)">
-	        <get: getLanguage="zh" getCountry="HK" />
-	        <getDisplay: getDisplayLanguage="Chinese" getDisplayCountry="Hong Kong" />
-	    </LocaleInfo>
-         手机语言为中文简体时香港繁体描述如下：
-	    <LocaleInfo locale="zh_HK" label="中文 (香港)" getDisplayName="中文 (香港)">
-	        <get: getLanguage="zh" getCountry="HK" />
-	        <getDisplay: getDisplayLanguage="中文" getDisplayCountry="香港" />
-	    </LocaleInfo>
-        */
-		for(MergedLocaleInfo mLocaleInfo : mLocaleInfoList){
-			label = mLocaleInfo.getLabel();
-			locale = mLocaleInfo.getLocale();
-			ALog.stag(tagName);
-			ALog.attr("locale",locale.toString());
-			ALog.attr("label",label);
-			ALog.attr("getDisplayName",locale.getDisplayName());
-			if(needDetailed){
-				//以下细分每个函数内容
-				ALog.stag(tagNameGet);
-				ALog.attr("getLanguage",locale.getLanguage());
-				ALog.attr("getCountry",locale.getCountry());			
-				ALog.etag(tagNameGet);
-				//
-				ALog.stag(tagNameGetDisplay);
-				ALog.attr("getDisplayLanguage",locale.getDisplayLanguage());
-				ALog.attr("getDisplayCountry",locale.getDisplayCountry());
-				ALog.etag(tagNameGetDisplay);
-			}
-			ALog.etag(tagName);
-		}
-		ALog.endSaving();
-    }
-	
-	public List<MergedLocaleInfo> getMergedLocaleInfoList(int type){
-		List<MergedLocaleInfo>mMergedLocaleInfoList=new ArrayList<MergedLocaleInfo>();
-		if(0==type){
-			List<LocaleInfo> mLocaleInfoList = Languages.getAllAssetLocales(this);
-			for(LocaleInfo mLocaleInfo:mLocaleInfoList){
-				mMergedLocaleInfoList.add(new MergedLocaleInfo(mLocaleInfo));
-			}
-		}else if(1==type){
-			/**下列字符串数组内容必须带后缀，下列形式是不可以的
-			 * <locales>ar,bg,cs,el,es-rUS,fa,fr,hr,hu,in,ms,pt-rBR,pt-rPT,ro,ru,sk,sl,sr-rRS,ur-rPK,th,tr,uk,vi,zh-rTW,zh-rCN,zh-rHK,hi</locales>
-			 * 下列形式可以：
-			 * en_US en_GB en_IN zh_CN zh_HK zh_TW in_ID vi_VN ru_RU ms_MY ar_EG th_TH uk_UA fr_FR ro_RO el_GR hu_HU bg_BG hr_HR sl_SI sk_SK es_US sr_RS tr_TR cs_CZ pt_PT pt_BR fa_IR hi_IN ur_PK bn_BD my_MM my_ZG en_ZG
-			 * 
-			 */
-			//final String[] locales = {"en_US","en_AU","en_IN","fr_FR","it_IT","es_ES","et_EE","de_DE","nl_NL","cs_CZ","pl_PL","ja_JP","zh_TW","zh_CN","zh_HK","ru_RU","ko_KR","nb_NO","es_US","da_DK","el_GR","tr_TR","pt_PT","pt_BR","rm_CH","sv_SE","bg_BG","ca_ES","en_GB","fi_FI","hi_IN","hr_HR","hu_HU","in_ID","iw_IL","lt_LT","lv_LV","ro_RO","sk_SK","sl_SI","sr_RS","uk_UA","vi_VN","tl_PH","ar_EG","fa_IR","th_TH","sw_TZ","ms_MY","af_ZA","zu_ZA","am_ET","hi_IN","en_XA","ar_XB","fr_CA","km_KH","lo_LA","ne_NP","si_LK","mn_MN","hy_AM","az_AZ","ka_GE","my_MM","mr_IN","ml_IN","is_IS","mk_MK","ky_KG","eu_ES","gl_ES","bn_BD","ta_IN","kn_IN","te_IN","uz_UZ","ur_PK","kk_KZ","sq_AL","gu_IN","pa_IN"};
-			String localesStr="en_US en_GB en_IN zh_CN zh_HK zh_TW in_ID vi_VN ru_RU ms_MY ar_EG th_TH uk_UA fr_FR ro_RO el_GR hu_HU bg_BG hr_HR sl_SI sk_SK es_US sr_RS tr_TR cs_CZ pt_PT pt_BR fa_IR hi_IN ur_PK bn_BD my_MM my_ZG en_ZG";
-			String [] locales=null;
-			locales=localesStr.split(" ");
-			List<Languages.LocaleInfo> mLanguagesLocaleInfoList =null;
-			mLanguagesLocaleInfoList = Languages.getAllAssetLocalesFromStrings(this, locales, true);
-			if(null!=mLanguagesLocaleInfoList&&mLanguagesLocaleInfoList.size()>0){
-				for(Languages.LocaleInfo mLocaleInfo:mLanguagesLocaleInfoList){
-					mMergedLocaleInfoList.add(new MergedLocaleInfo(mLocaleInfo));
-				}
-			}
-		}else if(2==type){
-            ArrayList<String>mLanguagesArrayList = new ArrayList<String>();			
-			List<Languages.LocaleInfo> mLanguagesLocaleInfoList2 = null;
-	        try { 
-	        	//languagesIn.txt文件内容格式：values-pt-rPT、./values-pt-rPT，不带后缀(比如values-pt)的不可以
-	        	InputStreamReader inputReader = new InputStreamReader(getResources().getAssets().open("locales/languagesIn.txt")); 
-	            BufferedReader bufReader = new BufferedReader(inputReader);
-	            String line=null;
-	            String str=null;
-	            while((line = bufReader.readLine()) != null){
-	            	str = refine(line);
-	            	mLanguagesArrayList.add(str);
-	                //ALog.Log("str:"+str);
-	            }
-	        } catch (Exception e) {
-	            e.printStackTrace(); 
-	        }
-	        if(mLanguagesArrayList.size()>0){
-				String [] languages = new String[mLanguagesArrayList.size()]; 
-				for(int i=0;i<mLanguagesArrayList.size();i++){  
-					languages[i]=mLanguagesArrayList.get(i);  
-		        }
-				mLanguagesLocaleInfoList2 =Languages.getAllAssetLocalesFromStrings(this, languages, true);
-				if(null!=mLanguagesLocaleInfoList2&&mLanguagesLocaleInfoList2.size()>0){
-					for(Languages.LocaleInfo mLocaleInfo2:mLanguagesLocaleInfoList2){
-						mMergedLocaleInfoList.add(new MergedLocaleInfo(mLocaleInfo2));
-					}
-				}	
-	        }        
-		}
-		return mMergedLocaleInfoList;
-	}
-	
-	public String refine(String line){
-		String str=line;
-		String [][]tags_values={{"./values-",""},
-											   {"values-",""},
-											   {"-r","-"}};
-    	for(int i=0;i<tags_values.length;i++){//tags_values.length: the columns of the array
-    		if(line.contains(tags_values[i][0])){
-    			str=str.replace(tags_values[i][0], tags_values[i][1]);
-    		}
-    	}
-    	return str;
-	}
-	
-    public class MergedLocaleInfo{
-    	LocaleInfo mLocaleInfo=null;
-    	Languages.LocaleInfo mLanguagesLocaleInfo=null;
-    	String label=null;
-    	Locale locale=null;
-    	public MergedLocaleInfo(Languages.LocaleInfo mLanguagesLocaleInfo0){
-    		mLanguagesLocaleInfo = mLanguagesLocaleInfo0;
-            label = mLanguagesLocaleInfo0.getLabel();
-            locale = mLanguagesLocaleInfo0.getLocale();
-    	}
-    	public MergedLocaleInfo(LocaleInfo mLocaleInfo0){
-    		mLocaleInfo = mLocaleInfo0;
-            label = mLocaleInfo0.getLabel();
-            locale = mLocaleInfo0.getLocale();    		
-    	}
-    	
-        public String getLabel() {
-            return (null!=mLocaleInfo)?mLocaleInfo.getLabel():mLanguagesLocaleInfo.getLabel();
-        }
-
-        public Locale getLocale() {
-            return (null!=mLocaleInfo)?mLocaleInfo.getLocale():mLanguagesLocaleInfo.getLocale();
-        }    	
-    }
 }

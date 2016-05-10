@@ -1,10 +1,13 @@
 package com.mt.androidtest2.language;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.SystemProperties;
@@ -14,24 +17,160 @@ import com.mt.androidtest2.ALog;
 
 public class Languages {
     static boolean DEBUG = false;    
-    /**
-     * 获取当前设备预置的语言
-     * @param mContext
-     * @return
-     */
-    public static List<com.android.internal.app.LocalePicker.LocaleInfo> getAllAssetLocales(Context mContext){
-    	return com.android.internal.app.LocalePicker.getAllAssetLocales(mContext,true);
+    Context mContext=null;
+	public Languages(Context mContext){
+		this.mContext = mContext;
+	}
+	/**
+	 * 显示当前设备所有语言信息
+	 */
+	public void showAllLocales(int type){
+		List<LocaleInfo>mLocaleInfoList=getLocaleInfoList(type);
+		String label=null;
+		Locale locale=null;
+		for(LocaleInfo mLocaleInfo : mLocaleInfoList){
+            label = mLocaleInfo.getLabel();
+            locale = mLocaleInfo.getLocale();
+            ALog.Log("label:"+label);
+            ALog.Log("locale:"+locale.toString());
+		}
+	}
+	
+	/**
+	 *  saveAllLocales：储存当前设备所有语言信息到fileToSave文件中
+	 * @param type：标识存储的是默认列表还是指定列表
+	 */
+	public void saveAllLocales(int type,boolean needDetailed){
+		saveAllLocalesInfo(mContext,getLocaleInfoList(type),needDetailed);
+	}
+	
+    public void saveAllLocalesInfo(Context mContext,List<LocaleInfo> mLocaleInfoList,boolean needDetailed){
+    	if(null==mLocaleInfoList){
+    		return;
+    	}else if(0==mLocaleInfoList.size()){
+    		return;
+    	}
+		String fileToSave = "Languages.xml";
+		String docTag = "Languages";
+		ALog.startSaving(mContext,fileToSave,docTag);
+        String label = null;
+        Locale locale = null;
+        String tagName="LocaleInfo";
+        String tagNameGet="get:";
+        String tagNameGetDisplay="getDisplay:";
+        /*
+         手机语音为英文时香港繁体描述如下：
+		<LocaleInfo locale="zh_HK" label="中文 (香港)" getDisplayName="Chinese (Hong Kong)">
+	        <get: getLanguage="zh" getCountry="HK" />
+	        <getDisplay: getDisplayLanguage="Chinese" getDisplayCountry="Hong Kong" />
+	    </LocaleInfo>
+         手机语言为中文简体时香港繁体描述如下：
+	    <LocaleInfo locale="zh_HK" label="中文 (香港)" getDisplayName="中文 (香港)">
+	        <get: getLanguage="zh" getCountry="HK" />
+	        <getDisplay: getDisplayLanguage="中文" getDisplayCountry="香港" />
+	    </LocaleInfo>
+        */
+		for(LocaleInfo mLocaleInfo : mLocaleInfoList){
+			label = mLocaleInfo.getLabel();
+			locale = mLocaleInfo.getLocale();
+			ALog.stag(tagName);
+			ALog.attr("locale",locale.toString());
+			ALog.attr("label",label);
+			ALog.attr("getDisplayName",locale.getDisplayName());
+			if(needDetailed){
+				//以下细分每个函数内容
+				ALog.stag(tagNameGet);
+				ALog.attr("getLanguage",locale.getLanguage());
+				ALog.attr("getCountry",locale.getCountry());			
+				ALog.etag(tagNameGet);
+				//
+				ALog.stag(tagNameGetDisplay);
+				ALog.attr("getDisplayLanguage",locale.getDisplayLanguage());
+				ALog.attr("getDisplayCountry",locale.getDisplayCountry());
+				ALog.etag(tagNameGetDisplay);
+			}
+			ALog.etag(tagName);
+		}
+		ALog.endSaving();
     }
+	
+	public List<LocaleInfo> getLocaleInfoList(int type){
+		List<LocaleInfo>mLocaleInfoList=new ArrayList<LocaleInfo>();
+		if(0==type){
+			mLocaleInfoList = getAllAssetLocales(mContext,null,true);
+		}else if(1==type){
+			/**下列字符串数组内容必须带后缀，下列形式是不可以的
+			 * <locales>ar,bg,cs,el,es-rUS,fa,fr,hr,hu,in,ms,pt-rBR,pt-rPT,ro,ru,sk,sl,sr-rRS,ur-rPK,th,tr,uk,vi,zh-rTW,zh-rCN,zh-rHK,hi</locales>
+			 * 下列形式可以：
+			 * en_US en_GB en_IN zh_CN zh_HK zh_TW in_ID vi_VN ru_RU ms_MY ar_EG th_TH uk_UA fr_FR ro_RO el_GR hu_HU bg_BG hr_HR sl_SI sk_SK es_US sr_RS tr_TR cs_CZ pt_PT pt_BR fa_IR hi_IN ur_PK bn_BD my_MM my_ZG en_ZG
+			 * 
+			 */
+			//final String[] locales = {"en_US","en_AU","en_IN","fr_FR","it_IT","es_ES","et_EE","de_DE","nl_NL","cs_CZ","pl_PL","ja_JP","zh_TW","zh_CN","zh_HK","ru_RU","ko_KR","nb_NO","es_US","da_DK","el_GR","tr_TR","pt_PT","pt_BR","rm_CH","sv_SE","bg_BG","ca_ES","en_GB","fi_FI","hi_IN","hr_HR","hu_HU","in_ID","iw_IL","lt_LT","lv_LV","ro_RO","sk_SK","sl_SI","sr_RS","uk_UA","vi_VN","tl_PH","ar_EG","fa_IR","th_TH","sw_TZ","ms_MY","af_ZA","zu_ZA","am_ET","hi_IN","en_XA","ar_XB","fr_CA","km_KH","lo_LA","ne_NP","si_LK","mn_MN","hy_AM","az_AZ","ka_GE","my_MM","mr_IN","ml_IN","is_IS","mk_MK","ky_KG","eu_ES","gl_ES","bn_BD","ta_IN","kn_IN","te_IN","uz_UZ","ur_PK","kk_KZ","sq_AL","gu_IN","pa_IN"};
+			String localesStr="en_US en_GB en_IN zh_CN zh_HK zh_TW in_ID vi_VN ru_RU ms_MY ar_EG th_TH uk_UA fr_FR ro_RO el_GR hu_HU bg_BG hr_HR sl_SI sk_SK es_US sr_RS tr_TR cs_CZ pt_PT pt_BR fa_IR hi_IN ur_PK bn_BD my_MM my_ZG en_ZG";
+			String [] locales=null;
+			locales=localesStr.split(" ");
+			mLocaleInfoList = getAllAssetLocales(mContext, locales, true);
+		}else if(2==type){
+            ArrayList<String>mLanguagesArrayList = new ArrayList<String>();			
+	        try { 
+	        	//languagesIn.txt文件内容格式：values-pt-rPT、./values-pt-rPT，不带后缀(比如values-pt)的不可以
+	        	InputStreamReader inputReader = new InputStreamReader(mContext.getResources().getAssets().open("locales/languagesIn.txt")); 
+	            BufferedReader bufReader = new BufferedReader(inputReader);
+	            String line=null;
+	            String str=null;
+	            while((line = bufReader.readLine()) != null){
+	            	str = refine(line);
+	            	mLanguagesArrayList.add(str);
+	                //ALog.Log("str:"+str);
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace(); 
+	        }
+	        if(mLanguagesArrayList.size()>0){
+				String [] languages = new String[mLanguagesArrayList.size()]; 
+				for(int i=0;i<mLanguagesArrayList.size();i++){  
+					languages[i]=mLanguagesArrayList.get(i);  
+		        }
+				mLocaleInfoList =getAllAssetLocales(mContext, languages, true);
+	        }        
+		}
+		return mLocaleInfoList;
+	}
+	
+	public String refine(String line){
+		String str=line;
+		String [][]tags_values={{"./values-",""},
+											   {"values-",""},
+											   {"-r","-"}};
+    	for(int i=0;i<tags_values.length;i++){//tags_values.length: the columns of the array
+    		if(line.contains(tags_values[i][0])){
+    			str=str.replace(tags_values[i][0], tags_values[i][1]);
+    		}
+    	}
+    	return str;
+	}
+    
     /**
      * getAllAssetLocalesFromStrings：获取指定语言代码的语言信息
      * @param context
      * @param isInDeveloperMode
      * @return
      */
-    public static List<LocaleInfo> getAllAssetLocalesFromStrings(Context context, String[] locales, boolean isInDeveloperMode) {
+    public static List<LocaleInfo> getAllAssetLocales(Context context, String[] localesAno, boolean isInDeveloperMode) {
         final Resources resources = context.getResources();
-        //替换掉下列获取系统语言信息的代码
-        //final String[] locales = Resources.getSystem().getAssets().getLocales();
+        String[] locales = null;
+        if(null==localesAno){
+        	//获取当前设备预置的语言
+        	locales = Resources.getSystem().getAssets().getLocales();
+        }else{
+        	//获取用户给定的语言
+        	locales = localesAno;
+        }
+        if(null==locales){
+        	return null;
+        }else if(0==locales.length){
+        	return null;
+        }
         List<String> localeList = new ArrayList<String>(locales.length);
         Collections.addAll(localeList, locales);
         // Don't show the pseudolocales unless we're in developer mode. http://b/17190407.
