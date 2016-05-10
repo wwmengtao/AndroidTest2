@@ -53,7 +53,6 @@ public class Languages {
 
         final ArrayList<LocaleInfo> localeInfos = new ArrayList<LocaleInfo>(localeList.size());
         for (String locale : localeList) {
-            ALog.Log("locale:"+locale);
             final Locale l = Locale.forLanguageTag(locale.replace('_', '-'));
             if (l == null || "und".equals(l.getLanguage())
                     || l.getLanguage().isEmpty() || l.getCountry().isEmpty()) {
