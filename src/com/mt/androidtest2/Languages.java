@@ -41,9 +41,9 @@ public class Languages {
 
 	/**
 	 * saveAllLocales：储存当前设备所有语言信息到指定文件中
-	 * @param type:标识存储的是默认列表还是指定列表
+	 * @param type:标识存储的是设备默认语言列表还是用户指定列表
 	 * @param needDetailed:是否需要显示更详细的信息
-	 * @param needChinese:是否需要中文内容以帮助理解
+	 * @param needChinese:是否需要中文注解
 	 */
     public void saveAllLocales(int type, boolean needDetailed, boolean needChinese){
     	List<LocaleInfo> mLocaleInfoList = getLocaleInfoList(type);
@@ -102,9 +102,9 @@ public class Languages {
 	
 	public List<LocaleInfo> getLocaleInfoList(int type){
 		List<LocaleInfo>mLocaleInfoList=new ArrayList<LocaleInfo>();
-		if(0==type){
+		if(0==type){//获取设备预置语言信息
 			mLocaleInfoList = getAllAssetLocales(mContext,null,true);
-		}else if(1==type){
+		}else if(1==type){//获取用户指定(locales中内容所示)语言信息
 			/**下列字符串数组内容必须带后缀，下列形式是不可以的
 			 * <locales>ar,bg,cs,el,es-rUS,fa,fr,hr,hu,in,ms,pt-rBR,pt-rPT,ro,ru,sk,sl,sr-rRS,ur-rPK,th,tr,uk,vi,zh-rTW,zh-rCN,zh-rHK,hi</locales>
 			 * 下列形式可以：
@@ -116,10 +116,9 @@ public class Languages {
 			String [] locales=null;
 			locales=localesStr.split(" ");
 			mLocaleInfoList = getAllAssetLocales(mContext, locales, true);
-		}else if(2==type){
+		}else if(2==type){//获取assets/locales/languagesIn.txt中指定语言信息。languagesIn.txt文件内容格式：values-pt-rPT、./values-pt-rPT，不带后缀(比如values-pt)的不可以
             ArrayList<String>mLanguagesArrayList = new ArrayList<String>();			
 	        try { 
-	        	//languagesIn.txt文件内容格式：values-pt-rPT、./values-pt-rPT，不带后缀(比如values-pt)的不可以
 	        	InputStreamReader inputReader = new InputStreamReader(mContext.getResources().getAssets().open("locales/languagesIn.txt")); 
 	            BufferedReader bufReader = new BufferedReader(inputReader);
 	            String line=null;
