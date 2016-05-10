@@ -1,4 +1,4 @@
-package com.mt.androidtest2.language;
+package com.mt.androidtest2;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -13,7 +13,6 @@ import android.content.res.Resources;
 import android.os.SystemProperties;
 
 import com.example.androidtest2.R;
-import com.mt.androidtest2.ALog;
 
 public class Languages {
     static boolean DEBUG = false;    

@@ -1,14 +1,5 @@
 package com.mt.androidtest2;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import com.mt.androidtest2.language.Languages;
-import com.mt.androidtest2.language.Languages.LocaleInfo;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
