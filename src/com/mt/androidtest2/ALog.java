@@ -143,9 +143,7 @@ public class ALog {
 	        } finally {
 	            if (success) {
 	            	os.close();
-	            	ALog.Log("os close:"+os.toString());
 	            } else {
-	                ALog.Log("failed to save:"+os.toString());
 	            }
 	        } 
         } catch (IOException ex) {

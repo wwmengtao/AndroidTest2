@@ -34,7 +34,6 @@ public class Languages {
         //final String[] locales = Resources.getSystem().getAssets().getLocales();
         List<String> localeList = new ArrayList<String>(locales.length);
         Collections.addAll(localeList, locales);
-
         // Don't show the pseudolocales unless we're in developer mode. http://b/17190407.
         if (!isInDeveloperMode) {
             localeList.remove("ar-XB");
@@ -54,6 +53,7 @@ public class Languages {
 
         final ArrayList<LocaleInfo> localeInfos = new ArrayList<LocaleInfo>(localeList.size());
         for (String locale : localeList) {
+            ALog.Log("locale:"+locale);
             final Locale l = Locale.forLanguageTag(locale.replace('_', '-'));
             if (l == null || "und".equals(l.getLanguage())
                     || l.getLanguage().isEmpty() || l.getCountry().isEmpty()) {

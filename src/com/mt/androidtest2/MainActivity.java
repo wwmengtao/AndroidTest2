@@ -1,11 +1,15 @@
 package com.mt.androidtest2;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
 import com.android.internal.app.LocalePicker.LocaleInfo;
 import com.mt.androidtest2.language.Languages;
+
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -16,6 +20,7 @@ import android.os.Bundle;
 import android.os.SystemProperties;
 import android.view.View;
 import android.widget.Button;
+
 import com.example.androidtest2.R;
 
 public class MainActivity extends Activity {
@@ -54,7 +59,7 @@ public class MainActivity extends Activity {
 		//showNotification(this,1,null);
 		//3、获取当前手机的所有语言列表
 		//showAllLocales(1);
-		saveAllLocales(1);
+		saveAllLocales(2);
 		//4、判断当前手机VIBEUI的版本
 		//String lvpVersion = getLVPVersion();
 		//boolean isVibeUI3_5 = (null!=lvpVersion&&lvpVersion.contains("V3.5"));
@@ -69,7 +74,7 @@ public class MainActivity extends Activity {
 		//mfileOperate.readFromFile("test.txt",10);
 		//mfileOperate.readRawResources();
 		//mfileOperate.getResourcesDescription();
-		//mfileOperate.getFromAssets("test.txt");
+		mfileOperate.getFromAssets("test/test.txt");
 		//列举assets目录文件
 		//mfileOperate.listAssets("");//列举assets根目录下的文件
 		//mfileOperate.listAssets("test");//列举assets/test目录下的文件
@@ -78,12 +83,12 @@ public class MainActivity extends Activity {
 		 * getFilesDir：/data/data/com.example.androidtest2/files下创建子文件夹
 		 * 向上述文件夹写入数据需要WRITE_EXTERNAL_STORAGE权限
 		 */
-		mfileOperate.copyFilesFassets(this,"",getFilesDir()+File.separator+"myAssets");
+		//mfileOperate.copyFilesFassets(this,"",getFilesDir()+File.separator+"myAssets");
 		/**
 		 * getExternalFilesDir：storage/emulated/0/Android/data/com.example.androidtest2/files
 		 * 向上述文件夹写入数据需要WRITE_EXTERNAL_STORAGE权限
 		 */
-		mfileOperate.copyFilesFassets(this,"",getExternalFilesDir(null)+File.separator+"myAssets");
+		//mfileOperate.copyFilesFassets(this,"",getExternalFilesDir(null)+File.separator+"myAssets");
 	}
 	
 	View.OnClickListener viewListener = new View.OnClickListener() {
@@ -175,7 +180,6 @@ public class MainActivity extends Activity {
 	/**
 	 * 显示当前设备所有语言信息
 	 */
-    final String[] locales = {"en_US","en_AU","en_IN","fr_FR","it_IT","es_ES","et_EE","de_DE","nl_NL","cs_CZ","pl_PL","ja_JP","zh_TW","zh_CN","zh_HK","ru_RU","ko_KR","nb_NO","es_US","da_DK","el_GR","tr_TR","pt_PT","pt_BR","rm_CH","sv_SE","bg_BG","ca_ES","en_GB","fi_FI","hi_IN","hr_HR","hu_HU","in_ID","iw_IL","lt_LT","lv_LV","ro_RO","sk_SK","sl_SI","sr_RS","uk_UA","vi_VN","tl_PH","ar_EG","fa_IR","th_TH","sw_TZ","ms_MY","af_ZA","zu_ZA","am_ET","hi_IN","en_XA","ar_XB","fr_CA","km_KH","lo_LA","ne_NP","si_LK","mn_MN","hy_AM","az_AZ","ka_GE","my_MM","mr_IN","ml_IN","is_IS","mk_MK","ky_KG","eu_ES","gl_ES","bn_BD","ta_IN","kn_IN","te_IN","uz_UZ","ur_PK","kk_KZ","sq_AL","gu_IN","pa_IN"};
 	public void showAllLocales(int type){
 		List<MergedLocaleInfo>mMergedLocaleInfoList=getMergedLocaleInfoList(type);
 		String label=null;
@@ -197,7 +201,11 @@ public class MainActivity extends Activity {
 	}
 	
     public void saveAllLocalesInfo(Context mContext,List<MergedLocaleInfo> mLocaleInfoList){
-    	if(null==mLocaleInfoList)return;
+    	if(null==mLocaleInfoList){
+    		return;
+    	}else if(0==mLocaleInfoList.size()){
+    		return;
+    	}
 		String fileToSave = "Languages.xml";
 		String docTag = "Languages";
 		ALog.startSaving(mContext,fileToSave,docTag);
@@ -242,21 +250,61 @@ public class MainActivity extends Activity {
     }
 	
 	public List<MergedLocaleInfo> getMergedLocaleInfoList(int type){
-		List<LocaleInfo> mLocaleInfoList = null;
-		List<Languages.LocaleInfo> mLanguagesLocaleInfoList = null;
 		List<MergedLocaleInfo>mMergedLocaleInfoList=new ArrayList<MergedLocaleInfo>();
 		if(0==type){
-			mLocaleInfoList = Languages.getAllAssetLocales(this);
+			List<LocaleInfo> mLocaleInfoList = Languages.getAllAssetLocales(this);
 			for(LocaleInfo mLocaleInfo:mLocaleInfoList){
 				mMergedLocaleInfoList.add(new MergedLocaleInfo(mLocaleInfo));
 			}
-		}else{
-			mLanguagesLocaleInfoList =Languages.getAllAssetLocalesFromStrings(this, locales, true);
-			for(Languages.LocaleInfo mLocaleInfo:mLanguagesLocaleInfoList){
-				mMergedLocaleInfoList.add(new MergedLocaleInfo(mLocaleInfo));
+		}else if(1==type){
+			// final String[] locales = {"en_US","en_AU","en_IN","fr_FR","it_IT","es_ES","et_EE","de_DE","nl_NL","cs_CZ","pl_PL","ja_JP","zh_TW","zh_CN","zh_HK","ru_RU","ko_KR","nb_NO","es_US","da_DK","el_GR","tr_TR","pt_PT","pt_BR","rm_CH","sv_SE","bg_BG","ca_ES","en_GB","fi_FI","hi_IN","hr_HR","hu_HU","in_ID","iw_IL","lt_LT","lv_LV","ro_RO","sk_SK","sl_SI","sr_RS","uk_UA","vi_VN","tl_PH","ar_EG","fa_IR","th_TH","sw_TZ","ms_MY","af_ZA","zu_ZA","am_ET","hi_IN","en_XA","ar_XB","fr_CA","km_KH","lo_LA","ne_NP","si_LK","mn_MN","hy_AM","az_AZ","ka_GE","my_MM","mr_IN","ml_IN","is_IS","mk_MK","ky_KG","eu_ES","gl_ES","bn_BD","ta_IN","kn_IN","te_IN","uz_UZ","ur_PK","kk_KZ","sq_AL","gu_IN","pa_IN"};
+			final String[] locales ={""};	
+			locales[0]="en-US";
+			List<Languages.LocaleInfo> mLanguagesLocaleInfoList =null;
+			mLanguagesLocaleInfoList = Languages.getAllAssetLocalesFromStrings(this, locales, true);
+			if(null!=mLanguagesLocaleInfoList&&mLanguagesLocaleInfoList.size()>0){
+				for(Languages.LocaleInfo mLocaleInfo:mLanguagesLocaleInfoList){
+					mMergedLocaleInfoList.add(new MergedLocaleInfo(mLocaleInfo));
+				}
 			}
+		}else if(2==type){
+			List<Languages.LocaleInfo> mLanguagesLocaleInfoList2 = null;
+			String [] languages = {""};
+	        try { 
+	        	InputStreamReader inputReader = new InputStreamReader(getResources().getAssets().open("locales/languagesIn.txt")); 
+	            BufferedReader bufReader = new BufferedReader(inputReader);
+	            String line=null;
+	            while((line = bufReader.readLine()) != null){
+	            	languages[0]=refine(line).toString();
+	                //ALog.Log("languages[0]:"+languages[0]);
+	    			mLanguagesLocaleInfoList2 =Languages.getAllAssetLocalesFromStrings(this, languages, true);
+	    			//ALog.Log("size:"+mLanguagesLocaleInfoList2.size());
+	    			if(null!=mLanguagesLocaleInfoList2&&mLanguagesLocaleInfoList2.size()>0){
+	    				//ALog.Log("Locale:"+mLanguagesLocaleInfoList2.get(0).getLabel());
+	    				for(Languages.LocaleInfo mLocaleInfo2:mLanguagesLocaleInfoList2){
+	    					mMergedLocaleInfoList.add(new MergedLocaleInfo(mLocaleInfo2));
+	    					//ALog.Log("mLocaleInfo:"+mLocaleInfo2.toString());
+	    				}
+	    			}
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace(); 
+	        }
+	        
 		}
 		return mMergedLocaleInfoList;
+	}
+	
+	public String refine(String line){
+		String str=line;
+		String [][]tags_values={{"./values-",""},
+											   {"-r","-"}};
+    	for(int i=0;i<tags_values.length;i++){//tags_values.length: the columns of the array
+    		if(line.contains(tags_values[i][0])){
+    			str=str.replace(tags_values[i][0], tags_values[i][1]);
+    		}
+    	}
+    	return str;
 	}
 	
     public class MergedLocaleInfo{
@@ -265,14 +313,14 @@ public class MainActivity extends Activity {
     	String label=null;
     	Locale locale=null;
     	public MergedLocaleInfo(Languages.LocaleInfo mLanguagesLocaleInfo0){
-    		this.mLanguagesLocaleInfo = mLanguagesLocaleInfo0;
-            this.label = mLanguagesLocaleInfo0.getLabel();
-            this.locale = mLanguagesLocaleInfo0.getLocale();
+    		mLanguagesLocaleInfo = mLanguagesLocaleInfo0;
+            label = mLanguagesLocaleInfo0.getLabel();
+            locale = mLanguagesLocaleInfo0.getLocale();
     	}
     	public MergedLocaleInfo(LocaleInfo mLocaleInfo0){
-    		this.mLocaleInfo = mLocaleInfo0;
-            this.label = mLocaleInfo0.getLabel();
-            this.locale = mLocaleInfo0.getLocale();    		
+    		mLocaleInfo = mLocaleInfo0;
+            label = mLocaleInfo0.getLabel();
+            locale = mLocaleInfo0.getLocale();    		
     	}
     	
         public String getLabel() {
