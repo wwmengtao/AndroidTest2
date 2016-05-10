@@ -50,7 +50,7 @@ public class MainActivity extends Activity {
 		//3、获取当前手机的所有语言列表
 		Languages mLanguages = new Languages(this);
 		mLanguages.showAllLocales(1);
-		mLanguages.saveAllLocales(1,false);//保存语言信息，不需要细节内容
+		//mLanguages.saveAllLocales(1,false);//保存语言信息，不需要细节内容
 		//4、判断当前手机VIBEUI的版本
 		//String lvpVersion = getLVPVersion();
 		//boolean isVibeUI3_5 = (null!=lvpVersion&&lvpVersion.contains("V3.5"));

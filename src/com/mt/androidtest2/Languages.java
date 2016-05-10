@@ -39,11 +39,9 @@ public class Languages {
 	 *  saveAllLocales：储存当前设备所有语言信息到fileToSave文件中
 	 * @param type：标识存储的是默认列表还是指定列表
 	 */
-	public void saveAllLocales(int type,boolean needDetailed){
-		saveAllLocalesInfo(mContext,getLocaleInfoList(type),needDetailed);
-	}
 	
-    public void saveAllLocalesInfo(Context mContext,List<LocaleInfo> mLocaleInfoList,boolean needDetailed){
+    public void saveAllLocales(int type, boolean needDetailed){
+    	List<LocaleInfo> mLocaleInfoList = getLocaleInfoList(type);
     	if(null==mLocaleInfoList){
     		return;
     	}else if(0==mLocaleInfoList.size()){
