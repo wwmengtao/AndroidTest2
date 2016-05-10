@@ -32,29 +32,35 @@ public class Languages {
             locale = mLocaleInfo.getLocale();
             ALog.Log("label:"+label);
             ALog.Log("locale:"+locale.toString());
+            ALog.Log("name:"+locale.getDisplayName());
+            if(!Locale.getDefault().toString().contains("zh_")){
+            	ALog.Log("name:"+locale.getDisplayName(Locale.CHINESE));
+            }
 		}
 	}
-	
+
 	/**
-	 *  saveAllLocales：储存当前设备所有语言信息到fileToSave文件中
-	 * @param type：标识存储的是默认列表还是指定列表
+	 * saveAllLocales：储存当前设备所有语言信息到指定文件中
+	 * @param type:标识存储的是默认列表还是指定列表
+	 * @param needDetailed:是否需要显示更详细的信息
+	 * @param needChinese:是否需要中文内容以帮助理解
 	 */
-	
-    public void saveAllLocales(int type, boolean needDetailed){
+    public void saveAllLocales(int type, boolean needDetailed, boolean needChinese){
     	List<LocaleInfo> mLocaleInfoList = getLocaleInfoList(type);
     	if(null==mLocaleInfoList){
     		return;
     	}else if(0==mLocaleInfoList.size()){
     		return;
     	}
+    	boolean displayChineseInfo = !Locale.getDefault().toString().contains("zh_")&&needChinese;
 		String fileToSave = "Languages.xml";
 		String docTag = "Languages";
 		ALog.startSaving(mContext,fileToSave,docTag);
         String label = null;
         Locale locale = null;
-        String tagName="LocaleInfo";
-        String tagNameGet="get:";
-        String tagNameGetDisplay="getDisplay:";
+        String tagName="language";
+        String tagNameGet="get";
+        String tagNameGetDisplay="getDisplay";
         /*
          手机语音为英文时香港繁体描述如下：
 		<LocaleInfo locale="zh_HK" label="中文 (香港)" getDisplayName="Chinese (Hong Kong)">
@@ -73,17 +79,20 @@ public class Languages {
 			ALog.stag(tagName);
 			ALog.attr("locale",locale.toString());
 			ALog.attr("label",label);
-			ALog.attr("getDisplayName",locale.getDisplayName());
+			ALog.attr("name",locale.getDisplayName());
+			if(displayChineseInfo){
+				ALog.attr("name",locale.getDisplayName(Locale.CHINESE));
+			}
 			if(needDetailed){
 				//以下细分每个函数内容
 				ALog.stag(tagNameGet);
-				ALog.attr("getLanguage",locale.getLanguage());
-				ALog.attr("getCountry",locale.getCountry());			
+				ALog.attr("language",locale.getLanguage());
+				ALog.attr("country",locale.getCountry());			
 				ALog.etag(tagNameGet);
 				//
 				ALog.stag(tagNameGetDisplay);
-				ALog.attr("getDisplayLanguage",locale.getDisplayLanguage());
-				ALog.attr("getDisplayCountry",locale.getDisplayCountry());
+				ALog.attr("language",locale.getDisplayLanguage());
+				ALog.attr("country",locale.getDisplayCountry());
 				ALog.etag(tagNameGetDisplay);
 			}
 			ALog.etag(tagName);
@@ -270,8 +279,7 @@ public class Languages {
             return sCollator.compare(this.label, another.label);
         }
     }
-    private static String getDisplayName(
-            Locale l, String[] specialLocaleCodes, String[] specialLocaleNames) {
+    private static String getDisplayName(Locale l, String[] specialLocaleCodes, String[] specialLocaleNames) {
         String code = l.toString();
 
         for (int i = 0; i < specialLocaleCodes.length; i++) {

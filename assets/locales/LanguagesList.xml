@@ -1,135 +1,135 @@
 <?xml version='1.0' encoding='utf-8' standalone='yes' ?>
 <Languages>
-    <LocaleInfo locale="af_ZA" label="Afrikaans" getDisplayName="Afrikaans (South Africa)" />
-    <LocaleInfo locale="az_AZ_watch" label="Azərbaycan (Azərbaycan,WATCH)" getDisplayName="Azerbaijani (Azerbaijan,WATCH)" />
-    <LocaleInfo locale="az_AZ" label="Azərbaycan (Azərbaycan)" getDisplayName="Azerbaijani (Azerbaijan)" />
-    <LocaleInfo locale="in_ID" label="Bahasa Indonesia" getDisplayName="Indonesian (Indonesia)" />
-    <LocaleInfo locale="ms_MY_watch" label="Bahasa Melayu (Malaysia,WATCH)" getDisplayName="Malay (Malaysia,WATCH)" />
-    <LocaleInfo locale="ms_MY" label="Bahasa Melayu (Malaysia)" getDisplayName="Malay (Malaysia)" />
-    <LocaleInfo locale="ca_ES" label="Català" getDisplayName="Catalan (Spain)" />
-    <LocaleInfo locale="cs_CZ" label="Čeština" getDisplayName="Czech (Czech Republic)" />
-    <LocaleInfo locale="da_DK" label="Dansk" getDisplayName="Danish (Denmark)" />
-    <LocaleInfo locale="de_DE" label="Deutsch (Deutschland)" getDisplayName="German (Germany)" />
-    <LocaleInfo locale="de_LI" label="Deutsch (Liechtenstein)" getDisplayName="German (Liechtenstein)" />
-    <LocaleInfo locale="de_AT" label="Deutsch (Österreich)" getDisplayName="German (Austria)" />
-    <LocaleInfo locale="de_CH" label="Deutsch (Schweiz)" getDisplayName="German (Switzerland)" />
-    <LocaleInfo locale="et_EE_watch" label="Eesti (Eesti,WATCH)" getDisplayName="Estonian (Estonia,WATCH)" />
-    <LocaleInfo locale="et_EE" label="Eesti (Eesti)" getDisplayName="Estonian (Estonia)" />
-    <LocaleInfo locale="en_AU_watch" label="English (Australia,WATCH)" getDisplayName="English (Australia,WATCH)" />
-    <LocaleInfo locale="en_AU" label="English (Australia)" getDisplayName="English (Australia)" />
-    <LocaleInfo locale="en_CA" label="English (Canada)" getDisplayName="English (Canada)" />
-    <LocaleInfo locale="en_IN_watch" label="English (India,WATCH)" getDisplayName="English (India,WATCH)" />
-    <LocaleInfo locale="en_IN" label="English (India)" getDisplayName="English (India)" />
-    <LocaleInfo locale="en_IE" label="English (Ireland)" getDisplayName="English (Ireland)" />
-    <LocaleInfo locale="en_NZ" label="English (New Zealand)" getDisplayName="English (New Zealand)" />
-    <LocaleInfo locale="en_SG" label="English (Singapore)" getDisplayName="English (Singapore)" />
-    <LocaleInfo locale="en_ZA" label="English (South Africa)" getDisplayName="English (South Africa)" />
-    <LocaleInfo locale="en_GB_watch" label="English (United Kingdom,WATCH)" getDisplayName="English (United Kingdom,WATCH)" />
-    <LocaleInfo locale="en_GB" label="English (United Kingdom)" getDisplayName="English (United Kingdom)" />
-    <LocaleInfo locale="en_US" label="English (United States)" getDisplayName="English (United States)" />
-    <LocaleInfo locale="es_ES" label="Español (España)" getDisplayName="Spanish (Spain)" />
-    <LocaleInfo locale="es_US_watch" label="Español (Estados Unidos,WATCH)" getDisplayName="Spanish (United States,WATCH)" />
-    <LocaleInfo locale="es_US" label="Español (Estados Unidos)" getDisplayName="Spanish (United States)" />
-    <LocaleInfo locale="eu_ES_watch" label="Euskara (Espainia,WATCH)" getDisplayName="Basque (Spain,WATCH)" />
-    <LocaleInfo locale="eu_ES" label="Euskara (Espainia)" getDisplayName="Basque (Spain)" />
-    <LocaleInfo locale="fr_BE" label="Français (Belgique)" getDisplayName="French (Belgium)" />
-    <LocaleInfo locale="fr_CA_watch" label="Français (Canada,WATCH)" getDisplayName="French (Canada,WATCH)" />
-    <LocaleInfo locale="fr_CA" label="Français (Canada)" getDisplayName="French (Canada)" />
-    <LocaleInfo locale="fr_FR" label="Français (France)" getDisplayName="French (France)" />
-    <LocaleInfo locale="fr_CH" label="Français (Suisse)" getDisplayName="French (Switzerland)" />
-    <LocaleInfo locale="gl_ES_watch" label="Galego (España,WATCH)" getDisplayName="Galician (Spain,WATCH)" />
-    <LocaleInfo locale="gl_ES" label="Galego (España)" getDisplayName="Galician (Spain)" />
-    <LocaleInfo locale="hr_HR" label="Hrvatski" getDisplayName="Croatian (Croatia)" />
-    <LocaleInfo locale="zu_ZA" label="IsiZulu" getDisplayName="Zulu (South Africa)" />
-    <LocaleInfo locale="is_IS_watch" label="Íslenska (Ísland,WATCH)" getDisplayName="Icelandic (Iceland,WATCH)" />
-    <LocaleInfo locale="is_IS" label="Íslenska (Ísland)" getDisplayName="Icelandic (Iceland)" />
-    <LocaleInfo locale="it_IT" label="Italiano (Italia)" getDisplayName="Italian (Italy)" />
-    <LocaleInfo locale="it_CH" label="Italiano (Svizzera)" getDisplayName="Italian (Switzerland)" />
-    <LocaleInfo locale="sw_TZ" label="Kiswahili" getDisplayName="Swahili (Tanzania)" />
-    <LocaleInfo locale="lv_LV" label="Latviešu" getDisplayName="Latvian (Latvia)" />
-    <LocaleInfo locale="lt_LT" label="Lietuvių" getDisplayName="Lithuanian (Lithuania)" />
-    <LocaleInfo locale="hu_HU" label="Magyar" getDisplayName="Hungarian (Hungary)" />
-    <LocaleInfo locale="nl_BE" label="Nederlands (België)" getDisplayName="Dutch (Belgium)" />
-    <LocaleInfo locale="nl_NL" label="Nederlands (Nederland)" getDisplayName="Dutch (Netherlands)" />
-    <LocaleInfo locale="nb_NO" label="Norsk bokmål" getDisplayName="Norwegian Bokmål (Norway)" />
-    <LocaleInfo locale="uz_UZ_watch" label="Oʻzbekcha (Oʻzbekiston,WATCH)" getDisplayName="Uzbek (Uzbekistan,WATCH)" />
-    <LocaleInfo locale="uz_UZ" label="Oʻzbekcha (Oʻzbekiston)" getDisplayName="Uzbek (Uzbekistan)" />
-    <LocaleInfo locale="pl_PL" label="Polski" getDisplayName="Polish (Poland)" />
-    <LocaleInfo locale="pt_BR_watch" label="Português (Brasil,WATCH)" getDisplayName="Portuguese (Brazil,WATCH)" />
-    <LocaleInfo locale="pt_BR" label="Português (Brasil)" getDisplayName="Portuguese (Brazil)" />
-    <LocaleInfo locale="pt_PT_watch" label="Português (Portugal,WATCH)" getDisplayName="Portuguese (Portugal,WATCH)" />
-    <LocaleInfo locale="pt_PT" label="Português (Portugal)" getDisplayName="Portuguese (Portugal)" />
-    <LocaleInfo locale="ro_RO" label="Română" getDisplayName="Romanian (Romania)" />
-    <LocaleInfo locale="rm_CH" label="Rumantsch" getDisplayName="Romansh (Switzerland)" />
-    <LocaleInfo locale="sq_AL_watch" label="Shqip (Shqipëri,WATCH)" getDisplayName="Albanian (Albania,WATCH)" />
-    <LocaleInfo locale="sq_AL" label="Shqip (Shqipëri)" getDisplayName="Albanian (Albania)" />
-    <LocaleInfo locale="sk_SK" label="Slovenčina" getDisplayName="Slovak (Slovakia)" />
-    <LocaleInfo locale="sl_SI" label="Slovenščina" getDisplayName="Slovenian (Slovenia)" />
-    <LocaleInfo locale="fi_FI" label="Suomi" getDisplayName="Finnish (Finland)" />
-    <LocaleInfo locale="sv_SE" label="Svenska" getDisplayName="Swedish (Sweden)" />
-    <LocaleInfo locale="vi_VN" label="Tiếng Việt" getDisplayName="Vietnamese (Vietnam)" />
-    <LocaleInfo locale="tl_PH" label="Tl" getDisplayName="Tagalog (Philippines)" />
-    <LocaleInfo locale="tr_TR" label="Türkçe" getDisplayName="Turkish (Turkey)" />
-    <LocaleInfo locale="el_GR" label="Ελληνικά" getDisplayName="Greek (Greece)" />
-    <LocaleInfo locale="bg_BG" label="Български" getDisplayName="Bulgarian (Bulgaria)" />
-    <LocaleInfo locale="ky_KG_watch" label="Кыргызча (Кыргызстан,WATCH)" getDisplayName="Kyrgyz (Kyrgyzstan,WATCH)" />
-    <LocaleInfo locale="ky_KG" label="Кыргызча (Кыргызстан)" getDisplayName="Kyrgyz (Kyrgyzstan)" />
-    <LocaleInfo locale="kk_KZ_watch" label="Қазақ тілі (Қазақстан,WATCH)" getDisplayName="Kazakh (Kazakhstan,WATCH)" />
-    <LocaleInfo locale="kk_KZ" label="Қазақ тілі (Қазақстан)" getDisplayName="Kazakh (Kazakhstan)" />
-    <LocaleInfo locale="mk_MK_watch" label="Македонски (Македонија,WATCH)" getDisplayName="Macedonian (Macedonia (FYROM),WATCH)" />
-    <LocaleInfo locale="mk_MK" label="Македонски (Македонија)" getDisplayName="Macedonian (Macedonia (FYROM))" />
-    <LocaleInfo locale="mn_MN_watch" label="Монгол (Монгол,WATCH)" getDisplayName="Mongolian (Mongolia,WATCH)" />
-    <LocaleInfo locale="mn_MN" label="Монгол (Монгол)" getDisplayName="Mongolian (Mongolia)" />
-    <LocaleInfo locale="ru_RU" label="Русский" getDisplayName="Russian (Russia)" />
-    <LocaleInfo locale="sr_RS" label="Српски" getDisplayName="Serbian (Serbia)" />
-    <LocaleInfo locale="uk_UA" label="Українська" getDisplayName="Ukrainian (Ukraine)" />
-    <LocaleInfo locale="ka_GE_watch" label="ქართული (საქართველო,WATCH)" getDisplayName="Georgian (Georgia,WATCH)" />
-    <LocaleInfo locale="ka_GE" label="ქართული (საქართველო)" getDisplayName="Georgian (Georgia)" />
-    <LocaleInfo locale="hy_AM_watch" label="Հայերեն (Հայաստան,WATCH)" getDisplayName="Armenian (Armenia,WATCH)" />
-    <LocaleInfo locale="hy_AM" label="Հայերեն (Հայաստան)" getDisplayName="Armenian (Armenia)" />
-    <LocaleInfo locale="iw_IL" label="עברית" getDisplayName="Hebrew (Israel)" />
-    <LocaleInfo locale="ur_PK_watch" label="اردو (پاکستان,WATCH)" getDisplayName="Urdu (Pakistan,WATCH)" />
-    <LocaleInfo locale="ur_PK" label="اردو (پاکستان)" getDisplayName="Urdu (Pakistan)" />
-    <LocaleInfo locale="ar_EG" label="العربية" getDisplayName="Arabic (Egypt)" />
-    <LocaleInfo locale="ar_IL" label="العربية (إسرائيل)" getDisplayName="Arabic (Israel)" />
-    <LocaleInfo locale="fa_IR" label="فارسی" getDisplayName="Persian (Iran)" />
-    <LocaleInfo locale="am_ET" label="አማርኛ" getDisplayName="Amharic (Ethiopia)" />
-    <LocaleInfo locale="ne_NP_watch" label="नेपाली (नेपाल,WATCH)" getDisplayName="Nepali (Nepal,WATCH)" />
-    <LocaleInfo locale="ne_NP" label="नेपाली (नेपाल)" getDisplayName="Nepali (Nepal)" />
-    <LocaleInfo locale="mr_IN_watch" label="मराठी (भारत,WATCH)" getDisplayName="Marathi (India,WATCH)" />
-    <LocaleInfo locale="mr_IN" label="मराठी (भारत)" getDisplayName="Marathi (India)" />
-    <LocaleInfo locale="hi_IN" label="हिन्दी" getDisplayName="Hindi (India)" />
-    <LocaleInfo locale="bn_BD_watch" label="বাংলা (বাংলাদেশ,WATCH)" getDisplayName="Bengali (Bangladesh,WATCH)" />
-    <LocaleInfo locale="bn_BD" label="বাংলা (বাংলাদেশ)" getDisplayName="Bengali (Bangladesh)" />
-    <LocaleInfo locale="bn_IN" label="বাংলা (ভারত)" getDisplayName="Bengali (India)" />
-    <LocaleInfo locale="pa_IN_watch" label="ਪੰਜਾਬੀ (ਭਾਰਤ,WATCH)" getDisplayName="Punjabi (India,WATCH)" />
-    <LocaleInfo locale="pa_IN" label="ਪੰਜਾਬੀ (ਭਾਰਤ)" getDisplayName="Punjabi (India)" />
-    <LocaleInfo locale="gu_IN_watch" label="ગુજરાતી (ભારત,WATCH)" getDisplayName="Gujarati (India,WATCH)" />
-    <LocaleInfo locale="gu_IN" label="ગુજરાતી (ભારત)" getDisplayName="Gujarati (India)" />
-    <LocaleInfo locale="ta_IN_watch" label="தமிழ் (இந்தியா,WATCH)" getDisplayName="Tamil (India,WATCH)" />
-    <LocaleInfo locale="ta_IN" label="தமிழ் (இந்தியா)" getDisplayName="Tamil (India)" />
-    <LocaleInfo locale="te_IN_watch" label="తెలుగు (భారత దేశం,WATCH)" getDisplayName="Telugu (India,WATCH)" />
-    <LocaleInfo locale="te_IN" label="తెలుగు (భారత దేశం)" getDisplayName="Telugu (India)" />
-    <LocaleInfo locale="kn_IN_watch" label="ಕನ್ನಡ (ಭಾರತ,WATCH)" getDisplayName="Kannada (India,WATCH)" />
-    <LocaleInfo locale="kn_IN" label="ಕನ್ನಡ (ಭಾರತ)" getDisplayName="Kannada (India)" />
-    <LocaleInfo locale="ml_IN_watch" label="മലയാളം (ഇന്ത്യ,WATCH)" getDisplayName="Malayalam (India,WATCH)" />
-    <LocaleInfo locale="ml_IN" label="മലയാളം (ഇന്ത്യ)" getDisplayName="Malayalam (India)" />
-    <LocaleInfo locale="si_LK_watch" label="සිංහල (ශ්‍රී ලංකාව,WATCH)" getDisplayName="Sinhala (Sri Lanka,WATCH)" />
-    <LocaleInfo locale="si_LK" label="සිංහල (ශ්‍රී ලංකාව)" getDisplayName="Sinhala (Sri Lanka)" />
-    <LocaleInfo locale="th_TH" label="ไทย" getDisplayName="Thai (Thailand)" />
-    <LocaleInfo locale="lo_LA_watch" label="ລາວ (ລາວ,WATCH)" getDisplayName="Lao (Laos,WATCH)" />
-    <LocaleInfo locale="lo_LA" label="ລາວ (ລາວ)" getDisplayName="Lao (Laos)" />
-    <LocaleInfo locale="my_ZG" label="ဗမာ (ZG)" getDisplayName="Burmese (ZG)" />
-    <LocaleInfo locale="my_MM_watch" label="ဗမာ (မြန်မာ,WATCH)" getDisplayName="Burmese (Myanmar (Burma),WATCH)" />
-    <LocaleInfo locale="my_MM" label="ဗမာ (မြန်မာ)" getDisplayName="Burmese (Myanmar (Burma))" />
-    <LocaleInfo locale="km_KH_watch" label="ខ្មែរ (កម្ពុជា,WATCH)" getDisplayName="Khmer (Cambodia,WATCH)" />
-    <LocaleInfo locale="km_KH" label="ខ្មែរ (កម្ពុជា)" getDisplayName="Khmer (Cambodia)" />
-    <LocaleInfo locale="ko_KR" label="한국어" getDisplayName="Korean (South Korea)" />
-    <LocaleInfo locale="zh_CN_watch" label="中文 (中国,WATCH)" getDisplayName="Chinese (China,WATCH)" />
-    <LocaleInfo locale="zh_TW_watch" label="中文 (台灣,WATCH)" getDisplayName="Chinese (Taiwan,WATCH)" />
-    <LocaleInfo locale="zh_CN" label="中文 (简体)" getDisplayName="Chinese (China)" />
-    <LocaleInfo locale="zh_TW" label="中文 (繁體)" getDisplayName="Chinese (Taiwan)" />
-    <LocaleInfo locale="zh_HK_watch" label="中文 (香港,WATCH)" getDisplayName="Chinese (Hong Kong,WATCH)" />
-    <LocaleInfo locale="zh_HK" label="中文 (香港)" getDisplayName="Chinese (Hong Kong)" />
-    <LocaleInfo locale="ja_JP" label="日本語" getDisplayName="Japanese (Japan)" />
+    <language locale="af_ZA" label="Afrikaans" name="Afrikaans (South Africa)" name="南非荷兰文 (南非)" />
+    <language locale="az_AZ_watch" label="Azərbaycan (Azərbaycan,WATCH)" name="Azerbaijani (Azerbaijan,WATCH)" name="阿塞拜疆文 (阿塞拜疆,WATCH)" />
+    <language locale="az_AZ" label="Azərbaycan (Azərbaycan)" name="Azerbaijani (Azerbaijan)" name="阿塞拜疆文 (阿塞拜疆)" />
+    <language locale="in_ID" label="Bahasa Indonesia" name="Indonesian (Indonesia)" name="印度尼西亚文 (印度尼西亚)" />
+    <language locale="ms_MY_watch" label="Bahasa Melayu (Malaysia,WATCH)" name="Malay (Malaysia,WATCH)" name="马来文 (马来西亚,WATCH)" />
+    <language locale="ms_MY" label="Bahasa Melayu (Malaysia)" name="Malay (Malaysia)" name="马来文 (马来西亚)" />
+    <language locale="ca_ES" label="Català" name="Catalan (Spain)" name="加泰罗尼亚文 (西班牙)" />
+    <language locale="cs_CZ" label="Čeština" name="Czech (Czech Republic)" name="捷克文 (捷克共和国)" />
+    <language locale="da_DK" label="Dansk" name="Danish (Denmark)" name="丹麦文 (丹麦)" />
+    <language locale="de_DE" label="Deutsch (Deutschland)" name="German (Germany)" name="德文 (德国)" />
+    <language locale="de_LI" label="Deutsch (Liechtenstein)" name="German (Liechtenstein)" name="德文 (列支敦士登)" />
+    <language locale="de_AT" label="Deutsch (Österreich)" name="German (Austria)" name="德文 (奥地利)" />
+    <language locale="de_CH" label="Deutsch (Schweiz)" name="German (Switzerland)" name="德文 (瑞士)" />
+    <language locale="et_EE_watch" label="Eesti (Eesti,WATCH)" name="Estonian (Estonia,WATCH)" name="爱沙尼亚文 (爱沙尼亚,WATCH)" />
+    <language locale="et_EE" label="Eesti (Eesti)" name="Estonian (Estonia)" name="爱沙尼亚文 (爱沙尼亚)" />
+    <language locale="en_AU_watch" label="English (Australia,WATCH)" name="English (Australia,WATCH)" name="英文 (澳大利亚,WATCH)" />
+    <language locale="en_AU" label="English (Australia)" name="English (Australia)" name="英文 (澳大利亚)" />
+    <language locale="en_CA" label="English (Canada)" name="English (Canada)" name="英文 (加拿大)" />
+    <language locale="en_IN_watch" label="English (India,WATCH)" name="English (India,WATCH)" name="英文 (印度,WATCH)" />
+    <language locale="en_IN" label="English (India)" name="English (India)" name="英文 (印度)" />
+    <language locale="en_IE" label="English (Ireland)" name="English (Ireland)" name="英文 (爱尔兰)" />
+    <language locale="en_NZ" label="English (New Zealand)" name="English (New Zealand)" name="英文 (新西兰)" />
+    <language locale="en_SG" label="English (Singapore)" name="English (Singapore)" name="英文 (新加坡)" />
+    <language locale="en_ZA" label="English (South Africa)" name="English (South Africa)" name="英文 (南非)" />
+    <language locale="en_GB_watch" label="English (United Kingdom,WATCH)" name="English (United Kingdom,WATCH)" name="英文 (英国,WATCH)" />
+    <language locale="en_GB" label="English (United Kingdom)" name="English (United Kingdom)" name="英文 (英国)" />
+    <language locale="en_US" label="English (United States)" name="English (United States)" name="英文 (美国)" />
+    <language locale="es_ES" label="Español (España)" name="Spanish (Spain)" name="西班牙文 (西班牙)" />
+    <language locale="es_US_watch" label="Español (Estados Unidos,WATCH)" name="Spanish (United States,WATCH)" name="西班牙文 (美国,WATCH)" />
+    <language locale="es_US" label="Español (Estados Unidos)" name="Spanish (United States)" name="西班牙文 (美国)" />
+    <language locale="eu_ES_watch" label="Euskara (Espainia,WATCH)" name="Basque (Spain,WATCH)" name="巴斯克文 (西班牙,WATCH)" />
+    <language locale="eu_ES" label="Euskara (Espainia)" name="Basque (Spain)" name="巴斯克文 (西班牙)" />
+    <language locale="fr_BE" label="Français (Belgique)" name="French (Belgium)" name="法文 (比利时)" />
+    <language locale="fr_CA_watch" label="Français (Canada,WATCH)" name="French (Canada,WATCH)" name="法文 (加拿大,WATCH)" />
+    <language locale="fr_CA" label="Français (Canada)" name="French (Canada)" name="法文 (加拿大)" />
+    <language locale="fr_FR" label="Français (France)" name="French (France)" name="法文 (法国)" />
+    <language locale="fr_CH" label="Français (Suisse)" name="French (Switzerland)" name="法文 (瑞士)" />
+    <language locale="gl_ES_watch" label="Galego (España,WATCH)" name="Galician (Spain,WATCH)" name="加利西亚文 (西班牙,WATCH)" />
+    <language locale="gl_ES" label="Galego (España)" name="Galician (Spain)" name="加利西亚文 (西班牙)" />
+    <language locale="hr_HR" label="Hrvatski" name="Croatian (Croatia)" name="克罗地亚文 (克罗地亚)" />
+    <language locale="zu_ZA" label="IsiZulu" name="Zulu (South Africa)" name="祖鲁文 (南非)" />
+    <language locale="is_IS_watch" label="Íslenska (Ísland,WATCH)" name="Icelandic (Iceland,WATCH)" name="冰岛文 (冰岛,WATCH)" />
+    <language locale="is_IS" label="Íslenska (Ísland)" name="Icelandic (Iceland)" name="冰岛文 (冰岛)" />
+    <language locale="it_IT" label="Italiano (Italia)" name="Italian (Italy)" name="意大利文 (意大利)" />
+    <language locale="it_CH" label="Italiano (Svizzera)" name="Italian (Switzerland)" name="意大利文 (瑞士)" />
+    <language locale="sw_TZ" label="Kiswahili" name="Swahili (Tanzania)" name="斯瓦希里文 (坦桑尼亚)" />
+    <language locale="lv_LV" label="Latviešu" name="Latvian (Latvia)" name="拉脱维亚文 (拉脱维亚)" />
+    <language locale="lt_LT" label="Lietuvių" name="Lithuanian (Lithuania)" name="立陶宛文 (立陶宛)" />
+    <language locale="hu_HU" label="Magyar" name="Hungarian (Hungary)" name="匈牙利文 (匈牙利)" />
+    <language locale="nl_BE" label="Nederlands (België)" name="Dutch (Belgium)" name="荷兰文 (比利时)" />
+    <language locale="nl_NL" label="Nederlands (Nederland)" name="Dutch (Netherlands)" name="荷兰文 (荷兰)" />
+    <language locale="nb_NO" label="Norsk bokmål" name="Norwegian Bokmål (Norway)" name="挪威博克马尔文 (挪威)" />
+    <language locale="uz_UZ_watch" label="Oʻzbekcha (Oʻzbekiston,WATCH)" name="Uzbek (Uzbekistan,WATCH)" name="乌兹别克文 (乌兹别克斯坦,WATCH)" />
+    <language locale="uz_UZ" label="Oʻzbekcha (Oʻzbekiston)" name="Uzbek (Uzbekistan)" name="乌兹别克文 (乌兹别克斯坦)" />
+    <language locale="pl_PL" label="Polski" name="Polish (Poland)" name="波兰文 (波兰)" />
+    <language locale="pt_BR_watch" label="Português (Brasil,WATCH)" name="Portuguese (Brazil,WATCH)" name="葡萄牙文 (巴西,WATCH)" />
+    <language locale="pt_BR" label="Português (Brasil)" name="Portuguese (Brazil)" name="葡萄牙文 (巴西)" />
+    <language locale="pt_PT_watch" label="Português (Portugal,WATCH)" name="Portuguese (Portugal,WATCH)" name="葡萄牙文 (葡萄牙,WATCH)" />
+    <language locale="pt_PT" label="Português (Portugal)" name="Portuguese (Portugal)" name="葡萄牙文 (葡萄牙)" />
+    <language locale="ro_RO" label="Română" name="Romanian (Romania)" name="罗马尼亚文 (罗马尼亚)" />
+    <language locale="rm_CH" label="Rumantsch" name="Romansh (Switzerland)" name="罗曼什文 (瑞士)" />
+    <language locale="sq_AL_watch" label="Shqip (Shqipëri,WATCH)" name="Albanian (Albania,WATCH)" name="阿尔巴尼亚文 (阿尔巴尼亚,WATCH)" />
+    <language locale="sq_AL" label="Shqip (Shqipëri)" name="Albanian (Albania)" name="阿尔巴尼亚文 (阿尔巴尼亚)" />
+    <language locale="sk_SK" label="Slovenčina" name="Slovak (Slovakia)" name="斯洛伐克文 (斯洛伐克)" />
+    <language locale="sl_SI" label="Slovenščina" name="Slovenian (Slovenia)" name="斯洛文尼亚文 (斯洛文尼亚)" />
+    <language locale="fi_FI" label="Suomi" name="Finnish (Finland)" name="芬兰文 (芬兰)" />
+    <language locale="sv_SE" label="Svenska" name="Swedish (Sweden)" name="瑞典文 (瑞典)" />
+    <language locale="vi_VN" label="Tiếng Việt" name="Vietnamese (Vietnam)" name="越南文 (越南)" />
+    <language locale="tl_PH" label="Tl" name="Tagalog (Philippines)" name="塔加洛文 (菲律宾)" />
+    <language locale="tr_TR" label="Türkçe" name="Turkish (Turkey)" name="土耳其文 (土耳其)" />
+    <language locale="el_GR" label="Ελληνικά" name="Greek (Greece)" name="希腊文 (希腊)" />
+    <language locale="bg_BG" label="Български" name="Bulgarian (Bulgaria)" name="保加利亚文 (保加利亚)" />
+    <language locale="ky_KG_watch" label="Кыргызча (Кыргызстан,WATCH)" name="Kyrgyz (Kyrgyzstan,WATCH)" name="吉尔吉斯文 (吉尔吉斯斯坦,WATCH)" />
+    <language locale="ky_KG" label="Кыргызча (Кыргызстан)" name="Kyrgyz (Kyrgyzstan)" name="吉尔吉斯文 (吉尔吉斯斯坦)" />
+    <language locale="kk_KZ_watch" label="Қазақ тілі (Қазақстан,WATCH)" name="Kazakh (Kazakhstan,WATCH)" name="哈萨克文 (哈萨克斯坦,WATCH)" />
+    <language locale="kk_KZ" label="Қазақ тілі (Қазақстан)" name="Kazakh (Kazakhstan)" name="哈萨克文 (哈萨克斯坦)" />
+    <language locale="mk_MK_watch" label="Македонски (Македонија,WATCH)" name="Macedonian (Macedonia (FYROM),WATCH)" name="马其顿文 (马其顿,WATCH)" />
+    <language locale="mk_MK" label="Македонски (Македонија)" name="Macedonian (Macedonia (FYROM))" name="马其顿文 (马其顿)" />
+    <language locale="mn_MN_watch" label="Монгол (Монгол,WATCH)" name="Mongolian (Mongolia,WATCH)" name="蒙古文 (蒙古,WATCH)" />
+    <language locale="mn_MN" label="Монгол (Монгол)" name="Mongolian (Mongolia)" name="蒙古文 (蒙古)" />
+    <language locale="ru_RU" label="Русский" name="Russian (Russia)" name="俄文 (俄罗斯)" />
+    <language locale="sr_RS" label="Српски" name="Serbian (Serbia)" name="塞尔维亚文 (塞尔维亚)" />
+    <language locale="uk_UA" label="Українська" name="Ukrainian (Ukraine)" name="乌克兰文 (乌克兰)" />
+    <language locale="ka_GE_watch" label="ქართული (საქართველო,WATCH)" name="Georgian (Georgia,WATCH)" name="格鲁吉亚文 (格鲁吉亚,WATCH)" />
+    <language locale="ka_GE" label="ქართული (საქართველო)" name="Georgian (Georgia)" name="格鲁吉亚文 (格鲁吉亚)" />
+    <language locale="hy_AM_watch" label="Հայերեն (Հայաստան,WATCH)" name="Armenian (Armenia,WATCH)" name="亚美尼亚文 (亚美尼亚,WATCH)" />
+    <language locale="hy_AM" label="Հայերեն (Հայաստան)" name="Armenian (Armenia)" name="亚美尼亚文 (亚美尼亚)" />
+    <language locale="iw_IL" label="עברית" name="Hebrew (Israel)" name="希伯来文 (以色列)" />
+    <language locale="ur_PK_watch" label="اردو (پاکستان,WATCH)" name="Urdu (Pakistan,WATCH)" name="乌尔都文 (巴基斯坦,WATCH)" />
+    <language locale="ur_PK" label="اردو (پاکستان)" name="Urdu (Pakistan)" name="乌尔都文 (巴基斯坦)" />
+    <language locale="ar_EG" label="العربية" name="Arabic (Egypt)" name="阿拉伯文 (埃及)" />
+    <language locale="ar_IL" label="العربية (إسرائيل)" name="Arabic (Israel)" name="阿拉伯文 (以色列)" />
+    <language locale="fa_IR" label="فارسی" name="Persian (Iran)" name="波斯文 (伊朗)" />
+    <language locale="am_ET" label="አማርኛ" name="Amharic (Ethiopia)" name="阿姆哈拉文 (埃塞俄比亚)" />
+    <language locale="ne_NP_watch" label="नेपाली (नेपाल,WATCH)" name="Nepali (Nepal,WATCH)" name="尼泊尔文 (尼泊尔,WATCH)" />
+    <language locale="ne_NP" label="नेपाली (नेपाल)" name="Nepali (Nepal)" name="尼泊尔文 (尼泊尔)" />
+    <language locale="mr_IN_watch" label="मराठी (भारत,WATCH)" name="Marathi (India,WATCH)" name="马拉地文 (印度,WATCH)" />
+    <language locale="mr_IN" label="मराठी (भारत)" name="Marathi (India)" name="马拉地文 (印度)" />
+    <language locale="hi_IN" label="हिन्दी" name="Hindi (India)" name="印地文 (印度)" />
+    <language locale="bn_BD_watch" label="বাংলা (বাংলাদেশ,WATCH)" name="Bengali (Bangladesh,WATCH)" name="孟加拉文 (孟加拉国,WATCH)" />
+    <language locale="bn_BD" label="বাংলা (বাংলাদেশ)" name="Bengali (Bangladesh)" name="孟加拉文 (孟加拉国)" />
+    <language locale="bn_IN" label="বাংলা (ভারত)" name="Bengali (India)" name="孟加拉文 (印度)" />
+    <language locale="pa_IN_watch" label="ਪੰਜਾਬੀ (ਭਾਰਤ,WATCH)" name="Punjabi (India,WATCH)" name="旁遮普文 (印度,WATCH)" />
+    <language locale="pa_IN" label="ਪੰਜਾਬੀ (ਭਾਰਤ)" name="Punjabi (India)" name="旁遮普文 (印度)" />
+    <language locale="gu_IN_watch" label="ગુજરાતી (ભારત,WATCH)" name="Gujarati (India,WATCH)" name="古吉拉特文 (印度,WATCH)" />
+    <language locale="gu_IN" label="ગુજરાતી (ભારત)" name="Gujarati (India)" name="古吉拉特文 (印度)" />
+    <language locale="ta_IN_watch" label="தமிழ் (இந்தியா,WATCH)" name="Tamil (India,WATCH)" name="泰米尔文 (印度,WATCH)" />
+    <language locale="ta_IN" label="தமிழ் (இந்தியா)" name="Tamil (India)" name="泰米尔文 (印度)" />
+    <language locale="te_IN_watch" label="తెలుగు (భారత దేశం,WATCH)" name="Telugu (India,WATCH)" name="泰卢固文 (印度,WATCH)" />
+    <language locale="te_IN" label="తెలుగు (భారత దేశం)" name="Telugu (India)" name="泰卢固文 (印度)" />
+    <language locale="kn_IN_watch" label="ಕನ್ನಡ (ಭಾರತ,WATCH)" name="Kannada (India,WATCH)" name="卡纳达文 (印度,WATCH)" />
+    <language locale="kn_IN" label="ಕನ್ನಡ (ಭಾರತ)" name="Kannada (India)" name="卡纳达文 (印度)" />
+    <language locale="ml_IN_watch" label="മലയാളം (ഇന്ത്യ,WATCH)" name="Malayalam (India,WATCH)" name="马拉雅拉姆文 (印度,WATCH)" />
+    <language locale="ml_IN" label="മലയാളം (ഇന്ത്യ)" name="Malayalam (India)" name="马拉雅拉姆文 (印度)" />
+    <language locale="si_LK_watch" label="සිංහල (ශ්‍රී ලංකාව,WATCH)" name="Sinhala (Sri Lanka,WATCH)" name="僧伽罗文 (斯里兰卡,WATCH)" />
+    <language locale="si_LK" label="සිංහල (ශ්‍රී ලංකාව)" name="Sinhala (Sri Lanka)" name="僧伽罗文 (斯里兰卡)" />
+    <language locale="th_TH" label="ไทย" name="Thai (Thailand)" name="泰文 (泰国)" />
+    <language locale="lo_LA_watch" label="ລາວ (ລາວ,WATCH)" name="Lao (Laos,WATCH)" name="老挝文 (老挝,WATCH)" />
+    <language locale="lo_LA" label="ລາວ (ລາວ)" name="Lao (Laos)" name="老挝文 (老挝)" />
+    <language locale="my_ZG" label="ဗမာ (ZG)" name="Burmese (ZG)" name="缅甸文 (ZG)" />
+    <language locale="my_MM_watch" label="ဗမာ (မြန်မာ,WATCH)" name="Burmese (Myanmar (Burma),WATCH)" name="缅甸文 (缅甸,WATCH)" />
+    <language locale="my_MM" label="ဗမာ (မြန်မာ)" name="Burmese (Myanmar (Burma))" name="缅甸文 (缅甸)" />
+    <language locale="km_KH_watch" label="ខ្មែរ (កម្ពុជា,WATCH)" name="Khmer (Cambodia,WATCH)" name="高棉文 (柬埔寨,WATCH)" />
+    <language locale="km_KH" label="ខ្មែរ (កម្ពុជា)" name="Khmer (Cambodia)" name="高棉文 (柬埔寨)" />
+    <language locale="ko_KR" label="한국어" name="Korean (South Korea)" name="韩文 (韩国)" />
+    <language locale="zh_CN_watch" label="中文 (中国,WATCH)" name="Chinese (China,WATCH)" name="中文 (中国,WATCH)" />
+    <language locale="zh_TW_watch" label="中文 (台灣,WATCH)" name="Chinese (Taiwan,WATCH)" name="中文 (台湾,WATCH)" />
+    <language locale="zh_CN" label="中文 (简体)" name="Chinese (China)" name="中文 (中国)" />
+    <language locale="zh_TW" label="中文 (繁體)" name="Chinese (Taiwan)" name="中文 (台湾)" />
+    <language locale="zh_HK_watch" label="中文 (香港,WATCH)" name="Chinese (Hong Kong,WATCH)" name="中文 (香港,WATCH)" />
+    <language locale="zh_HK" label="中文 (香港)" name="Chinese (Hong Kong)" name="中文 (香港)" />
+    <language locale="ja_JP" label="日本語" name="Japanese (Japan)" name="日文 (日本)" />
 </Languages>
