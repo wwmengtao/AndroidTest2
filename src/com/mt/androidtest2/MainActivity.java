@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
 		//showNotification(this,1,null);
 		//3、获取当前手机的所有语言列表
 		//showAllLocales(1);
-		saveAllLocales(2,false);//保存语言信息，不需要细节内容
+		saveAllLocales(1,false);//保存语言信息，不需要细节内容
 		//4、判断当前手机VIBEUI的版本
 		//String lvpVersion = getLVPVersion();
 		//boolean isVibeUI3_5 = (null!=lvpVersion&&lvpVersion.contains("V3.5"));
@@ -258,7 +258,16 @@ public class MainActivity extends Activity {
 				mMergedLocaleInfoList.add(new MergedLocaleInfo(mLocaleInfo));
 			}
 		}else if(1==type){
-			final String[] locales = {"en_US","en_AU","en_IN","fr_FR","it_IT","es_ES","et_EE","de_DE","nl_NL","cs_CZ","pl_PL","ja_JP","zh_TW","zh_CN","zh_HK","ru_RU","ko_KR","nb_NO","es_US","da_DK","el_GR","tr_TR","pt_PT","pt_BR","rm_CH","sv_SE","bg_BG","ca_ES","en_GB","fi_FI","hi_IN","hr_HR","hu_HU","in_ID","iw_IL","lt_LT","lv_LV","ro_RO","sk_SK","sl_SI","sr_RS","uk_UA","vi_VN","tl_PH","ar_EG","fa_IR","th_TH","sw_TZ","ms_MY","af_ZA","zu_ZA","am_ET","hi_IN","en_XA","ar_XB","fr_CA","km_KH","lo_LA","ne_NP","si_LK","mn_MN","hy_AM","az_AZ","ka_GE","my_MM","mr_IN","ml_IN","is_IS","mk_MK","ky_KG","eu_ES","gl_ES","bn_BD","ta_IN","kn_IN","te_IN","uz_UZ","ur_PK","kk_KZ","sq_AL","gu_IN","pa_IN"};
+			/**下列字符串数组内容必须带后缀，下列形式是不可以的
+			 * <locales>ar,bg,cs,el,es-rUS,fa,fr,hr,hu,in,ms,pt-rBR,pt-rPT,ro,ru,sk,sl,sr-rRS,ur-rPK,th,tr,uk,vi,zh-rTW,zh-rCN,zh-rHK,hi</locales>
+			 * 下列形式可以：
+			 * en_US en_GB en_IN zh_CN zh_HK zh_TW in_ID vi_VN ru_RU ms_MY ar_EG th_TH uk_UA fr_FR ro_RO el_GR hu_HU bg_BG hr_HR sl_SI sk_SK es_US sr_RS tr_TR cs_CZ pt_PT pt_BR fa_IR hi_IN ur_PK bn_BD my_MM my_ZG en_ZG
+			 * 
+			 */
+			//final String[] locales = {"en_US","en_AU","en_IN","fr_FR","it_IT","es_ES","et_EE","de_DE","nl_NL","cs_CZ","pl_PL","ja_JP","zh_TW","zh_CN","zh_HK","ru_RU","ko_KR","nb_NO","es_US","da_DK","el_GR","tr_TR","pt_PT","pt_BR","rm_CH","sv_SE","bg_BG","ca_ES","en_GB","fi_FI","hi_IN","hr_HR","hu_HU","in_ID","iw_IL","lt_LT","lv_LV","ro_RO","sk_SK","sl_SI","sr_RS","uk_UA","vi_VN","tl_PH","ar_EG","fa_IR","th_TH","sw_TZ","ms_MY","af_ZA","zu_ZA","am_ET","hi_IN","en_XA","ar_XB","fr_CA","km_KH","lo_LA","ne_NP","si_LK","mn_MN","hy_AM","az_AZ","ka_GE","my_MM","mr_IN","ml_IN","is_IS","mk_MK","ky_KG","eu_ES","gl_ES","bn_BD","ta_IN","kn_IN","te_IN","uz_UZ","ur_PK","kk_KZ","sq_AL","gu_IN","pa_IN"};
+			String localesStr="en_US en_GB en_IN zh_CN zh_HK zh_TW in_ID vi_VN ru_RU ms_MY ar_EG th_TH uk_UA fr_FR ro_RO el_GR hu_HU bg_BG hr_HR sl_SI sk_SK es_US sr_RS tr_TR cs_CZ pt_PT pt_BR fa_IR hi_IN ur_PK bn_BD my_MM my_ZG en_ZG";
+			String [] locales=null;
+			locales=localesStr.split(" ");
 			List<Languages.LocaleInfo> mLanguagesLocaleInfoList =null;
 			mLanguagesLocaleInfoList = Languages.getAllAssetLocalesFromStrings(this, locales, true);
 			if(null!=mLanguagesLocaleInfoList&&mLanguagesLocaleInfoList.size()>0){
@@ -270,6 +279,7 @@ public class MainActivity extends Activity {
             ArrayList<String>mLanguagesArrayList = new ArrayList<String>();			
 			List<Languages.LocaleInfo> mLanguagesLocaleInfoList2 = null;
 	        try { 
+	        	//languagesIn.txt文件内容格式：values-pt-rPT、./values-pt-rPT，不带后缀(比如values-pt)的不可以
 	        	InputStreamReader inputReader = new InputStreamReader(getResources().getAssets().open("locales/languagesIn.txt")); 
 	            BufferedReader bufReader = new BufferedReader(inputReader);
 	            String line=null;
@@ -301,6 +311,7 @@ public class MainActivity extends Activity {
 	public String refine(String line){
 		String str=line;
 		String [][]tags_values={{"./values-",""},
+											   {"values-",""},
 											   {"-r","-"}};
     	for(int i=0;i<tags_values.length;i++){//tags_values.length: the columns of the array
     		if(line.contains(tags_values[i][0])){
