@@ -8,12 +8,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
 import org.apache.http.util.EncodingUtils;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Environment;
+
 import com.example.androidtest2.R;
 
 public class fileOperate {
