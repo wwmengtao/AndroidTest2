@@ -13,16 +13,19 @@ import android.widget.Button;
 
 import com.example.androidtest2.R;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements View.OnClickListener{
 	boolean isLogRun=true;
 	private static final String NOTIFICATION_ID = "CaptivePortal.Notification";
 	Button btn=null;
+	int [] buttonID = {R.id.btn};
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		btn=(Button)findViewById(R.id.btn);
-		btn.setOnClickListener(viewListener);
+		for(int i=0;i<buttonID.length;i++){
+			btn = (Button)findViewById(buttonID[i]);
+			btn.setOnClickListener(this);
+		}
 	}
 
 	@Override
@@ -82,19 +85,18 @@ public class MainActivity extends Activity {
 		//mfileOperate.copyFilesFassets(this,"",getExternalFilesDir(null)+File.separator+"myAssets");
 	}
 	
-	View.OnClickListener viewListener = new View.OnClickListener() {
-		@Override
-		public void onClick(View view) {
-			// TODO Auto-generated method stub
-			switch(view.getId()){
-				case R.id.btn:
-					Intent intent = new Intent();  
-					intent.setClass(MainActivity.this, VpnActivity.class);
-					startActivity(intent);//跳转到VpnActivity
-				break;
-			}
+	@Override
+	public void onClick(View view) {
+		// TODO Auto-generated method stub
+		switch(view.getId()){
+			case R.id.btn:
+				Intent intent = new Intent();  
+				intent.setClass(MainActivity.this, VpnActivity.class);
+				startActivity(intent);//跳转到VpnActivity
+			break;
 		}
-	};
+	}
+
     /*
 	[persist.sys.first_time_boot]: [false]
 	[persist.sys.sd.defaultpath]: [/storage/emulated/0]
