@@ -1,7 +1,7 @@
 package com.mt.androidtest2;
 
 import com.android.internal.net.LegacyVpnInfo;
-import com.example.androidtest2.R;
+import com.mt.androidtest2.R;
 import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;

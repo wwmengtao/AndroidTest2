@@ -12,7 +12,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.SystemProperties;
 
-import com.example.androidtest2.R;
+import com.mt.androidtest2.R;
 
 public class Languages {
     static boolean DEBUG = false;    

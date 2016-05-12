@@ -11,7 +11,7 @@ import android.os.SystemProperties;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.androidtest2.R;
+import com.mt.androidtest2.R;
 
 public class MainActivity extends Activity implements View.OnClickListener{
 	boolean isLogRun=true;
