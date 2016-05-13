@@ -1,10 +1,6 @@
 package com.mt.androidtest2;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemProperties;
@@ -15,7 +11,6 @@ import com.mt.androidtest2.R;
 
 public class MainActivity extends Activity implements View.OnClickListener{
 	boolean isLogRun=true;
-	private static final String NOTIFICATION_ID = "CaptivePortal.Notification";
 	Button btn=null;
 	int [] buttonID = {R.id.btn};
 	@Override
@@ -38,18 +33,14 @@ public class MainActivity extends Activity implements View.OnClickListener{
 	@Override
 	public void onPause(){
 		super.onPause();
-		//2、取消通知栏内容的显示
-		//cancelNotification(this, 1);
 	}
 	
 	public void testFunctions(){
-		//0、文件操作
+		//1、文件操作
 		//fileOperation();
-		//1、读写xml文件
+		//2、读写xml文件
 		//ALog.howToWriteToXml(this);
 		//ALog.howToReadFromXml(this);
-		//2、通知栏显示通知
-		//showNotification(this,1,null);
 		//3、获取当前手机的所有语言列表
 		Languages mLanguages = new Languages(this);
 		mLanguages.showCurrentLocale();
@@ -120,54 +111,4 @@ public class MainActivity extends Activity implements View.OnClickListener{
     	String lvpVersion = SystemProperties.get("ro.lenovo.lvp.version");
     	return lvpVersion;
     }
-	/**
-	 * setProvNotificationVisibleIntent：状态栏显示图标，通知栏显示图标及title、details
-	 * @param mContext
-	 * @param id
-	 * @param intent
-	 */
-	private void showNotification(Context mContext,int id,PendingIntent intent) {
-	    NotificationManager notificationManager = (NotificationManager) mContext
-	        .getSystemService(Context.NOTIFICATION_SERVICE);
-	        CharSequence title = "title";
-	        CharSequence details = "details";
-	        int icon = com.android.internal.R.drawable.stat_notify_rssi_in_range;
-	        Notification notification = new Notification.Builder(mContext)
-	                .setWhen(0)
-	                .setSmallIcon(icon)
-	                .setAutoCancel(true)
-	                .setTicker(title)
-	                .setColor(mContext.getColor(
-	                        com.android.internal.R.color.system_notification_accent_color))
-	                .setContentTitle(title)
-	                .setContentText(details)
-	                .setContentIntent(intent)
-	                .setLocalOnly(true)
-	                .setPriority(Notification.PRIORITY_DEFAULT)
-	                .setDefaults(Notification.DEFAULT_ALL)
-	                .setOnlyAlertOnce(true)
-	                .build();
-	        try {
-	            notificationManager.notify(NOTIFICATION_ID, id, notification);
-	        } catch (NullPointerException npe) {
-	        	ALog.Log("setNotificationVisible: visible notificationManager npe=" + npe);
-	            npe.printStackTrace();
-	        }
-	    }
-    
-	/**
-	 * cancelNotification：取消状态栏内容的显示
-	 * @param mContext
-	 * @param id
-	 */
-	public void cancelNotification(Context mContext,int id){
-	    NotificationManager notificationManager = (NotificationManager) mContext
-	            .getSystemService(Context.NOTIFICATION_SERVICE);
-	    try {
-	        notificationManager.cancel(NOTIFICATION_ID, id);
-	    } catch (NullPointerException npe) {
-	        ALog.Log("setNotificationVisible: cancel notificationManager npe=" + npe);
-	        npe.printStackTrace();
-	    }
-	}
 }
