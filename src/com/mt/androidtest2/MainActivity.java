@@ -52,8 +52,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
 		//showNotification(this,1,null);
 		//3、获取当前手机的所有语言列表
 		Languages mLanguages = new Languages(this);
-		mLanguages.showAllLocales(0);
-		mLanguages.saveAllLocales(2,false,true);//保存语言信息，(不)需要细节内容，(不)需要中文注解
+		mLanguages.showCurrentLocale();
+		//mLanguages.showAllLocales(0);
+		//mLanguages.saveAllLocales(2,false,true);//保存语言信息，(不)需要细节内容，(不)需要中文注解
 		//4、判断当前手机VIBEUI的版本
 		//String lvpVersion = getLVPVersion();
 		//boolean isVibeUI3_5 = (null!=lvpVersion&&lvpVersion.contains("V3.5"));

@@ -20,6 +20,15 @@ public class Languages {
 	public Languages(Context mContext){
 		this.mContext = mContext;
 	}
+	
+	/**
+	 * 显示当前设备当前语言信息
+	 */
+	public void showCurrentLocale(){
+		String currentLocale = Locale.getDefault().toString();
+		ALog.Log("currentLocale:"+currentLocale);
+	}
+	
 	/**
 	 * 显示当前设备所有语言信息
 	 */
