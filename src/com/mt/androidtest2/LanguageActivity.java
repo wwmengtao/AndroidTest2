@@ -7,20 +7,52 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.os.SystemProperties;
+import android.view.View;
+import android.widget.AdapterView;
 
-import com.mt.androidtest2.R;
-
-public class Languages {
-    static boolean DEBUG = false;    
-    Context mContext=null;
-	public Languages(Context mContext){
-		this.mContext = mContext;
+public class LanguageActivity extends BaseActivity{
+    private static boolean DEBUG = false;    
+	private Context mContext=null;
+	private String [] mMethodNameFT={"showCurrentLocale","showAllLocales","saveAllLocales"};
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mContext=this;
+		initListFTData(mMethodNameFT);
+		initListActivityData(null);
 	}
 	
+	@Override
+	public void initListFTData(String [] mMethodNameFT){
+		super.initListFTData(mMethodNameFT);
+	}
+	
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View view,	int position, long id) {
+		// TODO Auto-generated method stub
+		String methodName = (String)getListViewAdapterFT().mList.get(position).get("itemText"); 
+		switch(methodName){
+		case "showCurrentLocale":
+			showCurrentLocale();
+			break;
+		case "showAllLocales":
+			showAllLocales(0);
+			break;			
+		case "saveAllLocales":
+			saveAllLocales(2,false,true);//保存语言信息，(不)需要细节内容，(不)需要中文注解
+			break;					
+		}
+	}	
+	
+	@Override
+	public void initListActivityData(String [] mActivitiesName){
+		super.initListActivityData(mActivitiesName);
+	}
 	/**
 	 * 显示当前设备当前语言信息
 	 */
@@ -109,11 +141,16 @@ public class Languages {
 		ALog.endSaving();
     }
 	
+    /**
+     * 获取多种途径的语言列表信息
+     * @param type：指定待获取的语言信息来源：1)手机预置2)字符串数组指定3)assets/locales/languagesIn.txt中指定
+     * @return
+     */
 	public List<LocaleInfo> getLocaleInfoList(int type){
 		List<LocaleInfo>mLocaleInfoList=new ArrayList<LocaleInfo>();
 		if(0==type){//获取设备预置语言信息
 			mLocaleInfoList = getAllAssetLocales(mContext,null,true);
-		}else if(1==type){//获取用户指定(locales中内容所示)语言信息
+		}else if(1==type){//获取用户指定(下列locales中内容所示)语言信息
 			/**下列字符串数组内容必须带后缀，下列形式是不可以的
 			 * <locales>ar,bg,cs,el,es-rUS,fa,fr,hr,hu,in,ms,pt-rBR,pt-rPT,ro,ru,sk,sl,sr-rRS,ur-rPK,th,tr,uk,vi,zh-rTW,zh-rCN,zh-rHK,hi</locales>
 			 * 下列形式可以：
@@ -164,12 +201,13 @@ public class Languages {
     	return str;
 	}
     
-    /**
-     * getAllAssetLocalesFromStrings：获取指定语言代码的语言信息
-     * @param context
-     * @param isInDeveloperMode
-     * @return
-     */
+	/**
+	 * 获取localesAno指定的语言信息
+	 * @param context
+	 * @param localesAno：为null，则获取当前手机的所有预置语言信息
+	 * @param isInDeveloperMode
+	 * @return
+	 */
     public static List<LocaleInfo> getAllAssetLocales(Context context, String[] localesAno, boolean isInDeveloperMode) {
         final Resources resources = context.getResources();
         String[] locales = null;
@@ -297,5 +335,5 @@ public class Languages {
         }
 
         return l.getDisplayName(l);
-    }
+    }	
 }
