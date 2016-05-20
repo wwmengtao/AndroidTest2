@@ -1,18 +1,18 @@
 package com.mt.androidtest2;
 
 import android.app.ListActivity;
-import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-public class BaseActivity extends ListActivity implements AdapterView.OnItemClickListener{
+public class BaseActivity extends ListActivity implements Handler.Callback,AdapterView.OnItemClickListener{
 	boolean isLogRun=true;
+    private Handler mHandler=null;
 	private LinearLayout mLinearlayout_listview_android=null;
 	private LinearLayout mLinearlayout_listview_functions=null;
 	private ListView mListViewFT=null;
@@ -25,8 +25,28 @@ public class BaseActivity extends ListActivity implements AdapterView.OnItemClic
 	}
 	
 	@Override
-	public void onPause(){
+	protected void onResume(){
+		super.onResume();
+        if (mHandler == null) {
+        	mHandler = new Handler(this);
+        }
+	}
+	
+	@Override
+	protected void onPause(){
+		if(null!=mHandler){
+			mHandler.removeCallbacksAndMessages(0);
+		}
 		super.onPause();
+	}
+	
+	public Handler getHandler(){
+		return mHandler;
+	}
+	
+	@Override
+	public boolean handleMessage(Message msg) {
+		return true;
 	}
 	
 	public ListViewAdapter getListViewAdapterFT(){

@@ -8,22 +8,44 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
 import org.apache.http.util.EncodingUtils;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 
 public class FileOperateActivity extends BaseActivity {
 	private Context mContext = null;
-	private String [] mMethodNameFT={"listDirs","writeToFile","readFromFile","readRawResources","getResourcesDescription","listAssets",
-			"getFromAssets","copyFilesFassets"};
+	private Handler mHandler=null;
+	private String [] mMethodNameFT={
+			"listDirs",
+			"writeToFile",
+			"readFromFile",
+			"readRawResources",
+			"getResourcesDescription",
+			"listAssets",
+			"getFromAssets",
+			"copyFilesFassets"};
+	private static final int MSG_listDirs=0x000;	
+	private static final int MSG_writeToFile=0x001;		
+	private static final int MSG_readFromFile=0x002;
+	private static final int MSG_readRawResources=0x003;
+	private static final int MSG_getResourcesDescription=0x004;	
+	private static final int MSG_listAssets=0x005;
+	private static final int MSG_getFromAssets=0x006;
+	private static final int MSG_copyFilesFassets=0x007;
+    private static final int TIME_INTERVAL_MS = 500;
+    private Message mMessage=null;	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ALog.Log("FileOperateActivity_onCreate");
 		mContext=this;
@@ -35,6 +57,86 @@ public class FileOperateActivity extends BaseActivity {
 	public void onResume(){
 		super.onResume();
 		ALog.Log("FileOperateActivity_onResume");
+        if (mHandler == null) {
+        	mHandler = getHandler();
+        }
+	}
+
+	@Override
+	public boolean handleMessage(Message msg) {
+		super.handleMessage(msg);
+		mHandler.removeMessages(msg.what);
+		switch(msg.what){
+		case MSG_listDirs:
+			new Thread(){
+				public void run() {
+					listDirs();
+				}
+			}.start();
+			break;
+		case MSG_writeToFile:
+			new Thread(){
+				public void run() {
+					//writeToFile("test.txt","hello\nxixi\nhaha",0);
+                    writeToFile("test.txt","hello\nxixi\nhaha",10);
+				}
+			}.start();
+			break;		
+		case MSG_readFromFile:
+			new Thread(){
+				public void run() {
+					readFromFile("test.txt",10);
+				}
+			}.start();
+			break;					
+		case MSG_readRawResources:
+			new Thread(){
+				public void run() {
+					readRawResources();
+				}
+			}.start();			
+			break;
+		case MSG_getResourcesDescription:
+			new Thread(){
+				public void run() {
+					getResourcesDescription();
+				}
+			}.start();			
+			break;
+		case MSG_listAssets:
+			new Thread(){
+				public void run() {
+					listAssets("");//列举assets根目录下的文件
+					//listAssets("test");//列举assets/test目录下的文件
+				}
+			}.start();			
+			break;
+		case MSG_getFromAssets:
+			new Thread(){
+				public void run() {
+					getFromAssets("test/test.txt");
+				}
+			}.start();			
+			break;
+		case MSG_copyFilesFassets:
+			new Thread(){
+				public void run() {
+					//拷贝assets目录下的内容到指定位置
+					/**
+					 * getFilesDir：/data/data/com.example.androidtest2/files下创建子文件夹
+					 * 向上述文件夹写入数据需要WRITE_EXTERNAL_STORAGE权限
+					 */
+					copyFilesFassets("",getFilesDir()+File.separator+"myAssets");
+					/**
+					 * getExternalFilesDir：storage/emulated/0/Android/data/com.example.androidtest2/files
+					 * 向上述文件夹写入数据需要WRITE_EXTERNAL_STORAGE权限
+					 */
+					copyFilesFassets("",getExternalFilesDir(null)+File.separator+"myAssets");
+				}
+			}.start();			
+			break;			
+		}
+		return true;
 	}
 	
 	@Override
@@ -49,45 +151,9 @@ public class FileOperateActivity extends BaseActivity {
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View view,	int position, long id) {
 		// TODO Auto-generated method stub
-		String methodName = (String)getListViewAdapterFT().mList.get(position).get("itemText"); 
-		switch(methodName){
-		case "listDirs":
-			listDirs();
-			break;		
-		case "writeToFile":
-			//writeToFile("test.txt","hello\nxixi\nhaha",0);
-			writeToFile("test.txt","hello\nxixi\nhaha",10);
-			break;	
-		case "readFromFile":
-			readFromFile("test.txt",10);
-			break;	
-		case "readRawResources":
-			readRawResources();
-			break;		
-		case "getResourcesDescription":
-			getResourcesDescription();
-			break;	
-		case "listAssets":
-			listAssets("");//列举assets根目录下的文件
-			//listAssets("test");//列举assets/test目录下的文件
-			break;	
-		case "getFromAssets":
-			getFromAssets("test/test.txt");
-			break;				
-		case "copyFilesFassets":
-			//拷贝assets目录下的内容到指定位置
-			/**
-			 * getFilesDir：/data/data/com.example.androidtest2/files下创建子文件夹
-			 * 向上述文件夹写入数据需要WRITE_EXTERNAL_STORAGE权限
-			 */
-			copyFilesFassets(this,"",getFilesDir()+File.separator+"myAssets");
-			/**
-			 * getExternalFilesDir：storage/emulated/0/Android/data/com.example.androidtest2/files
-			 * 向上述文件夹写入数据需要WRITE_EXTERNAL_STORAGE权限
-			 */
-			copyFilesFassets(this,"",getExternalFilesDir(null)+File.separator+"myAssets");
-			break;			
-		}		
+		//ALog.Log("position:"+position);
+		mMessage=Message.obtain(mHandler, position);
+		mHandler.sendMessageDelayed(mMessage, TIME_INTERVAL_MS);
 	}	
 	
 	public void listDirs(){
@@ -264,7 +330,8 @@ public class FileOperateActivity extends BaseActivity {
      *  @param  oldPath  String  原文件路径
      *  @param  newPath  String  复制后路径
      */   
-    public void copyFilesFassets(Context context,String oldPath,String newPath) {     
+    public void copyFilesFassets(String oldPath,String newPath) {     
+    	Context context=this;
     	//下面所以要去掉文件(夹)开头的"/"是因为getAssets().list函数的参数是不允许开头有File.separator的，否则文件无法找到
 		if(oldPath.startsWith(File.separator)){
 			oldPath=oldPath.substring(1, oldPath.length());
@@ -278,7 +345,7 @@ public class FileOperateActivity extends BaseActivity {
                 }
                 file.mkdirs();//如果文件夹不存在，则递归
                 for (String fileName : fileNames) {
-                	copyFilesFassets(context,oldPath+File.separator+fileName,newPath+File.separator+fileName);  
+                	copyFilesFassets(oldPath+File.separator+fileName,newPath+File.separator+fileName);  
                 }
             } else{//如果是文件  
             	File newFile = new File(newPath);

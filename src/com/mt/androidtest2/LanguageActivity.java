@@ -7,9 +7,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemProperties;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,14 +20,49 @@ import android.widget.AdapterView;
 public class LanguageActivity extends BaseActivity{
     private static boolean DEBUG = false;    
 	private Context mContext=null;
+	private Handler mHandler=null;
 	private String [] mMethodNameFT={"showCurrentLocale","showAllLocales","saveAllLocales"};
-	
+	private static final int MSG_showAllLocales=0x001;
+	private static final int MSG_saveAllLocales=0x002;	
+    private static final int TIME_INTERVAL_MS = 500;
+    private Message mMessage=null;
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mContext=this;
 		initListFTData(mMethodNameFT);
 		initListActivityData(null);
+	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+        if (mHandler == null) {
+        	mHandler = getHandler();
+        }
+	}
+	
+	@Override
+	public boolean handleMessage(Message msg) {
+		super.handleMessage(msg);
+		mHandler.removeMessages(msg.what);
+		switch(msg.what){
+		case MSG_showAllLocales:
+			new Thread(){
+				public void run() {
+					showAllLocales(0);
+				}
+			}.start();
+			break;
+		case MSG_saveAllLocales:
+			new Thread(){
+				public void run() {
+					saveAllLocales(2,false,true);//保存语言信息，(不)需要细节内容，(不)需要中文注解
+				}
+			}.start();			
+			break;
+		}
+		return true;
 	}
 	
 	@Override
@@ -41,10 +79,12 @@ public class LanguageActivity extends BaseActivity{
 			showCurrentLocale();
 			break;
 		case "showAllLocales":
-			showAllLocales(0);
+			mMessage=Message.obtain(mHandler, MSG_showAllLocales);
+			mHandler.sendMessageDelayed(mMessage, TIME_INTERVAL_MS);
 			break;			
 		case "saveAllLocales":
-			saveAllLocales(2,false,true);//保存语言信息，(不)需要细节内容，(不)需要中文注解
+			mMessage=Message.obtain(mHandler, MSG_saveAllLocales);
+			mHandler.sendMessageDelayed(mMessage, TIME_INTERVAL_MS);			
 			break;					
 		}
 	}	
@@ -69,14 +109,14 @@ public class LanguageActivity extends BaseActivity{
 		String label=null;
 		Locale locale=null;
 		for(LocaleInfo mLocaleInfo : mLocaleInfoList){
-            label = mLocaleInfo.getLabel();
-            locale = mLocaleInfo.getLocale();
-            ALog.Log("label:"+label);
-            ALog.Log("locale:"+locale.toString());
-            ALog.Log("name:"+locale.getDisplayName());
-            if(!Locale.getDefault().toString().contains("zh_")){
-            	ALog.Log("name:"+locale.getDisplayName(Locale.CHINESE));
-            }
+	        label = mLocaleInfo.getLabel();
+	        locale = mLocaleInfo.getLocale();
+	        ALog.Log("label:"+label);
+	        ALog.Log("locale:"+locale.toString());
+	        ALog.Log("name:"+locale.getDisplayName());
+	        if(!Locale.getDefault().toString().contains("zh_")){
+	        	ALog.Log("name:"+locale.getDisplayName(Locale.CHINESE));
+	        }
 		}
 	}
 
