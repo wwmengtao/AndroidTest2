@@ -60,38 +60,13 @@ public class MainActivity extends BaseActivity{
 	}
 	
 	public void testFunctions(){
-		//1、文件操作
-		//fileOperation();
 		//2、读写xml文件
 		//ALog.howToWriteToXml(this);
 		//ALog.howToReadFromXml(this);
 
 	}
 	
-	public void fileOperation(){
-		fileOperate mfileOperate = new fileOperate(this);
-		//mfileOperate.listDirs();
-		//mfileOperate.writeToFile("test.txt","hello\nxixi\nhaha",0);
-		//mfileOperate.writeToFile("test.txt","hello\nxixi\nhaha",10);
-		//mfileOperate.readFromFile("test.txt",10);
-		//mfileOperate.readRawResources();
-		//mfileOperate.getResourcesDescription();
-		mfileOperate.getFromAssets("test/test.txt");
-		//列举assets目录文件
-		//mfileOperate.listAssets("");//列举assets根目录下的文件
-		//mfileOperate.listAssets("test");//列举assets/test目录下的文件
-		//拷贝assets目录下的内容到指定位置
-		/**
-		 * getFilesDir：/data/data/com.example.androidtest2/files下创建子文件夹
-		 * 向上述文件夹写入数据需要WRITE_EXTERNAL_STORAGE权限
-		 */
-		//mfileOperate.copyFilesFassets(this,"",getFilesDir()+File.separator+"myAssets");
-		/**
-		 * getExternalFilesDir：storage/emulated/0/Android/data/com.example.androidtest2/files
-		 * 向上述文件夹写入数据需要WRITE_EXTERNAL_STORAGE权限
-		 */
-		//mfileOperate.copyFilesFassets(this,"",getExternalFilesDir(null)+File.separator+"myAssets");
-	}
+
 
     public String getLVPVersion(){
     	String lvpVersion = SystemProperties.get("ro.lenovo.lvp.version");

@@ -8,14 +8,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 public class BaseActivity extends ListActivity implements AdapterView.OnItemClickListener{
 	boolean isLogRun=true;
+	private LinearLayout mLinearlayout_listview_android=null;
+	private LinearLayout mLinearlayout_listview_functions=null;
 	private ListView mListViewFT=null;
 	private ListViewAdapter mListViewAdapterFT = null;	
-	private String [] mActivitiesName={"No activity"};;
-	private String [] mMethodNameFT={"No method"};
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,7 +35,9 @@ public class BaseActivity extends ListActivity implements AdapterView.OnItemClic
 	
 	public void initListFTData(String [] mMethodNameFT){
 		if(null==mMethodNameFT){
-			mMethodNameFT=this.mMethodNameFT;
+			mLinearlayout_listview_functions=(LinearLayout)findViewById(R.id.linearlayout_listview_functions);
+			mLinearlayout_listview_functions.setVisibility(View.GONE);
+			return;
 		}
 		mListViewAdapterFT = new ListViewAdapter(this);
 		mListViewAdapterFT.setMode(2);
@@ -76,7 +79,9 @@ public class BaseActivity extends ListActivity implements AdapterView.OnItemClic
 	
 	public void initListActivityData(String [] mActivitiesName){
 		if(null==mActivitiesName){
-			mActivitiesName=this.mActivitiesName;
+			mLinearlayout_listview_android=(LinearLayout)findViewById(R.id.linearlayout_listview_android);
+			mLinearlayout_listview_android.setVisibility(View.GONE);
+			return;
 		}
 		ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, R.layout.item_getview_android, R.id.listText, mActivitiesName);
         setListAdapter(myAdapter);
