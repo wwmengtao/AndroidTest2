@@ -56,25 +56,6 @@ public class BaseActivity extends ListActivity implements AdapterView.OnItemClic
 	@Override
 	protected void onListItemClick(ListView list, View view, int position, long id) {
 		super.onListItemClick(list, view, position, id);
-		String selectedItem = (String) list.getItemAtPosition(position);
-		Intent mIntent = null;
-		String packname = null;
-		String classname = null;
-		switch(selectedItem){
-			default://打开本应用的Activity
-				mIntent=new Intent();
-				packname = this.getPackageName();
-				classname = packname+"."+selectedItem;
-				ALog.Log("packname:"+packname);
-				ALog.Log("classname:"+classname);
-				mIntent.setComponent(new ComponentName(packname, classname));
-				break;
-		}
-		try{
-			startActivity(mIntent);
-		}catch(ActivityNotFoundException e){
-			e.printStackTrace();
-		}
 	}
 	
 	public void initListActivityData(String [] mActivitiesName){
