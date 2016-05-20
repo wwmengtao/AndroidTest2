@@ -68,6 +68,8 @@ public class VpnActivity extends Activity  implements Handler.Callback{
 	@Override
 	public boolean handleMessage(Message arg0) {
 		// TODO Auto-generated method stub
+		//如果在多个地方发送RESCAN_MESSAGE消息，那么极有可能在下列RESCAN_INTERVAL_MS到来前，有多个RESCAN_MESSAGE
+		//消息在消息队列中，因此此时问了防止多次执行同样的功能，需要把消息队列中RESCAN_MESSAGE统统删除
 		mUpdater.removeMessages(RESCAN_MESSAGE);
 		 // Mark out connections with a subtitle
         try {
