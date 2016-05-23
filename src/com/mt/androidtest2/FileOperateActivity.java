@@ -18,6 +18,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,23 +27,26 @@ import android.widget.AdapterView;
 public class FileOperateActivity extends BaseActivity {
 	private Context mContext = null;
 	private Handler mHandler=null;
+	private HandlerThread mHandlerThread=null;
+	private HandlerCostTime mHandlerCostTime=null;
 	private String [] mMethodNameFT={
-			"listDirs",
 			"writeToFile",
 			"readFromFile",
 			"readRawResources",
 			"getResourcesDescription",
+			"listDirs",
 			"listAssets",
 			"getFromAssets",
-			"copyFilesFassets"};
-	private static final int MSG_listDirs=0x000;	
-	private static final int MSG_writeToFile=0x001;		
-	private static final int MSG_readFromFile=0x002;
-	private static final int MSG_readRawResources=0x003;
-	private static final int MSG_getResourcesDescription=0x004;	
+			"copyFilesInAssets"};
+
+	private static final int MSG_writeToFile=0x000;		
+	private static final int MSG_readFromFile=0x001;
+	private static final int MSG_readRawResources=0x002;
+	private static final int MSG_getResourcesDescription=0x003;	
+	private static final int MSG_listDirs=0x004;		
 	private static final int MSG_listAssets=0x005;
 	private static final int MSG_getFromAssets=0x006;
-	private static final int MSG_copyFilesFassets=0x007;
+	private static final int MSG_copyFilesInAssets=0x007;
     private static final int TIME_INTERVAL_MS = 500;
     private Message mMessage=null;	
 	@Override
@@ -51,92 +56,94 @@ public class FileOperateActivity extends BaseActivity {
 		mContext=this;
 		initListFTData(mMethodNameFT);
 		initListActivityData(null);
+		initHandlerThread();
 	}
 	
 	@Override
 	public void onResume(){
 		super.onResume();
 		ALog.Log("FileOperateActivity_onResume");
-        if (mHandler == null) {
-        	mHandler = getHandler();
-        }
+		mHandler = getHandler();
 	}
 
+	@Override
+	protected void onPause(){
+		if(null!=mHandlerCostTime){
+			mHandlerCostTime.removeCallbacksAndMessages(0);
+		}
+		super.onPause();
+	}
+	
 	@Override
 	public boolean handleMessage(Message msg) {
 		super.handleMessage(msg);
 		mHandler.removeMessages(msg.what);
 		switch(msg.what){
-		case MSG_listDirs:
-			new Thread(){
-				public void run() {
-					listDirs();
-				}
-			}.start();
-			break;
 		case MSG_writeToFile:
-			new Thread(){
-				public void run() {
-					//writeToFile("test.txt","hello\nxixi\nhaha",0);
-                    writeToFile("test.txt","hello\nxixi\nhaha",10);
-				}
-			}.start();
+			//writeToFile("test.txt","hello\nxixi\nhaha",0);
+            writeToFile("test.txt","hello\nxixi\nhaha",10);
 			break;		
 		case MSG_readFromFile:
-			new Thread(){
-				public void run() {
-					readFromFile("test.txt",10);
-				}
-			}.start();
+			readFromFile("test.txt",10);
 			break;					
 		case MSG_readRawResources:
-			new Thread(){
-				public void run() {
-					readRawResources();
-				}
-			}.start();			
+			readRawResources();			
 			break;
 		case MSG_getResourcesDescription:
-			new Thread(){
-				public void run() {
-					getResourcesDescription();
-				}
-			}.start();			
-			break;
-		case MSG_listAssets:
-			new Thread(){
-				public void run() {
-					listAssets("");//列举assets根目录下的文件
-					//listAssets("test");//列举assets/test目录下的文件
-				}
-			}.start();			
-			break;
-		case MSG_getFromAssets:
-			new Thread(){
-				public void run() {
-					getFromAssets("test/test.txt");
-				}
-			}.start();			
-			break;
-		case MSG_copyFilesFassets:
-			new Thread(){
-				public void run() {
-					//拷贝assets目录下的内容到指定位置
-					/**
-					 * getFilesDir：/data/data/com.example.androidtest2/files下创建子文件夹
-					 * 向上述文件夹写入数据需要WRITE_EXTERNAL_STORAGE权限
-					 */
-					copyFilesFassets("",getFilesDir()+File.separator+"myAssets");
-					/**
-					 * getExternalFilesDir：storage/emulated/0/Android/data/com.example.androidtest2/files
-					 * 向上述文件夹写入数据需要WRITE_EXTERNAL_STORAGE权限
-					 */
-					copyFilesFassets("",getExternalFilesDir(null)+File.separator+"myAssets");
-				}
-			}.start();			
-			break;			
+			getResourcesDescription();		
+			break;	
 		}
 		return true;
+	}
+	
+	/**
+	 * HandlerCostTime：处理耗时操作的Handler
+	 * @author Mengtao1
+	 *
+	 */
+	class HandlerCostTime extends Handler{
+	     public HandlerCostTime(Looper loop) {
+	            super(loop);
+	     }		
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			mHandler.removeMessages(msg.what);
+			switch(msg.what){
+			case MSG_listDirs:
+				listDirs();
+				break;			
+			case MSG_listAssets:
+				listAssets("");//列举assets根目录下的文件
+				//listAssets("test");//列举assets/test目录下的文件		
+				break;
+			case MSG_getFromAssets:
+				getFromAssets("test/test.txt");		
+				break;
+			case MSG_copyFilesInAssets:
+				//拷贝assets目录下的内容到指定位置
+				/**
+				 * getFilesDir：/data/data/com.example.androidtest2/files下创建子文件夹
+				 * 向上述文件夹写入数据需要WRITE_EXTERNAL_STORAGE权限
+				 */
+				copyFilesInAssets("",getFilesDir()+File.separator+"myAssets");
+				ALog.Log("copyFilesInAssets to new location:"+getFilesDir()+File.separator+"myAssets");
+				/**
+				 * getExternalFilesDir：storage/emulated/0/Android/data/com.example.androidtest2/files
+				 * 向上述文件夹写入数据需要WRITE_EXTERNAL_STORAGE权限
+				 */
+				copyFilesInAssets("",getExternalFilesDir(null)+File.separator+"myAssets");		
+				ALog.Log("copyFilesInAssets to new location:"+getExternalFilesDir(null)+File.separator+"myAssets");
+				break;		
+			}
+		}
+	}
+	
+	public void initHandlerThread(){
+		mHandlerThread = new HandlerThread("FileOperateActivity",
+                android.os.Process.THREAD_PRIORITY_FOREGROUND);
+		mHandlerThread.start();
+		mHandlerCostTime=new HandlerCostTime(mHandlerThread.getLooper());
 	}
 	
 	@Override
@@ -153,7 +160,11 @@ public class FileOperateActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		//ALog.Log("position:"+position);
 		mMessage=Message.obtain(mHandler, position);
-		mHandler.sendMessageDelayed(mMessage, TIME_INTERVAL_MS);
+		if(position<=3){//执行的是非耗时操作
+			mHandler.sendMessageDelayed(mMessage, TIME_INTERVAL_MS);
+		}else{//执行的是耗时操作
+			mHandlerCostTime.sendMessageDelayed(mMessage, TIME_INTERVAL_MS);
+		}
 	}	
 	
 	public void listDirs(){
@@ -316,7 +327,7 @@ public class FileOperateActivity extends BaseActivity {
     		try {
     			fileNames = mContext.getAssets().list(fileName);
     	    	for(int i=0;i<fileNames.length;i++){
-    	    		ALog.Log("fileName:"+fileNames[i]);
+    	    		ALog.Log("fileAssets:"+fileNames[i]);
     	    	}
     		} catch (IOException e1) {
     			// TODO Auto-generated catch block
@@ -325,12 +336,12 @@ public class FileOperateActivity extends BaseActivity {
     }
     
     /**  
-     *  copyFilesFassets：从assets目录中复制整个文件夹内容  
+     *  copyFilesInAssets：从assets目录中复制整个文件夹内容  
      *  @param  context  Context 使用CopyFiles类的Activity 
      *  @param  oldPath  String  原文件路径
      *  @param  newPath  String  复制后路径
      */   
-    public void copyFilesFassets(String oldPath,String newPath) {     
+    public void copyFilesInAssets(String oldPath,String newPath) {     
     	Context context=this;
     	//下面所以要去掉文件(夹)开头的"/"是因为getAssets().list函数的参数是不允许开头有File.separator的，否则文件无法找到
 		if(oldPath.startsWith(File.separator)){
@@ -345,7 +356,7 @@ public class FileOperateActivity extends BaseActivity {
                 }
                 file.mkdirs();//如果文件夹不存在，则递归
                 for (String fileName : fileNames) {
-                	copyFilesFassets(oldPath+File.separator+fileName,newPath+File.separator+fileName);  
+                	copyFilesInAssets(oldPath+File.separator+fileName,newPath+File.separator+fileName);  
                 }
             } else{//如果是文件  
             	File newFile = new File(newPath);
@@ -354,7 +365,7 @@ public class FileOperateActivity extends BaseActivity {
         		}
         		newFile.createNewFile();
                 InputStream is = context.getAssets().open(oldPath);  
-                ALog.Log("oldPath:"+oldPath+" newPath:"+newPath);
+                //ALog.Log("oldPath:"+oldPath+" newPath:"+newPath);
                 FileOutputStream fos = new FileOutputStream(newFile);  
                 byte[] buffer = new byte[1024];
                 int byteCount=0;
