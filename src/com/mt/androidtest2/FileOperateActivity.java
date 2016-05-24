@@ -52,6 +52,7 @@ public class FileOperateActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_base);
 		ALog.Log("FileOperateActivity_onCreate");
 		mContext=this;
 		initListFTData(mMethodNameFT);

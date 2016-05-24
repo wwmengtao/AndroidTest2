@@ -5,12 +5,16 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="23"
+        android:minSdkVersion="21"
         android:targetSdkVersion="23" />
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CONTROL_VPN" />
+    <uses-permission android:name="android.permission.MANAGE_USERS" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />   
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />   
     <!-- 上述CONTROL_VPN权限需要android:sharedUserId="android.uid.system" -->
     <!-- 往内置SD卡写入数据权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -43,6 +47,10 @@
         <activity
             android:name=".FileOperateActivity"
             android:label="@string/title_activity_file_operate" >
+        </activity>
+        <activity
+            android:name=".MultiUserActivity"
+            android:label="@string/title_activity_multi_user" >
         </activity>
     </application>
 

@@ -7,5 +7,12 @@
     <string name="title_activity_vpn">Vpn activity</string>
     <string name="title_activity_language">LanguageActivity</string>
     <string name="title_activity_file_operate">FileOperateActivity</string>
-
+    <string name="title_activity_multi_user">MultiUserActivity</string>
+    <string name="btn_torchlight">Torch light</string>
+    <string name="btn_widetouch">Wide touch</string>
+    <string name="btn_none">btn_none</string>
+    <string name="btn_USER_OWNER">btn_USER_OWNER</string>
+    <string name="btn_USER_CURRENT">btn_USER_CURRENT</string>
+    <string name="btn_USER_CURRENT_OR_SELF">btn_USER_CURRENT_OR_SELF</string>    
+    <string name="btn_USER_ALL">btn_USER_ALL</string>
 </resources>

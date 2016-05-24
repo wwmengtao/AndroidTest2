@@ -35,8 +35,8 @@ public class ALog {
 		Log.e(TAG_M,info);
 	}
 	public static void mLog(String info){
-		Log.e(TAG_M,info+" Uid:"+getUid()+" Pid:"+getPid()+" ActivityManager.getCurrentUser:"+amGetCurrentUser()+
-				" UserHandle.myUserId:"+uhMyUserId());
+		Log.e(TAG_M,info+"\nUid:"+getUid()+"\nPid:"+getPid()+"\nActivityManager.getCurrentUser:"+amGetCurrentUser()+
+				"\nUserHandle.myUserId:"+uhMyUserId());
 	}
 	public static void fillInStackTrace(String info){
 		RuntimeException RTE = new RuntimeException(info);
@@ -49,9 +49,18 @@ public class ALog {
 	public static int getUid(){
 		return android.os.Process.myUid();
 	}
+	/**
+	 * ActivityManager.getCurrentUser()：获取设备当前用户，需要权限“android.permission.INTERACT_ACROSS_USERS”
+	 * @return
+	 */
 	public static int amGetCurrentUser(){
 		return ActivityManager.getCurrentUser();
 	}
+	
+	/**
+	 * UserHandle.myUserId()：获取当前进程的UserId
+	 * @return
+	 */
 	public static int uhMyUserId(){
 		return UserHandle.myUserId();
 	}

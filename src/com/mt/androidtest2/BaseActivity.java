@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-public class BaseActivity extends ListActivity implements Handler.Callback,AdapterView.OnItemClickListener{
+public class BaseActivity extends ListActivity implements Handler.Callback,AdapterView.OnItemClickListener,View.OnClickListener{
 	boolean isLogRun=true;
     private Handler mHandler=null;
 	private LinearLayout mLinearlayout_listview_android=null;
@@ -20,7 +20,6 @@ public class BaseActivity extends ListActivity implements Handler.Callback,Adapt
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_base);
 		ALog.Log("BaseActivity_onCreate");
 	}
 	
@@ -87,4 +86,8 @@ public class BaseActivity extends ListActivity implements Handler.Callback,Adapt
 		ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, R.layout.item_getview_android, R.id.listText, mActivitiesName);
         setListAdapter(myAdapter);
 	}	
+	
+	@Override
+	public void onClick(View view){
+	}
 }

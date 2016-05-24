@@ -14,12 +14,13 @@ public class MainActivity extends BaseActivity{
 	boolean isLogRun=false;
 	private String packageName = null;
 	private String className = null;		
-	private String [] mActivitiesName={"FileOperateActivity","LanguageActivity","VpnActivity"};	
+	private String [] mActivitiesName={"FileOperateActivity","LanguageActivity","VpnActivity","MultiUserActivity"};	
 	private String [] mMethodNameFT={"getLVPVersion"};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_base);
 		packageName = this.getPackageName();
 		initListActivityData(mActivitiesName);
 		initListFTData(mMethodNameFT);

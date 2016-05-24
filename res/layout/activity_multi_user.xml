@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mt.androidtest2.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_world" />
+	<Button    
+		android:id="@+id/btn_torchlight"
+	    android:layout_width="fill_parent"   
+	    android:layout_height="wrap_content"   
+	    android:text="@string/btn_torchlight"  
+	/>  
+	<Button    
+		android:id="@+id/btn_widetouch"
+	    android:layout_width="fill_parent"   
+	    android:layout_height="wrap_content"   
+	    android:text="@string/btn_widetouch"  
+	/>  	
+	<Button    
+		android:id="@+id/btn_none"
+	    android:layout_width="fill_parent"   
+	    android:layout_height="wrap_content"   
+	    android:text="@string/btn_none"  
+	/>  
+	<Button    
+		android:id="@+id/btn_USER_OWNER"
+	    android:layout_width="fill_parent"   
+	    android:layout_height="wrap_content"   
+	    android:text="@string/btn_USER_OWNER"  
+	/>  
+	<Button    
+		android:id="@+id/btn_USER_CURRENT"
+	    android:layout_width="fill_parent"   
+	    android:layout_height="wrap_content"   
+	    android:text="@string/btn_USER_CURRENT"  
+	/>  
+	<Button    
+		android:id="@+id/btn_USER_CURRENT_OR_SELF"
+	    android:layout_width="fill_parent"   
+	    android:layout_height="wrap_content"   
+	    android:text="@string/btn_USER_CURRENT_OR_SELF"  
+	/>  	
+	<Button    
+		android:id="@+id/btn_USER_ALL"
+	    android:layout_width="fill_parent"   
+	    android:layout_height="wrap_content"   
+	    android:text="@string/btn_USER_ALL"  
+	/>  
+	<include layout="@layout/listview_android"/>  	
+</LinearLayout>
