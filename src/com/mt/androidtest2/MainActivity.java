@@ -1,6 +1,5 @@
 package com.mt.androidtest2;
 
-import android.app.ActivityManager;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
