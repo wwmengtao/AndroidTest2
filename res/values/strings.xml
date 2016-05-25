@@ -13,6 +13,9 @@
     <string name="btn_none">btn_none</string>
     <string name="btn_USER_OWNER">btn_USER_OWNER</string>
     <string name="btn_USER_CURRENT">btn_USER_CURRENT</string>
-    <string name="btn_USER_CURRENT_OR_SELF">btn_USER_CURRENT_OR_SELF</string>    
+    <string name="btn_USER_CURRENT_OR_SELF">btn_USER_CURRENT_OR_SELF</string>
     <string name="btn_USER_ALL">btn_USER_ALL</string>
+    <string name="power_setting_app_restriction_title">Running apps management</string>
+    <string name="title_activity_apps_list_view">AppsListViewActivity</string>
+    <string name="no_running_apps">No running apps</string>
 </resources>
