@@ -9,7 +9,7 @@ import android.widget.ListView;
  * @author Mengtao1
  *
  */
-public class AppsListViewActivity extends Activity {
+public class RunningAppProcessesActivity extends Activity {
 	ListView mListView;
 	AppsListViewAdapter aAdapter;
 	@Override

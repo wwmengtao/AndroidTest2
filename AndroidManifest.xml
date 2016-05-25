@@ -55,7 +55,7 @@
             android:label="@string/title_activity_multi_user" >
         </activity>
         <activity
-            android:name=".AppsListViewActivity"
+            android:name=".RunningAppProcessesActivity"
             android:label="@string/title_activity_apps_list_view" >
         </activity>
     </application>

@@ -13,7 +13,7 @@ public class MainActivity extends BaseActivity{
 	boolean isLogRun=false;
 	private String packageName = null;
 	private String className = null;		
-	private String [] mActivitiesName={"FileOperateActivity","LanguageActivity","VpnActivity","MultiUserActivity","AppsListViewActivity"};	
+	private String [] mActivitiesName={"FileOperateActivity","LanguageActivity","VpnActivity","MultiUserActivity","RunningAppProcessesActivity"};	
 	private String [] mMethodNameFT={"getLVPVersion"};
 	
 	@Override
