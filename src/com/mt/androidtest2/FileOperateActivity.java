@@ -68,11 +68,17 @@ public class FileOperateActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onPause(){
+	public void onPause(){
 		if(null!=mHandlerCostTime){
 			mHandlerCostTime.removeCallbacksAndMessages(0);
 		}
 		super.onPause();
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		destroyHandlerThread();
 	}
 	
 	@Override
@@ -145,6 +151,14 @@ public class FileOperateActivity extends BaseActivity {
                 android.os.Process.THREAD_PRIORITY_FOREGROUND);
 		mHandlerThread.start();
 		mHandlerCostTime=new HandlerCostTime(mHandlerThread.getLooper());
+	}
+	
+	public void destroyHandlerThread(){
+		/**HandlerThread的run方法是一个死循环，它不会自己结束，线程的生命周期超过了activity生命周期。
+		当横竖屏切换，HandlerThread线程的数量会随着activity重建次数的增加而增加。应该在onDestroy时将线程停止掉。
+		另外，对于不是HandlerThread的线程，也应该确保activity销毁前，线程已经终止，可以这样做：在onDestroy时调用
+		mThread.join();*/
+		mHandlerThread.getLooper().quit();
 	}
 	
 	@Override
