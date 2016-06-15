@@ -58,7 +58,7 @@ public class LanguageActivity extends BaseActivity{
 		case MSG_saveAllLocales:
 			new Thread(){
 				public void run() {
-					saveAllLocales(2,false,true);//保存语言信息，(不)需要细节内容，(不)需要中文注解
+					saveAllLocales(0,false,true);//保存语言信息，(不)需要细节内容，(不)需要中文注解
 				}
 			}.start();			
 			break;
@@ -184,7 +184,10 @@ public class LanguageActivity extends BaseActivity{
 	
     /**
      * 获取多种途径的语言列表信息
-     * @param type：指定待获取的语言信息来源：1)手机预置2)字符串数组指定3)assets/locales/languagesIn.txt中指定
+     * @param type：指定待获取的语言信息来源：
+     * 0)手机预置
+     * 1)字符串数组指定
+     * 2)assets/locales/languagesIn.txt中指定
      * @return
      */
 	public List<LocaleInfo> getLocaleInfoList(int type){
