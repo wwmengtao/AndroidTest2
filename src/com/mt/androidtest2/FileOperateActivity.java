@@ -54,7 +54,7 @@ public class FileOperateActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_base);
 		ALog.Log("FileOperateActivity_onCreate");
-		mContext=this;
+		mContext=this.getApplicationContext();
 		initListFTData(mMethodNameFT);
 		initListActivityData(null);
 		initHandlerThread();

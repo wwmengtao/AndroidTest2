@@ -33,7 +33,7 @@ public class AppsListViewAdapter extends BaseAdapter{
 	List<ApplicationInfo> mApplications =null;
 	
     public AppsListViewAdapter(Context mContext){
-    	this.mContext = mContext;
+    	this.mContext = mContext.getApplicationContext();
 		mAM =  (ActivityManager)mContext.getSystemService(Context.ACTIVITY_SERVICE);
 		mPM =  mContext.getPackageManager();
     	inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

@@ -30,7 +30,7 @@ public class LanguageActivity extends BaseActivity{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_base);
-		mContext=this;
+		mContext=this.getApplicationContext();
 		initListFTData(mMethodNameFT);
 		initListActivityData(null);
 	}

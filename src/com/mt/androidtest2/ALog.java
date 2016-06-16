@@ -69,7 +69,7 @@ public class ALog {
      * howToWriteToXml：Android环境下调用ALog中的方法写xml
      */
     public static void howToWriteToXml(Context mContext){
-    	ALog.mContext=mContext;
+    	ALog.mContext=mContext.getApplicationContext();
 		String fileToSave = "file_out.xml";
 		String docTag = "Document";
 		ALog.startSaving(mContext,fileToSave,docTag);
@@ -201,7 +201,7 @@ public class ALog {
      * @param mContext
      */
     public static void howToReadFromXml(Context mContext){
-    	ALog.mContext=mContext;
+    	ALog.mContext=mContext.getApplicationContext();
 		int fileToSavedID = R.raw.taido;
 		String docTag = "manifest";
 		ALog.readFromXml(mContext, fileToSavedID, docTag);
