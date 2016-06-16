@@ -1,5 +1,6 @@
 package com.mt.androidtest2;
 
+import java.lang.ref.WeakReference;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,11 +13,12 @@ import android.widget.ListView;
 
 public class BaseActivity extends ListActivity implements Handler.Callback,AdapterView.OnItemClickListener,View.OnClickListener{
 	boolean isLogRun=true;
-    private Handler mHandler=null;
+    private static Handler mHandler=null;
 	private LinearLayout mLinearlayout_listview_android=null;
 	private LinearLayout mLinearlayout_listview_functions=null;
 	private ListView mListViewFT=null;
 	private ListViewAdapter mListViewAdapterFT = null;	
+	private static WeakReference<BaseActivity>mBaseActivityWR=null;	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,12 +36,18 @@ public class BaseActivity extends ListActivity implements Handler.Callback,Adapt
 	@Override
 	protected void onPause(){
 		if(null!=mHandler){
-			mHandler.removeCallbacksAndMessages(0);
+			mHandler.removeCallbacksAndMessages(null);//±ÜÃâÄÚ´æÐ¹Â¶
 		}
 		super.onPause();
 	}
 	
-	public Handler getHandler(){
+	public static Handler getHandler(){
+        if (mHandler == null) {
+        	BaseActivity mBaseActivity=mBaseActivityWR.get();
+        	if(null!=mBaseActivity){
+        		mHandler = new Handler(mBaseActivity);
+        	}
+        }
 		return mHandler;
 	}
 	
