@@ -2,6 +2,7 @@ package com.mt.androidtest2;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,12 +21,14 @@ import android.widget.AdapterView;
 public class LanguageActivity extends BaseActivity{
     private static boolean DEBUG = false;    
 	private Context mContext=null;
-	private Handler mHandler=null;
+	private static Handler mHandler=null;
 	private String [] mMethodNameFT={"showCurrentLocale","showAllLocales","saveAllLocales"};
-	private static final int MSG_showAllLocales=0x001;
-	private static final int MSG_saveAllLocales=0x002;	
-    private static final int TIME_INTERVAL_MS = 500;
+	private static final int MSG_showAllLocales= 0x001;
+	private static final int MSG_saveAllLocales= 0x002;	
+    private static final int TIME_INTERVAL_MS = 1000;
     private Message mMessage=null;
+    private ThreadSaveAllLocales mThreadSaveAllLocales=null;
+    private ThreadShowAllLocales mThreadShowAllLocales=null;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,27 +47,97 @@ public class LanguageActivity extends BaseActivity{
 	}
 	
 	@Override
+	protected void onPause(){
+		super.onPause();
+        if (mHandler != null) {
+        	mHandler = null;
+        }
+	}
+	
+	@Override
 	public boolean handleMessage(Message msg) {
 		super.handleMessage(msg);
 		mHandler.removeMessages(msg.what);
 		switch(msg.what){
 		case MSG_showAllLocales:
-			new Thread(){
-				public void run() {
-					showAllLocales(0);
-				}
-			}.start();
+			if(null==mThreadShowAllLocales){
+				mThreadShowAllLocales=new ThreadShowAllLocales(this);
+			}
+			if(mThreadShowAllLocales.runnableEnd()){
+				mThreadShowAllLocales.run();
+			}
 			break;
 		case MSG_saveAllLocales:
-			new Thread(){
-				public void run() {
-					saveAllLocales(0,false,true);//保存语言信息，(不)需要细节内容，(不)需要中文注解
-				}
-			}.start();			
+			if(null==mThreadSaveAllLocales){
+				mThreadSaveAllLocales=new ThreadSaveAllLocales(this);
+			}
+			if(mThreadSaveAllLocales.runnableEnd()){
+				mThreadSaveAllLocales.run();
+			}
 			break;
 		}
-		return true;
+		return false;
 	}
+	
+	static class ThreadModel  extends Thread{ 
+		private WeakReference<LanguageActivity> mWeakReference=null; 
+		private LanguageActivity mLanguageActivity=null;
+		ThreadModel(LanguageActivity activity){
+			mWeakReference = new WeakReference<LanguageActivity>(activity);
+			mLanguageActivity=mWeakReference.get();
+		}
+		
+        @Override 
+        public void run() {
+        } 
+
+        public LanguageActivity getmLanguageActivity(){
+        	return mLanguageActivity;
+        }
+	}
+	
+	static class ThreadShowAllLocales extends ThreadModel{ 
+		private LanguageActivity mLanguageActivity=null;
+		public boolean runEnd=true;		
+		ThreadShowAllLocales(LanguageActivity activity) {
+			super(activity);
+			// TODO Auto-generated constructor stub
+		}
+        @Override 
+        public void run() {
+        	mLanguageActivity=getmLanguageActivity();
+        	if(null!=mLanguageActivity){
+    			runEnd=false;
+        		mLanguageActivity.showAllLocales(0);
+        	}
+        	runEnd=true;
+        }
+        
+        public boolean runnableEnd(){
+        	return runEnd;
+        }
+	}
+
+	static class ThreadSaveAllLocales extends ThreadModel{ 
+		private LanguageActivity mLanguageActivity=null;
+		public boolean runEnd=true;
+		ThreadSaveAllLocales(LanguageActivity activity){
+			super(activity);
+		}
+        @Override 
+        public void run() {
+        	mLanguageActivity=getmLanguageActivity();
+        	if(null!=mLanguageActivity){
+    			runEnd=false;
+        		mLanguageActivity.saveAllLocales(0,false,true);//保存语言信息，(不)需要细节内容，(不)需要中文注解
+        	}
+        	runEnd=true;
+        } 
+
+        public boolean runnableEnd(){
+        	return runEnd;
+        }
+    } 
 	
 	@Override
 	public void initListFTData(String [] mMethodNameFT){

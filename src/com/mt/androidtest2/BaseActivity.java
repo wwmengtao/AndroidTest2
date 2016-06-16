@@ -23,14 +23,12 @@ public class BaseActivity extends ListActivity implements Handler.Callback,Adapt
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ALog.Log("BaseActivity_onCreate");
+		mBaseActivityWR=new WeakReference<BaseActivity>(this);
 	}
 	
 	@Override
 	protected void onResume(){
 		super.onResume();
-        if (mHandler == null) {
-        	mHandler = new Handler(this);
-        }
 	}
 	
 	@Override
