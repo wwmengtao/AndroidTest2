@@ -164,6 +164,7 @@ public class AppsListViewAdapter extends BaseAdapter{
 		public RunningAppProcessInfoComparator() {
 		    mCollator.setStrength(Collator.PRIMARY);
 		}
+		@Override
 		public final int compare(ActivityManager.RunningAppProcessInfo a, ActivityManager.RunningAppProcessInfo b) {
 		    return mCollator.compare(setAppIconAndLabel(a,null,null), setAppIconAndLabel(b,null,null));
 		}
