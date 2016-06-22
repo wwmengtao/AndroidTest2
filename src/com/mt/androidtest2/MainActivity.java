@@ -1,8 +1,5 @@
 package com.mt.androidtest2;
 
-import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemProperties;
 import android.view.View;
@@ -10,17 +7,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class MainActivity extends BaseActivity{
-	boolean isLogRun=false;
-	private String packageName = null;
-	private String className = null;		
+	boolean isLogRun=false;	
 	private String [] mActivitiesName={"LanguageActivity","VpnActivity","MultiUserActivity","RunningAppProcessesActivity"};	
-	private String [] mMethodNameFT={"getLVPVersion"};
+	private String [] mMethodNameFT={"howToReadFromXml","howToWriteToXml","getLVPVersion"};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_base);
-		packageName = this.getPackageName();
 		initListActivityData(mActivitiesName);
 		initListFTData(mMethodNameFT);
 	}
@@ -29,7 +23,6 @@ public class MainActivity extends BaseActivity{
 	protected void onResume(){
 		super.onResume();
 		if(isLogRun)ALog.Log("====onResume");
-		testFunctions();
 	}
 	
 	@Override
@@ -52,7 +45,13 @@ public class MainActivity extends BaseActivity{
 			String lvpVersion = getLVPVersion();
 			boolean isVibeUI3_5 = (null!=lvpVersion&&lvpVersion.contains("V3.5"));
 			ALog.Log("isVibeUI3_5:"+isVibeUI3_5);
-			break;			
+			break;		
+		case "howToReadFromXml":
+			howToReadFromXml();
+			break;		
+		case "howToWriteToXml":
+			howToWriteToXml();
+			break;				
 		}
 	}	
 	
@@ -63,31 +62,18 @@ public class MainActivity extends BaseActivity{
 	
 	@Override
 	protected void onListItemClick(ListView list, View view, int position, long id) {
-		super.onListItemClick(list, view, position, id);
-		String selectedItem = (String) list.getItemAtPosition(position);
-		Intent mIntent = null;
-		switch(selectedItem){
-			default://打开本应用的Activity
-				mIntent=new Intent();
-				className = packageName+"."+selectedItem;
-				mIntent.setComponent(new ComponentName(packageName, className));
-				break;				
-		}
-		try{
-			startActivity(mIntent);
-		}catch(ActivityNotFoundException e){
-			e.printStackTrace();
-		}		
+		super.onListItemClick(list, view, position, id);	
 	}
 	
-	public void testFunctions(){
-		//2、读写xml文件
-		//ALog.howToWriteToXml(this);
-		//ALog.howToReadFromXml(this);
-
+	public void howToWriteToXml(){
+		//写xml文件
+		ALog.howToWriteToXml(this);
 	}
 	
-
+	public void howToReadFromXml(){
+		//读xml文件
+		ALog.howToReadFromXml(this);
+	}
 
     public String getLVPVersion(){
     	String lvpVersion = SystemProperties.get("ro.lenovo.lvp.version");

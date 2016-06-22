@@ -32,16 +32,16 @@ public class ALog {
 	/*---------------------------------------------*/  
     
 	public static void Log(String info){
-		Log.e(TAG_M,info);
+		Log.d(TAG_M,info);
 	}
 	public static void mLog(String info){
-		Log.e(TAG_M,info+"\nUid:"+getUid()+"\nPid:"+getPid()+"\nActivityManager.getCurrentUser:"+amGetCurrentUser()+
+		Log.d(TAG_M,info+"\nUid:"+getUid()+"\nPid:"+getPid()+"\nActivityManager.getCurrentUser:"+amGetCurrentUser()+
 				"\nUserHandle.myUserId:"+uhMyUserId());
 	}
 	public static void fillInStackTrace(String info){
 		RuntimeException RTE = new RuntimeException(info);
 		RTE.fillInStackTrace();
-		Log.e(TAG_M, "Pid:"+getPid()+" "+"Called:", RTE);
+		Log.d(TAG_M, "Pid:"+getPid()+" "+"Called:", RTE);
 	}
 	public static int getPid(){
 		return android.os.Process.myPid();
@@ -72,13 +72,13 @@ public class ALog {
     	ALog.mContext=mContext.getApplicationContext();
 		String fileToSave = "file_out.xml";
 		String docTag = "Document";
-		ALog.startSaving(mContext,fileToSave,docTag);
+		startSaving(mContext,fileToSave,docTag);
 		for(int i=0;i<5;i++){
-			ALog.stag("name");
-			ALog.attr("attr", "123");
-			ALog.etag("name");
+			stag("name");
+			attr("attr", "123");
+			etag("name");
 		}
-		ALog.endSaving();
+		endSaving();
     }
 	
 	public static void startSaving(Context mContext ,String fileName,String tagOfDoc){
@@ -93,7 +93,7 @@ public class ALog {
                 serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
                 serializer.startTag(namespace, tag_Doc);
 	        } catch (IOException ex) {
-	            Log.e(TAG_M, "Failed to start saving...", ex);
+	            Log("Failed to start saving...");
 	        }
 	}
 	
@@ -191,7 +191,7 @@ public class ALog {
 		                }
 		            }
 		        } catch (IOException ex) {
-		            Log.e(TAG_M, "Failed to save mServiceProcessesByxx", ex);
+		            Log("Failed to save mServiceProcessesByxx");
 		        }
 		    }
 	}
@@ -204,7 +204,7 @@ public class ALog {
     	ALog.mContext=mContext.getApplicationContext();
 		int fileToSavedID = R.raw.taido;
 		String docTag = "manifest";
-		ALog.readFromXml(mContext, fileToSavedID, docTag);
+		readFromXml(mContext, fileToSavedID, docTag);
     }
     
 	public static void readFromXml(Context mContext, int fileToSavedID,String tagOfDoc) {
@@ -337,10 +337,10 @@ public class ALog {
     public static void beginDocument(XmlPullParser parser, String firstElementName) throws XmlPullParserException, IOException
     {
         int type;
-        while ((type=parser.next()) != parser.START_TAG && type != parser.END_DOCUMENT) {
+        while ((type=parser.next()) != XmlPullParser.START_TAG && type != XmlPullParser.END_DOCUMENT) {
         	;
         }
-        if (type != parser.START_TAG) {
+        if (type != XmlPullParser.START_TAG) {
             throw new XmlPullParserException("No start tag found");
         }
         if (!parser.getName().equals(firstElementName)) {
