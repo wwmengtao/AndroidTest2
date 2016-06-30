@@ -1,10 +1,17 @@
-package com.mt.androidtest2;
+package com.mt.androidtest2.data;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import com.mt.androidtest2.ALog;
+import com.mt.androidtest2.BaseActivity;
+import com.mt.androidtest2.R;
+import com.mt.androidtest2.XmlOperator;
+import com.mt.androidtest2.R.layout;
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,8 +22,8 @@ import android.view.View;
 import android.widget.AdapterView;
 
 public class ContentResolverDemoActivity extends BaseActivity {
-	private String CONTENT_URI = "content://";
-	private String cpAuthorities="com.mt.androidtest.cpdemo/sqlite";
+	private boolean isLogRun = true;
+	private String ContProvider_URI = "content://";
 	private String [] mMethodNameFT={
 			"readContentProviderFile",
 			"insert","update","query","delete"};
@@ -26,7 +33,7 @@ public class ContentResolverDemoActivity extends BaseActivity {
 	private ArrayList<String>mAttrAL=null;
 	private ArrayList<String>mTextAL=null;
 	//
-	private Uri msqliteUri=null;
+	private Uri sqliteUri=null;
 	private String sqlitekey=null;
 	private String sqliteValue=null;
 	@Override
@@ -35,16 +42,37 @@ public class ContentResolverDemoActivity extends BaseActivity {
 		setContentView(R.layout.activity_base);
 		initListFTData(mMethodNameFT);
 		initListActivityData(null);
+		//
+		ContProvider_URI += ContentProviderDemo.authority;
 		mContentResolver = getContentResolver();
-		CONTENT_URI+=cpAuthorities;
-		msqliteUri=Uri.parse(CONTENT_URI);
 		initUriCPFile();
-		toReadXml(getApplicationContext());
-		sqlitekey="Id";
-		sqliteValue="Value";;
+		//
+		initSqliteOperator();
+	}
+
+	/**
+	 * 以下将内部/外部存储中的共享文件对应的Uri加入uriCPFile中
+	 */
+	public void initUriCPFile(){
+		uriCPFile=new ArrayList<Uri>();
+		uriCPFile.add(Uri.parse(ContProvider_URI+"/myAssets_FilesDir/test/test.txt"));
+		uriCPFile.add(Uri.parse(ContProvider_URI+"/test.txt"));
+		uriCPFile.add(Uri.parse(ContProvider_URI+"/Documents/mt.txt"));
+		uriCPFile.add(Uri.parse(ContProvider_URI+"/Download/mt.txt"));
+		uriCPFile.add(Uri.parse(ContProvider_URI+"/mt.txt"));
 	}
 	
-	public void toReadXml(Context context){
+	/**
+	 * 以下为写入数据库做数据准备
+	 */
+	public void initSqliteOperator(){
+		readXmlForSqlite(getApplicationContext());
+		sqliteUri=Uri.parse(ContProvider_URI+ContentProviderDemo.SqliteURI_sqlite);
+		sqlitekey=DataBaseHelper.getKeyName();
+		sqliteValue=DataBaseHelper.getValueName();
+	}
+	
+	public void readXmlForSqlite(Context context){
 		String fileName="locales/strings.xml";
 		String tagOfDoc="resources";
 		String eleName="string";
@@ -59,18 +87,6 @@ public class ContentResolverDemoActivity extends BaseActivity {
 		}else if(mAttrAL.size()!=mTextAL.size()){
 			throw new IllegalArgumentException("mAttrAL and mTextAL size not equal!");
 		}
-	}
-	
-	/**
-	 * 以下将内部/外部存储中的共享文件对应的Uri加入uriCPFile中
-	 */
-	public void initUriCPFile(){
-		uriCPFile=new ArrayList<Uri>();
-		uriCPFile.add(Uri.parse(CONTENT_URI+"/myAssets_FilesDir/test/test.txt"));
-		uriCPFile.add(Uri.parse(CONTENT_URI+"/test.txt"));
-		uriCPFile.add(Uri.parse(CONTENT_URI+"/Documents/mt.txt"));
-		uriCPFile.add(Uri.parse(CONTENT_URI+"/Download/mt.txt"));
-		uriCPFile.add(Uri.parse(CONTENT_URI+"/mt.txt"));
 	}
 	
 	@Override
@@ -140,31 +156,28 @@ public class ContentResolverDemoActivity extends BaseActivity {
 	 * 避免在主线程中执行getWritableDatabase()或者getWritableDatabase()这两个耗时操作，可以在ContentProvider.onCreate()中开启。
     */
 	public void insert() {
-		if(isLogRun)ALog.Log2("CRDemoActivity_insert");		
+		if(isLogRun)ALog.Log2("CRDemoActivity_insert");
 		ContentValues values = null;
-		//以下模拟大量操作
-		for(int j=0;j<4;j++){
-			for(int i=0;i<mAttrAL.size();i++){
-				values = new ContentValues();
-				values.put(sqlitekey,mAttrAL.get(i));
-				values.put(sqliteValue, mTextAL.get(i));
-				mContentResolver.insert(msqliteUri, values);
-			}
+		for(int i=0;i<mAttrAL.size();i++){
+			values = new ContentValues();
+			values.put(sqlitekey,mAttrAL.get(i));
+			values.put(sqliteValue, mTextAL.get(i));
+			mContentResolver.insert(sqliteUri, values);
 		}
 	}
 
 	public void update() {
-		if(isLogRun)ALog.Log2("CRDemoActivity_update");				
+		if(isLogRun)ALog.Log2("CRDemoActivity_update");
 		// 创建一个ContentValues对象
 		ContentValues values = new ContentValues();
 		values.put(sqliteValue, "mt");
-		mContentResolver.update(msqliteUri, values, sqlitekey+" = ?", new String[]{"string_name5"});
+		mContentResolver.update(sqliteUri, values, sqlitekey+" = ?", new String[]{"string_name5"});
 	}
 
 	public void query() {
-		if(isLogRun)ALog.Log2("CRDemoActivity_query");						
+		if(isLogRun)ALog.Log2("CRDemoActivity_query");
 		String id,name=null;
-		Cursor cursor = mContentResolver.query(msqliteUri, null, null, null, null);
+		Cursor cursor = mContentResolver.query(sqliteUri, null, null, null, null);
 		// 将光标移动到下一行，从而判断该结果集是否还有下一条数据，如果有则返回true，没有则返回false
 		while (cursor.moveToNext()) {
 			id = cursor.getString(cursor.getColumnIndex(sqlitekey));
@@ -175,11 +188,11 @@ public class ContentResolverDemoActivity extends BaseActivity {
 	}
 
 	public void delete() {
-		if(isLogRun)ALog.Log2("CRDemoActivity_delete");		
+		if(isLogRun)ALog.Log2("CRDemoActivity_delete");
 		//调用SQLiteDatabase对象的delete方法进行删除操作
 		//第一个参数String：表名
 		//第二个参数String：条件语句
 		//第三个参数String[]：条件值
-		mContentResolver.delete(msqliteUri	, sqlitekey+" = ?", new String[]{"string_name4"});
+		mContentResolver.delete(sqliteUri	, sqlitekey+" = ?", new String[]{"string_name4"});
 	}
 }

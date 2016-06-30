@@ -15,7 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class ListViewAdapter extends BaseAdapter {
-    ArrayList <HashMap<String, Object>> mList = new ArrayList<HashMap<String, Object>>();
+    public ArrayList <HashMap<String, Object>> mList = new ArrayList<HashMap<String, Object>>();
     ArrayList <Method> mMethodList = new ArrayList<Method>();
     private LayoutInflater listContainer;
     private int mDensityDpi = 0;
