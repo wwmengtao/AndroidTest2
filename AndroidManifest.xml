@@ -53,6 +53,10 @@
             android:name=".RunningAppProcessesActivity"
             android:label="@string/title_activity_apps_list_view" >
         </activity>
+        <activity
+            android:name=".ContentResolverDemoActivity"
+            android:label="@string/title_activity_content_resolver_demo" >
+        </activity>
     </application>
 
 </manifest>

@@ -74,7 +74,7 @@ public class BaseActivity extends ListActivity implements Handler.Callback,Adapt
 	      for (int i=0;i<activities.length;i++) {
 	    	  mActivityInfo=activities[i];
 	    	  if(null!=mActivityInfo){
-	    		  ALog.Log(""+mActivityInfo.name);
+	    		  //ALog.Log(""+mActivityInfo.name);
 	    		  mActivitiesName.add(mActivityInfo.name);
 	    	  }
 	      }

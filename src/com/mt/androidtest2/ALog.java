@@ -7,16 +7,20 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
+
 import com.android.internal.util.FastXmlSerializer;
+
 import android.app.ActivityManager;
 import android.content.Context;
 import android.os.UserHandle;
 import android.util.AtomicFile;
 import android.util.Log;
 import android.util.Xml;
+
 import com.mt.androidtest2.R;
 public class ALog {
 	public  static String TAG_M = "M_T_AT2";
@@ -34,6 +38,11 @@ public class ALog {
 	public static void Log(String info){
 		Log.d(TAG_M,info);
 	}
+	
+	public static void Log2(String info){
+		Log.e(TAG_M,info+" ThreadID:"+Thread.currentThread().getId());
+	}
+	
 	public static void mLog(String info){
 		Log.d(TAG_M,info+"\nUid:"+getUid()+"\nPid:"+getPid()+"\nActivityManager.getCurrentUser:"+amGetCurrentUser()+
 				"\nUserHandle.myUserId:"+uhMyUserId());

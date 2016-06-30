@@ -8,7 +8,7 @@ import android.widget.ListView;
 
 public class MainActivity extends BaseActivity{
 	boolean isLogRun=false;	
-	private String [] mActivitiesName={"LanguageActivity","VpnActivity","MultiUserActivity","RunningAppProcessesActivity"};	
+	private String [] mActivitiesName={"ContentResolverDemoActivity","LanguageActivity","VpnActivity","MultiUserActivity","RunningAppProcessesActivity"};	
 	private String [] mMethodNameFT={"howToReadFromXml","howToWriteToXml","getLVPVersion"};
 	
 	@Override

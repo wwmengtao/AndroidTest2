@@ -18,4 +18,6 @@
     <string name="power_setting_app_restriction_title">Running apps management</string>
     <string name="title_activity_apps_list_view">AppsListViewActivity</string>
     <string name="no_running_apps">No running apps</string>
+    <string name="title_activity_content_resolver_demo">ContentResolverDemoActivity</string>
+
 </resources>
