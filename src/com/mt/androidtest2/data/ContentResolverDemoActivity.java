@@ -10,16 +10,19 @@ import com.mt.androidtest2.ALog;
 import com.mt.androidtest2.BaseActivity;
 import com.mt.androidtest2.R;
 import com.mt.androidtest2.XmlOperator;
-import com.mt.androidtest2.R.layout;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
+
 
 public class ContentResolverDemoActivity extends BaseActivity {
 	private boolean isLogRun = true;
@@ -36,6 +39,8 @@ public class ContentResolverDemoActivity extends BaseActivity {
 	private Uri sqliteUri=null;
 	private String sqlitekey=null;
 	private String sqliteValue=null;
+	//
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,8 +53,36 @@ public class ContentResolverDemoActivity extends BaseActivity {
 		initUriCPFile();
 		//
 		initSqliteOperator();
+		//确认是否具有EXTERNAL_STORAGE的读写权限
+		requestPermissions();
 	}
-
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+	}
+	
+	public void requestPermissions(){
+		this.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+				Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_EXTERNAL_STORAGE);
+	}
+	
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
+		switch (requestCode){
+			case REQUEST_EXTERNAL_STORAGE:
+				if (permissions.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+					Toast.makeText(this, "Permission already got!", Toast.LENGTH_SHORT).show();
+				}else{
+					Toast.makeText(this, "Permission denied!", Toast.LENGTH_SHORT).show();
+				}
+				break;
+			default:
+	            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+	            break;
+			}
+	  }
+	
 	/**
 	 * 以下将内部/外部存储中的共享文件对应的Uri加入uriCPFile中
 	 */
