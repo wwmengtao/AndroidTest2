@@ -1,4 +1,4 @@
-package com.mt.androidtest2;
+package com.mt.androidtest2.tool;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

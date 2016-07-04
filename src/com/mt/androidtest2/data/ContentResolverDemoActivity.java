@@ -6,11 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import com.mt.androidtest2.ALog;
-import com.mt.androidtest2.BaseActivity;
-import com.mt.androidtest2.R;
-import com.mt.androidtest2.XmlOperator;
-
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -23,6 +18,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.mt.androidtest2.ALog;
+import com.mt.androidtest2.BaseActivity;
+import com.mt.androidtest2.R;
+import com.mt.androidtest2.tool.XmlOperator;
 
 public class ContentResolverDemoActivity extends BaseActivity {
 	private boolean isLogRun = true;
@@ -41,6 +40,14 @@ public class ContentResolverDemoActivity extends BaseActivity {
 	private String sqliteValue=null;
 	//
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static final String []permissionsRequired = new String[]{
+    	Manifest.permission.READ_EXTERNAL_STORAGE,
+    	Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    	Manifest.permission.READ_CALENDAR,
+		Manifest.permission.WRITE_CALENDAR,
+		Manifest.permission.READ_CONTACTS,
+		Manifest.permission.WRITE_CONTACTS,
+    };    
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,18 +70,17 @@ public class ContentResolverDemoActivity extends BaseActivity {
 	}
 	
 	public void requestPermissions(){
-		this.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
-				Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_EXTERNAL_STORAGE);
+		this.requestPermissions(permissionsRequired,REQUEST_EXTERNAL_STORAGE);
 	}
 	
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
 		switch (requestCode){
 			case REQUEST_EXTERNAL_STORAGE:
-				if (permissions.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-					Toast.makeText(this, "Permission already got!", Toast.LENGTH_SHORT).show();
+				if (permissions.length != 0 && isAllGranted(grantResults)){
+					Toast.makeText(this, "Get all Permissions!", Toast.LENGTH_SHORT).show();
 				}else{
-					Toast.makeText(this, "Permission denied!", Toast.LENGTH_SHORT).show();
+					Toast.makeText(this, "Not get all Permissions!", Toast.LENGTH_SHORT).show();
 				}
 				break;
 			default:
@@ -82,6 +88,16 @@ public class ContentResolverDemoActivity extends BaseActivity {
 	            break;
 			}
 	  }
+	
+	public boolean isAllGranted(int[] grantResults){
+		if(null==grantResults)return false;
+		for(int i=0;i<grantResults.length;i++){
+			if(grantResults[i] != PackageManager.PERMISSION_GRANTED){
+				return false;
+			}
+		}
+		return true;
+	}
 	
 	/**
 	 * 以下将内部/外部存储中的共享文件对应的Uri加入uriCPFile中
