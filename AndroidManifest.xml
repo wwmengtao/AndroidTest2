@@ -62,6 +62,9 @@
         <activity
             android:name="com.mt.androidtest2.data.ContentResolverDemoActivity"
             android:label="@string/title_activity_content_resolver_demo" >
+            <intent-filter>
+                <action android:name= "com.mt.androidtest2.data.ContentResolverDemoActivity"/>
+            </intent-filter>            
         </activity>
     </application>
 

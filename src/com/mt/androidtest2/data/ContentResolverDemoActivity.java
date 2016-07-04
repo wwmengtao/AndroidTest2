@@ -10,6 +10,7 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -28,7 +29,8 @@ public class ContentResolverDemoActivity extends BaseActivity {
 	private String ContProvider_URI = "content://";
 	private String [] mMethodNameFT={
 			"readContentProviderFile",
-			"insert","update","query","delete"};
+			"insert","update","query","delete",
+			"globalUriGrant"};
 	private ContentResolver mContentResolver=null;
 	private ArrayList<Uri>uriCPFile=null;
 	//
@@ -36,6 +38,7 @@ public class ContentResolverDemoActivity extends BaseActivity {
 	private ArrayList<String>mTextAL=null;
 	//
 	private Uri sqliteUri=null;
+	private Uri grantUri=null;	
 	private String sqlitekey=null;
 	private String sqliteValue=null;
 	//
@@ -119,6 +122,8 @@ public class ContentResolverDemoActivity extends BaseActivity {
 		sqliteUri=Uri.parse(ContProvider_URI+ContentProviderDemo.SqliteURI_sqlite);
 		sqlitekey=DataBaseHelper.getKeyName();
 		sqliteValue=DataBaseHelper.getValueName();
+		//
+		grantUri=Uri.parse(ContProvider_URI+ContentProviderDemo.GrantURI_grant);
 	}
 	
 	public void readXmlForSqlite(Context context){
@@ -159,7 +164,10 @@ public class ContentResolverDemoActivity extends BaseActivity {
 				break;
 			case "delete":
 				delete();
-				break;						
+				break;		
+			case "globalUriGrant":
+				globalUriGrant();
+				break;
 		}
 	}
 	
@@ -213,6 +221,9 @@ public class ContentResolverDemoActivity extends BaseActivity {
 			values.put(sqliteValue, mTextAL.get(i));
 			mContentResolver.insert(sqliteUri, values);
 		}
+		//
+		mContentResolver.insert(grantUri, values);
+		
 	}
 
 	public void update() {
@@ -221,6 +232,8 @@ public class ContentResolverDemoActivity extends BaseActivity {
 		ContentValues values = new ContentValues();
 		values.put(sqliteValue, "mt");
 		mContentResolver.update(sqliteUri, values, sqlitekey+" = ?", new String[]{"string_name5"});
+		//
+		mContentResolver.update(grantUri, values, sqlitekey+" = ?", new String[]{"string_name5"});
 	}
 
 	public void query() {
@@ -234,6 +247,8 @@ public class ContentResolverDemoActivity extends BaseActivity {
 			ALog.Log("sqlitekey: "+id+" sqliteValue: "+name);
 		}
 		cursor.close();
+		//
+		mContentResolver.query(grantUri, null, null, null, null);
 	}
 
 	public void delete() {
@@ -243,5 +258,12 @@ public class ContentResolverDemoActivity extends BaseActivity {
 		//第二个参数String：条件语句
 		//第三个参数String[]：条件值
 		mContentResolver.delete(sqliteUri	, sqlitekey+" = ?", new String[]{"string_name4"});
+		//
+		mContentResolver.delete(grantUri, null, null);
+	}
+	
+	public void globalUriGrant(){
+		if(isLogRun)ALog.Log2("globalUriGrant");
+		mContentResolver.query(grantUri, null, null, null, null);
 	}
 }

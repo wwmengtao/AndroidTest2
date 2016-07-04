@@ -35,7 +35,7 @@ public class BaseActivity extends ListActivity implements Handler.Callback,Adapt
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ALog.Log("BaseActivity_onCreate");
+		//ALog.Log("BaseActivity_onCreate");
 		packageName = this.getPackageName();
 		mBaseActivityWR=new WeakReference<BaseActivity>(this);
 		getActivities(this);
