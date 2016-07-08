@@ -2,6 +2,8 @@ package com.mt.androidtest2;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+
+import android.Manifest;
 import android.app.ListActivity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -10,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,9 +21,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class BaseActivity extends ListActivity implements Handler.Callback,AdapterView.OnItemClickListener,View.OnClickListener{
 	boolean isLogRun=true;
+    private int AndroidVersion=-1;
     private static Handler mHandler=null;
 	private LinearLayout mLinearlayout_listview_android=null;
 	private LinearLayout mLinearlayout_listview_functions=null;
@@ -32,8 +37,14 @@ public class BaseActivity extends ListActivity implements Handler.Callback,Adapt
 	private String packageName = null;
 	private String className = null;		    
 	private String selectedItem=null;
+	//
+	private static final int REQUEST_PERMISSION_CODE = 0x001;
+    protected String []permissionsRequiredBase = null;
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		AndroidVersion =Build.VERSION.SDK_INT;
+		requestPermissions(permissionsRequiredBase);
 		super.onCreate(savedInstanceState);
 		//ALog.Log("BaseActivity_onCreate");
 		packageName = this.getPackageName();
@@ -156,5 +167,40 @@ public class BaseActivity extends ListActivity implements Handler.Callback,Adapt
 	
 	@Override
 	public void onClick(View view){
+	}
+	
+	//以下申请权限
+	public void requestPermissions(String [] permissionsRequired){
+		if(AndroidVersion<=22)return;
+		if(null!=permissionsRequired && permissionsRequired.length>0){
+			this.requestPermissions(permissionsRequired,REQUEST_PERMISSION_CODE);
+		}
+	}
+	
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
+		switch (requestCode){
+			case REQUEST_PERMISSION_CODE:
+				if (permissions.length != 0 && isAllGranted(grantResults)){
+					Toast.makeText(this, "Get all Permissions!", Toast.LENGTH_SHORT).show();
+				}else{
+					Toast.makeText(this, "Not get all Permissions!", Toast.LENGTH_SHORT).show();
+					finish();
+				}
+				break;
+			default:
+	            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+	            break;
+			}
+	  }
+	
+	public boolean isAllGranted(int[] grantResults){
+		if(null==grantResults)return false;
+		for(int i=0;i<grantResults.length;i++){
+			if(grantResults[i] != PackageManager.PERMISSION_GRANTED){
+				return false;
+			}
+		}
+		return true;
 	}
 }
