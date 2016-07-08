@@ -5,20 +5,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
-
 import com.mt.androidtest2.ALog;
 import com.mt.androidtest2.BaseActivity;
 import com.mt.androidtest2.R;
@@ -30,7 +26,7 @@ public class ContentResolverDemoActivity extends BaseActivity {
 	private String [] mMethodNameFT={
 			"readContentProviderFile",
 			"insert","update","query","delete",
-			"globalUriGrant"};
+			"globalUriUse"};
 	private ContentResolver mContentResolver=null;
 	private ArrayList<Uri>uriCPFile=null;
 	//
@@ -41,9 +37,8 @@ public class ContentResolverDemoActivity extends BaseActivity {
 	private Uri grantUri=null;	
 	private String sqlitekey=null;
 	private String sqliteValue=null;
-	//
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static final String []permissionsRequired = new String[]{
+	//列写该Activity需要申请的权限
+    private final String []permissionsRequired = new String[]{
     	Manifest.permission.READ_EXTERNAL_STORAGE,
     	Manifest.permission.WRITE_EXTERNAL_STORAGE,
     	Manifest.permission.READ_CALENDAR,
@@ -53,6 +48,8 @@ public class ContentResolverDemoActivity extends BaseActivity {
     };    
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		permissionsRequiredBase = permissionsRequired;
+		ALog.Log("CRDA_onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_base);
 		initListFTData(mMethodNameFT);
@@ -63,45 +60,13 @@ public class ContentResolverDemoActivity extends BaseActivity {
 		initUriCPFile();
 		//
 		initSqliteOperator();
-		//确认是否具有EXTERNAL_STORAGE的读写权限
-		requestPermissions();
 	}
 	
 	@Override
 	public void onResume(){
 		super.onResume();
 	}
-	
-	public void requestPermissions(){
-		this.requestPermissions(permissionsRequired,REQUEST_EXTERNAL_STORAGE);
-	}
-	
-	@Override
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
-		switch (requestCode){
-			case REQUEST_EXTERNAL_STORAGE:
-				if (permissions.length != 0 && isAllGranted(grantResults)){
-					Toast.makeText(this, "Get all Permissions!", Toast.LENGTH_SHORT).show();
-				}else{
-					Toast.makeText(this, "Not get all Permissions!", Toast.LENGTH_SHORT).show();
-				}
-				break;
-			default:
-	            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-	            break;
-			}
-	  }
-	
-	public boolean isAllGranted(int[] grantResults){
-		if(null==grantResults)return false;
-		for(int i=0;i<grantResults.length;i++){
-			if(grantResults[i] != PackageManager.PERMISSION_GRANTED){
-				return false;
-			}
-		}
-		return true;
-	}
-	
+
 	/**
 	 * 以下将内部/外部存储中的共享文件对应的Uri加入uriCPFile中
 	 */
@@ -165,8 +130,8 @@ public class ContentResolverDemoActivity extends BaseActivity {
 			case "delete":
 				delete();
 				break;		
-			case "globalUriGrant":
-				globalUriGrant();
+			case "globalUriUse":
+				globalUriUse();
 				break;
 		}
 	}
@@ -222,7 +187,7 @@ public class ContentResolverDemoActivity extends BaseActivity {
 			mContentResolver.insert(sqliteUri, values);
 		}
 		//
-		mContentResolver.insert(grantUri, values);
+		mContentResolver.insert(grantUri, null);
 		
 	}
 
@@ -233,7 +198,7 @@ public class ContentResolverDemoActivity extends BaseActivity {
 		values.put(sqliteValue, "mt");
 		mContentResolver.update(sqliteUri, values, sqlitekey+" = ?", new String[]{"string_name5"});
 		//
-		mContentResolver.update(grantUri, values, sqlitekey+" = ?", new String[]{"string_name5"});
+		mContentResolver.update(grantUri, null, null, null);
 	}
 
 	public void query() {
@@ -262,7 +227,8 @@ public class ContentResolverDemoActivity extends BaseActivity {
 		mContentResolver.delete(grantUri, null, null);
 	}
 	
-	public void globalUriGrant(){
+	//使用临时授权的Uri查询数据库
+	public void globalUriUse(){
 		if(isLogRun)ALog.Log2("globalUriGrant");
 		mContentResolver.query(grantUri, null, null, null, null);
 	}
