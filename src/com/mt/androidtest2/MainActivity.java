@@ -1,7 +1,13 @@
 package com.mt.androidtest2;
 
+import java.util.List;
+
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemProperties;
+import android.os.storage.StorageManager;
+import android.os.storage.VolumeInfo;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -9,7 +15,8 @@ import android.widget.ListView;
 public class MainActivity extends BaseActivity{
 	boolean isLogRun=false;	
 	private String [] mActivitiesName={"ContentResolverDemoActivity","LanguageActivity","VpnActivity","MultiUserActivity","RunningAppProcessesActivity"};	
-	private String [] mMethodNameFT={"howToReadFromXml","howToWriteToXml","getLVPVersion"};
+	private String [] mMethodNameFT={"howToReadFromXml","howToWriteToXml","getLVPVersion",
+			"getVolumeInfo"};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +58,10 @@ public class MainActivity extends BaseActivity{
 			break;		
 		case "howToWriteToXml":
 			howToWriteToXml();
-			break;				
+			break;	
+		case "getVolumeInfo":
+			getVolumeInfo();
+			break;
 		}
 	}	
 	
@@ -79,4 +89,24 @@ public class MainActivity extends BaseActivity{
     	String lvpVersion = SystemProperties.get("ro.lenovo.lvp.version");
     	return lvpVersion;
     }
+    
+    /**
+     * getVolumeInfo: Set storage type according to detailed storage, such as internal/otg/sdcard.
+     */
+	public void getVolumeInfo(){
+		StorageManager mStorageManager = (StorageManager) this.getSystemService(Context.STORAGE_SERVICE);
+		final List<VolumeInfo> volumes = mStorageManager.getVolumes();
+        for (VolumeInfo mVolume : volumes) {
+            if (!mVolume.isMountedReadable()||null == mVolume) continue;
+            if (VolumeInfo.ID_PRIVATE_INTERNAL.equals(mVolume.getId())) {//Internal Storage
+            	ALog.Log("Internal_Volume getId:"+mVolume.getId()+" getFsUuid:"+mVolume.getFsUuid());
+            } else {
+                if (mVolume != null && mVolume.getDisk() != null && mVolume.getDisk().isUsb()) {//OTG Storage
+                	ALog.Log("OTG_Volume getId:"+mVolume.getId()+" getFsUuid:"+mVolume.getFsUuid());
+                } else {//SDCard
+                	ALog.Log("SDCard_Volume getId:"+mVolume.getId()+" getFsUuid:"+mVolume.getFsUuid());
+                }
+            }
+        }
+	}
 }
