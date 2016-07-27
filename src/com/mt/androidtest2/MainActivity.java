@@ -14,7 +14,7 @@ import android.widget.ListView;
 public class MainActivity extends BaseActivity{
 	boolean isLogRun=false;	
 	private String [] mActivitiesName={"ContentResolverDemoActivity","LanguageActivity","VpnActivity","MultiUserActivity","RunningAppProcessesActivity"};	
-	private String [] mMethodNameFT={"howToReadFromXml","howToWriteToXml","getLVPVersion",
+	private String [] mMethodNameFT={"howToReadFromXml","howToWriteToXml","getProperty",
 			"getVolumeInfo"};
 	
 	@Override
@@ -46,11 +46,8 @@ public class MainActivity extends BaseActivity{
 		// TODO Auto-generated method stub
 		String methodName = (String)getListViewAdapterFT().mList.get(position).get("itemText"); 
 		switch(methodName){
-		case "getLVPVersion":
-			//判断当前手机VIBEUI的版本
-			String lvpVersion = getLVPVersion();
-			boolean isVibeUI3_5 = (null!=lvpVersion&&lvpVersion.contains("V3.5"));
-			ALog.Log("isVibeUI3_5:"+isVibeUI3_5);
+		case "getProperty":
+			getProperty();
 			break;		
 		case "howToReadFromXml":
 			howToReadFromXml();
@@ -84,9 +81,15 @@ public class MainActivity extends BaseActivity{
 		ALog.howToReadFromXml(this);
 	}
 
-    public String getLVPVersion(){
-    	String lvpVersion = SystemProperties.get("ro.lenovo.lvp.version");
-    	return lvpVersion;
+    public void getProperty(){
+		//1、判断当前手机VIBEUI的版本
+		String lvpVersion =  SystemProperties.get("ro.lenovo.lvp.version");
+		boolean isVibeUI3_5 = (null!=lvpVersion&&lvpVersion.contains("V3.5"));
+		ALog.Log("isVibeUI3_5:"+isVibeUI3_5);
+		//2、ota_model
+		String ota_model = SystemProperties.get("ro.product.ota.model", "NotSet");
+		ALog.Log("ota_model:"+ota_model);
+		ALog.Log("ota_model:"+ota_model.toLowerCase().endsWith("b36_row"));
     }
     
     /**
