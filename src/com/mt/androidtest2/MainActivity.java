@@ -3,7 +3,6 @@ package com.mt.androidtest2;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemProperties;
 import android.os.storage.StorageManager;
@@ -96,15 +95,21 @@ public class MainActivity extends BaseActivity{
 	public void getVolumeInfo(){
 		StorageManager mStorageManager = (StorageManager) this.getSystemService(Context.STORAGE_SERVICE);
 		final List<VolumeInfo> volumes = mStorageManager.getVolumes();
+		/**
+		 * log信息如下：
+		 * 07-27 10:01:25.518 11785 11785 D M_T_AT2 : INT getId:private getFsUuid:null
+			07-27 10:01:25.518 11785 11785 D M_T_AT2 : SDC getId:public:179,65 getFsUuid:5456-0914
+			07-27 10:01:25.518 11785 11785 D M_T_AT2 : SDC getId:emulated getFsUuid:null
+			07-27 10:01:25.518 11785 11785 D M_T_AT2 : OTG getId:public:8,1 getFsUuid:3698-1116
+		 */
         for (VolumeInfo mVolume : volumes) {
-            if (!mVolume.isMountedReadable()||null == mVolume) continue;
             if (VolumeInfo.ID_PRIVATE_INTERNAL.equals(mVolume.getId())) {//Internal Storage
-            	ALog.Log("Internal_Volume getId:"+mVolume.getId()+" getFsUuid:"+mVolume.getFsUuid());
+            	ALog.Log("INT getId:"+mVolume.getId()+" getFsUuid:"+mVolume.getFsUuid());
             } else {
                 if (mVolume != null && mVolume.getDisk() != null && mVolume.getDisk().isUsb()) {//OTG Storage
-                	ALog.Log("OTG_Volume getId:"+mVolume.getId()+" getFsUuid:"+mVolume.getFsUuid());
+                	ALog.Log("OTG getId:"+mVolume.getId()+" getFsUuid:"+mVolume.getFsUuid());
                 } else {//SDCard
-                	ALog.Log("SDCard_Volume getId:"+mVolume.getId()+" getFsUuid:"+mVolume.getFsUuid());
+                	ALog.Log("SDC getId:"+mVolume.getId()+" getFsUuid:"+mVolume.getFsUuid());
                 }
             }
         }
