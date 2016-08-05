@@ -21,7 +21,6 @@ import android.util.AtomicFile;
 import android.util.Log;
 import android.util.Xml;
 
-import com.mt.androidtest2.R;
 public class ALog {
 	public  static String TAG_M = "M_T_AT2";
 	/*---------------------------------------------*/

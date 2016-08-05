@@ -3,7 +3,6 @@ package com.mt.androidtest2;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-import android.Manifest;
 import android.app.ListActivity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
