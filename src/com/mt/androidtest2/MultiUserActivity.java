@@ -3,13 +3,13 @@ package com.mt.androidtest2;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
-import android.app.Activity;
+import android.Manifest;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ServiceInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ServiceInfo;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,8 +34,15 @@ public class MultiUserActivity extends BaseActivity{
 	final String ACTION_CLICK_FLASHLIGHT = "action_click_flashlight";
 	Uri mUri= null;
 	HashMap<Integer,String> mHashMap=new HashMap<Integer,String>();
+	
+    private final String []permissionsRequired = new String[]{
+        	Manifest.permission.MANAGE_USERS,
+        	Manifest.permission.INTERACT_ACROSS_USERS,
+        	Manifest.permission.INTERACT_ACROSS_USERS_FULL,
+        };    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		permissionsRequiredBase = permissionsRequired;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_multi_user);
 		super.initListActivityData(null);
