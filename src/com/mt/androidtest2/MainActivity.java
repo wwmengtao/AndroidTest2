@@ -2,7 +2,11 @@ package com.mt.androidtest2;
 
 import java.util.List;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.SystemProperties;
 import android.os.storage.StorageManager;
@@ -16,7 +20,7 @@ public class MainActivity extends BaseActivity{
 	private String [] mActivitiesName={"ContentResolverDemoActivity","LanguageActivity","VpnActivity","MultiUserActivity","RunningAppProcessesActivity"};	
 	private String [] mMethodNameFT={"howToReadFromXml","howToWriteToXml","getProperty",
 			"getVolumeInfo"};
-	
+	private int osVersion = android.os.Build.VERSION.SDK_INT;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -29,8 +33,92 @@ public class MainActivity extends BaseActivity{
 	protected void onResume(){
 		super.onResume();
 		if(isLogRun)ALog.Log("====onResume");
+		ALog.Log("osVersion:"+osVersion);
+		getLabels();
 	}
 	
+	private void getLabels(){
+		String photoLabel = getPhotoLabel();
+		ALog.Log("photoLabel:"+photoLabel);
+		photoLabel = getPhotoLabel(this.getPackageManager());
+		ALog.Log("photoLabel2:"+photoLabel);
+        String packageName = "com.google.android.apps.photos";
+        String className = "com.google.android.apps.photos.home.HomeActivity";
+		photoLabel = getCertainLabel(packageName, className, this.getPackageManager());
+		ALog.Log("photoLabel2:"+photoLabel);
+		String pName = "com.google.android.calculator";
+		String cName = "com.android.calculator2.Calculator";
+		String labelCalcu = getCertainLabel(pName, cName, this.getPackageManager());
+		ALog.Log("labelCalcu:"+labelCalcu);
+		pName = "com.lenovo.scg";
+		cName = "camera.CameraLauncher";
+		String labelCamera = getCertainLabel(pName, cName, this.getPackageManager());
+		ALog.Log("labelCamera:"+labelCamera);
+	}
+	
+	public String getPhotoLabel(){
+    	PackageManager pm = this.getPackageManager();
+    	String packageName = "com.google.android.apps.photos";
+    	String className = "com.google.android.apps.photos/.home.HomeActivity";
+    	ComponentName mCN = new ComponentName(packageName,className);
+    	String label = null;
+    	ActivityInfo mAI = null;
+        try {
+        	mAI = pm.getActivityInfo(mCN, 0);
+        	label = mAI.loadLabel(pm).toString();
+        } catch (PackageManager.NameNotFoundException e) {
+        	label = null;
+        }
+        return label;
+	}
+	
+    public String getPhotoLabel(PackageManager pm){
+        String label = null;
+        String packageName = "com.google.android.apps.photos";
+        String className = "com.google.android.apps.photos.home.HomeActivity";
+        PackageInfo mPackageInfo = null;
+        try {
+            mPackageInfo = pm.getPackageInfo(packageName,PackageManager.GET_ACTIVITIES);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if(null != mPackageInfo){
+            ActivityInfo[] mActivities = mPackageInfo.activities;
+            for(ActivityInfo mActivityInfo : mActivities){
+                if(mActivityInfo.toString().endsWith(className+"}")) {
+                    label = mActivityInfo.loadLabel(pm).toString();
+                    break;
+                }
+            }
+
+        }
+        return label;
+    }
+	
+    public String getCertainLabel(String packageName, String className, PackageManager pm){
+    	if(null==packageName || null==className || null==pm){
+    		return null;
+    	}
+    	String label = null;
+    	PackageInfo mPackageInfo = null;
+        try {
+            mPackageInfo = pm.getPackageInfo(packageName,PackageManager.GET_ACTIVITIES);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if(null != mPackageInfo){
+            ActivityInfo[] mActivities = mPackageInfo.activities;
+            for(ActivityInfo mActivityInfo : mActivities){
+                if(mActivityInfo.toString().endsWith(className+"}")) {
+                    label = mActivityInfo.loadLabel(pm).toString();
+                    break;
+                }
+            }
+
+        }
+        return label;
+    }
+    
 	@Override
 	protected void onPause(){
 		super.onPause();
