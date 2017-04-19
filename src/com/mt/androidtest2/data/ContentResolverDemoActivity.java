@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.mt.androidtest2.ALog;
 import com.mt.androidtest2.BaseActivity;
@@ -26,9 +27,14 @@ public class ContentResolverDemoActivity extends BaseActivity {
 	private String ContProvider_URI = "content://";
 	private String [] mMethodNameFT={
 			"readContentProviderFile",
-			"insert","update","query","delete",
-			"globalUriUse"};
+			"com.mt.androidtest.cpdemo/sqlite","insert","update","query","delete",
+			"com.mt.androidtest.cpdemo/grant","insert2","update2","query2","delete2"};
 	private ContentResolver mContentResolver=null;
+	//
+	public static final String Provider_Authority="com.mt.androidtest.cpdemo";
+	public static final String SqliteURI_sqlite="/sqlite";
+	public static final String GrantURI_grant="/grant";
+	//
 	private ArrayList<Uri>uriCPFile=null;
 	//
 	private ArrayList<String>mAttrAL=null;
@@ -38,25 +44,17 @@ public class ContentResolverDemoActivity extends BaseActivity {
 	private Uri grantUri=null;	
 	private String sqlitekey=null;
 	private String sqliteValue=null;
-	//列写该Activity需要申请的权限
-    private final String []permissionsRequired = new String[]{
-    	Manifest.permission.READ_EXTERNAL_STORAGE,
-    	Manifest.permission.WRITE_EXTERNAL_STORAGE,
-    	Manifest.permission.READ_CALENDAR,
-		Manifest.permission.WRITE_CALENDAR,
-		Manifest.permission.READ_CONTACTS,
-		Manifest.permission.WRITE_CONTACTS,
-    };    
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		permissionsRequiredBase = permissionsRequired;
+		//permissionsRequiredBase = permissionsRequired;
 		ALog.Log("CRDA_onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_base);
 		initListFTData(mMethodNameFT);
 		initListActivityData(null);
 		//
-		ContProvider_URI += ContentProviderDemo.authority;
+		ContProvider_URI += Provider_Authority;
 		mContentResolver = getContentResolver();
 		initUriCPFile();
 		//
@@ -85,11 +83,11 @@ public class ContentResolverDemoActivity extends BaseActivity {
 	 */
 	public void initSqliteOperator(){
 		readXmlForSqlite(getApplicationContext());
-		sqliteUri=Uri.parse(ContProvider_URI+ContentProviderDemo.SqliteURI_sqlite);
+		sqliteUri=Uri.parse(ContProvider_URI+SqliteURI_sqlite);
 		sqlitekey=DataBaseHelper.getKeyName();
 		sqliteValue=DataBaseHelper.getValueName();
 		//
-		grantUri=Uri.parse(ContProvider_URI+ContentProviderDemo.GrantURI_grant);
+		grantUri=Uri.parse(ContProvider_URI+GrantURI_grant);
 	}
 	
 	public void readXmlForSqlite(Context context){
@@ -131,14 +129,28 @@ public class ContentResolverDemoActivity extends BaseActivity {
 			case "delete":
 				delete();
 				break;		
-			case "globalUriUse":
-				globalUriUse();
+			//下列xx2方法需要临时权限授权，直接执行会报错
+			case "insert2":
+				insert2();
 				break;
+			case "update2":
+				update2();
+				break;
+			case "query2":
+				query2();
+				break;
+			case "delete2":
+				delete2();
+				break;	
 		}
 	}
 	
 	/**
-	 * readContentProviderFile：从ContentProvider标识的文件中读取内容
+	 * readContentProviderFile：从ContentProvider标识的文件中读取内容。由于com.mt.androidtest的AndroidManifest.xml
+	 * 文件中对provider android:name=".data.ContentProviderDemo"定义了读写权限如下：
+	 * android:readPermission="android.permission.READ_CALENDAR"
+	 * android:writePermission="android.permission.WRITE_CALENDAR" 
+	 * 因此com.mt.androidtest2的ContentResolverDemoActivity在读写com.mt.androidtest的provider内容时需具备日历读写权限。
 	 * @return
 	 */
 	private boolean readContentProviderFile(Uri mUri) {
@@ -179,58 +191,103 @@ public class ContentResolverDemoActivity extends BaseActivity {
 	 * 避免在主线程中执行getWritableDatabase()或者getWritableDatabase()这两个耗时操作，可以在ContentProvider.onCreate()中开启。
     */
 	public void insert() {
-		if(isLogRun)ALog.Log2("CRDemoActivity_insert");
-		ContentValues values = null;
-		for(int i=0;i<mAttrAL.size();i++){
-			values = new ContentValues();
-			values.put(sqlitekey,mAttrAL.get(i));
-			values.put(sqliteValue, mTextAL.get(i));
-			mContentResolver.insert(sqliteUri, values);
+		if(isLogRun)ALog.Log2("CRDemoActivity_insert_sqlite");
+		try{
+			mContentResolver.insert(sqliteUri, new ContentValues());
+		}catch(SecurityException se){
+			ALog.Log("SecurityException_insert");
+			se.printStackTrace();
+			Toast.makeText(this, "SecurityException\ninsert", Toast.LENGTH_SHORT).show();
 		}
-		//
-		mContentResolver.insert(grantUri, null);
-		
 	}
 
+	public void insert2() {
+		if(isLogRun)ALog.Log2("CRDemoActivity_insert_grant");
+		try{
+			mContentResolver.insert(grantUri, new ContentValues());
+		}catch(SecurityException se){
+			ALog.Log("SecurityException_insert2");
+			se.printStackTrace();
+			Toast.makeText(this, "SecurityException\ninsert2", Toast.LENGTH_SHORT).show();
+		}
+	}
+	
 	public void update() {
-		if(isLogRun)ALog.Log2("CRDemoActivity_update");
+		if(isLogRun)ALog.Log2("CRDemoActivity_update_sqlite");
 		// 创建一个ContentValues对象
 		ContentValues values = new ContentValues();
 		values.put(sqliteValue, "mt");
-		mContentResolver.update(sqliteUri, values, sqlitekey+" = ?", new String[]{"string_name5"});
-		//
-		mContentResolver.update(grantUri, null, null, null);
-	}
-
-	public void query() {
-		if(isLogRun)ALog.Log2("CRDemoActivity_query");
-		String id,name=null;
-		Cursor cursor = mContentResolver.query(sqliteUri, null, null, null, null);
-		// 将光标移动到下一行，从而判断该结果集是否还有下一条数据，如果有则返回true，没有则返回false
-		while (cursor.moveToNext()) {
-			id = cursor.getString(cursor.getColumnIndex(sqlitekey));
-			name = cursor.getString(cursor.getColumnIndex(sqliteValue));
-			ALog.Log("sqlitekey: "+id+" sqliteValue: "+name);
+		try{
+			mContentResolver.update(sqliteUri, values, sqlitekey+" = ?", new String[]{"string_name5"});
+		}catch(SecurityException se){
+			ALog.Log("SecurityException_update");
+			se.printStackTrace();
+			Toast.makeText(this, "SecurityException\nupdate", Toast.LENGTH_SHORT).show();
 		}
-		cursor.close();
-		//
-		mContentResolver.query(grantUri, null, null, null, null);
 	}
 
+	public void update2() {
+		if(isLogRun)ALog.Log2("CRDemoActivity_update_grant");
+		// 创建一个ContentValues对象
+		ContentValues values = new ContentValues();
+		values.put(sqliteValue, "mt");
+		try{
+			mContentResolver.update(grantUri, values, sqlitekey+" = ?", new String[]{"string_name5"});
+		}catch(SecurityException se){
+			ALog.Log("SecurityException_update2");
+			se.printStackTrace();
+			Toast.makeText(this, "SecurityException\nupdate2", Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	public void query() {
+		if(isLogRun)ALog.Log2("CRDemoActivity_query_sqlite");
+		Cursor cursor = null;
+		try{
+			cursor = mContentResolver.query(sqliteUri, null, null, null, null);
+		}catch(SecurityException se){
+			ALog.Log("SecurityException_query");
+			se.printStackTrace();
+			Toast.makeText(this, "SecurityException\nquery", Toast.LENGTH_SHORT).show();
+		}finally{
+			if(null != cursor)cursor.close();
+		}
+	}
+
+	public void query2() {
+		if(isLogRun)ALog.Log2("CRDemoActivity_query_grant");
+		try{
+			mContentResolver.query(grantUri, null, null, null, null);
+		}catch(SecurityException se){
+			ALog.Log("SecurityException_query2");
+			se.printStackTrace();
+			Toast.makeText(this, "SecurityException\nquery2", Toast.LENGTH_SHORT).show();
+		}
+	}
+	
 	public void delete() {
-		if(isLogRun)ALog.Log2("CRDemoActivity_delete");
+		if(isLogRun)ALog.Log2("CRDemoActivity_delete_sqlite");
 		//调用SQLiteDatabase对象的delete方法进行删除操作
 		//第一个参数String：表名
 		//第二个参数String：条件语句
 		//第三个参数String[]：条件值
-		mContentResolver.delete(sqliteUri	, sqlitekey+" = ?", new String[]{"string_name4"});
-		//
-		mContentResolver.delete(grantUri, null, null);
+		try{
+			mContentResolver.delete(sqliteUri	, sqlitekey+" = ?", new String[]{"string_name4"});
+		}catch(SecurityException se){
+			ALog.Log("SecurityException_delete");
+			se.printStackTrace();
+			Toast.makeText(this, "SecurityException\ndelete", Toast.LENGTH_SHORT).show();
+		}
 	}
-	
-	//使用临时授权的Uri查询数据库
-	public void globalUriUse(){
-		if(isLogRun)ALog.Log2("globalUriGrant");
-		mContentResolver.query(grantUri, null, null, null, null);
+
+	public void delete2() {
+		if(isLogRun)ALog.Log2("CRDemoActivity_delete_grant");
+		try{
+			mContentResolver.delete(grantUri, null, null);
+		}catch(SecurityException se){
+			ALog.Log("SecurityException_delete2");
+			se.printStackTrace();
+			Toast.makeText(this, "SecurityException\ndelete2", Toast.LENGTH_SHORT).show();
+		}
 	}
 }
